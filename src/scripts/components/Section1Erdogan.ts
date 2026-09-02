@@ -87,7 +87,7 @@ export class Section1Erdogan {
               <div class="editorial-art-wrapper">
                 <div class="editorial-image-frame">
                   <img 
-                    src="/images/nickel-discount.jpg" 
+                    src="./images/nickel-discount.jpg" 
                     alt="Prabowo's Nickel Emporium - Diskon Komoditas Ekspor Akibat Devaluasi Rupiah" 
                     class="editorial-cartoon-img" 
                   />

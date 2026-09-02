@@ -215,7 +215,7 @@ export class Section5SupplyChain {
 
                 <!-- Editorial Cartoon: 4-Panel Energy & CPI Contagion Comic -->
                 <div class="s5-art-container">
-                  <img src="/images/oil-inflation-chain.jpg" alt="Transmisi Inflasi Energi ke Konsumen" class="s5-domino-img" />
+                  <img src="./images/oil-inflation-chain.jpg" alt="Transmisi Inflasi Energi ke Konsumen" class="s5-domino-img" />
                 </div>
 
                 <div class="domino-ripple-container">

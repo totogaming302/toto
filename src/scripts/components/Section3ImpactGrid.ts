@@ -98,7 +98,7 @@ export class Section3ImpactGrid {
               
               <!-- Brand Identity Banner: PT Freeport Indonesia -->
               <div class="company-brand-banner freeport">
-                <img src="/images/freeport-indonesia.svg" alt="PT Freeport Indonesia Official Logo" class="company-brand-logo freeport-logo" />
+                <img src="./images/freeport-indonesia.svg" alt="PT Freeport Indonesia Official Logo" class="company-brand-logo freeport-logo" />
                 <div class="company-brand-meta">
                   <span class="meta-tag text-emerald">KOMODITAS & MINERAL EKSPOR</span>
                   <span class="meta-sub">Papua Operations // Net Forex Earner</span>
@@ -148,7 +148,7 @@ export class Section3ImpactGrid {
               
               <!-- Brand Identity Banner: Samsung Electronics Indonesia -->
               <div class="company-brand-banner samsung">
-                <img src="/images/samsung-electronics.svg" alt="Samsung Electronics Official Logo" class="company-brand-logo samsung-logo" />
+                <img src="./images/samsung-electronics.svg" alt="Samsung Electronics Official Logo" class="company-brand-logo samsung-logo" />
                 <div class="company-brand-meta">
                   <span class="meta-tag text-crimson">DISTRIBUSI GADGET & CHIPSET</span>
                   <span class="meta-sub">PT Samsung Electronics Indonesia // Foreign Input Exposure</span>
@@ -193,7 +193,7 @@ export class Section3ImpactGrid {
             <div class="s3-visual-card s3-art-card" id="s3-visual-3">
               <div class="s3-full-art-frame">
                 <img 
-                  src="/images/consumer-fate.jpg" 
+                  src="./images/consumer-fate.jpg" 
                   alt="Editorial Cartoon: Konsumen — Yowes, Accept Your Fate (Silent Casualty)" 
                   class="editorial-cartoon-img" 
                 />
