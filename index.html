@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#080C14" />
+  <title>Mata Uang Melemah, Ekspor Meningkat? — Kelompok 2 Ekonomi</title>
+  
+  <!-- Preconnect & Google Fonts: Cinzel, Playfair Display, JetBrains Mono, Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,400&display=swap" rel="stylesheet" />
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="./src/styles/variables.css" />
+  <link rel="stylesheet" href="./src/styles/scrollytelling.css" />
+  <link rel="stylesheet" href="./src/styles/sections.css" />
+  <link rel="stylesheet" href="./src/styles/simulator.css" />
+  <link rel="stylesheet" href="./src/styles/hud-nav.css" />
+</head>
+<body>
+
+  <!-- Ambient Film Grain & Scanline Overlays -->
+  <div class="film-grain-overlay" aria-hidden="true"></div>
+  <div class="scanlines-overlay" aria-hidden="true"></div>
+  <div class="ambient-grid" aria-hidden="true"></div>
+
+  <!-- Telemetry Progress Header (Zero Topbar, Just a Pure 2px Telemetry Line) -->
+  <div class="telemetry-progress-line" id="telemetry-progress"></div>
+
+  <!-- Minimal Corner Watermark HUD -->
+  <div class="hud-watermark-corner">
+    <span class="hud-pulse-dot"></span>
+    <span id="hud-watermark-text">KELOMPOK 2 EKONOMI // DATA JOURNALISM TERMINAL</span>
+  </div>
+
+  <!-- Persistent Global WebGL 3D Background Canvas Container (Fixed Full-Viewport) -->
+  <div id="global-canvas-container">
+    <canvas id="global-canvas"></canvas>
+  </div>
+
+  <!-- Main Scrollytelling Journey Viewport -->
+  <main id="app-viewport">
+
+    <!-- [HERO STAGE] -->
+    <section class="scrolly-section" id="hero-stage">
+      <div class="pinned-viewport" id="hero-pinned-viewport">
+        <div class="container-editorial full-stage hero-pinned-content" id="hero-content">
+          <div class="hero-tagline" id="hero-tagline">PROLOG MAKROEKONOMI</div>
+          <h1 class="hero-title" id="hero-title">Mata Uang Melemah, Ekspor Meningkat?</h1>
+          <p class="hero-subtitle" id="hero-subtitle">Dekonstruksi paradoks devaluasi mata uang by Kelompok 2 Ekonomi</p>
+          <div class="hero-scroll-prompt" id="hero-scroll-prompt">
+            <span class="hero-scroll-label" id="hero-scroll-label">GULIR UNTUK MEMULAI ANALISIS</span>
+            <div class="hero-scroll-indicator"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- [SECTION 1: DAYA SAING EKSPOR] -->
+    <section class="scrolly-section" id="section-1" data-section="1">
+      <div class="pinned-viewport">
+        <div class="container-editorial split-stage">
+          <div class="narrative-card">
+            <div class="section-tag" id="s1-tag">PERTANYAAN 01 // DAYA SAING EKSPOR</div>
+            <h2 class="question-headline" id="s1-question">Mengapa Pelemahan Nilai Tukar Mendorong Daya Saing Ekspor?</h2>
+            <div class="s1-beats-stack">
+              <div class="s1-beat-item active-beat">
+                <div class="beat-indicator">
+                  <span class="beat-number">01</span>
+                  <span class="beat-title">Diskon Internasional</span>
+                  <span class="beat-status-badge">ARBITRASE HARGA</span>
+                </div>
+                <p class="text-beat">Ketika nilai mata uang suatu negara anjlok, barang-barang buatannya mendadak 'didiskon' di pasar internasional.</p>
+              </div>
+              <div class="s1-beat-item">
+                <div class="beat-indicator">
+                  <span class="beat-number">02</span>
+                  <span class="beat-title">Perspektif Pembeli Global</span>
+                  <span class="beat-status-badge">DAYA BELI VALAS</span>
+                </div>
+                <p class="text-beat">Pembeli luar negeri yang memegang valuta asing (seperti dolar AS) membutuhkan lebih sedikit uang untuk menebus volume barang yang sama.</p>
+              </div>
+              <div class="s1-beat-item">
+                <div class="beat-indicator">
+                  <span class="beat-number">03</span>
+                  <span class="beat-title">Dua Strategi Eksportir</span>
+                  <span class="beat-status-badge">PILIHAN STRATEGIS</span>
+                </div>
+                <p class="text-beat">Eksportir dapat memilih dua strategi: memangkas harga jual dalam valas agar merebut pangsa pasar global, atau mempertahankan harga jual valas untuk meraup margin keuntungan berlipat ganda saat laba dikonversi kembali ke mata uang domestik.</p>
+              </div>
+            </div>
+          </div>
+          <div class="visual-stage s1-visual-stage" id="stage-visual-1">
+            <div class="s1-visual-card">
+              <div class="visual-badge">ILUSTRASI EDITORIAL // MEKANISME DISKON EKSPOR</div>
+              <div class="editorial-art-wrapper">
+                <div class="editorial-image-frame">
+                  <img 
+                    src="/images/nickel-discount.jpg" 
+                    alt="Prabowo's Nickel Emporium - Diskon Komoditas Ekspor Akibat Devaluasi Rupiah" 
+                    class="editorial-cartoon-img" 
+                  />
+                </div>
+                <div class="editorial-image-caption">
+                  <span class="caption-tag">STUDI KASUS KOMODITAS:</span>
+                  Ketika nilai Rupiah melemah drastis, komoditas ekspor Indonesia (seperti bijih nikel) mendadak "didiskon" di mata mitra dagang global yang memegang valuta asing kuat, memicu lonjakan pesanan dan daya saing harga internasional.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- [SECTION 2: BAHAN BAKU IMPOR] -->
+    <section class="scrolly-section" id="section-2" data-section="2">
+      <div class="pinned-viewport">
+        <div class="container-editorial split-stage">
+          <div class="narrative-card">
+            <div class="section-tag">PERTANYAAN 02 // BAHAN BAKU IMPOR</div>
+            <h2 class="question-headline">Mengapa perusahaan yang bergantung pada bahan baku impor justru dapat mengalami kerugian?</h2>
+            <div class="beats-wrapper">
+              <p class="text-beat" style="color: var(--accent-gold); font-weight: 600; font-family: var(--font-mono);">Mata uang yang melemah memicu pisau bermata dua bernama imported inflation.</p>
+              <p class="text-beat">Bahan baku impor harus dibayar menggunakan valuta asing. Ketika mata uang lokal merosot, biaya pembelian komponen dasar melonjak seketika dalam pembukuan domestik. Jika perusahaan tidak sanggup melimpahkan kenaikan biaya tersebut kepada konsumen akhir—karena daya beli pasar yang melemah atau persaingan ketat—margin laba tergerus habis.</p>
+            </div>
+          </div>
+          <div class="visual-stage" id="stage-visual-2">
+            <div style="text-align: center; padding: 2rem;">
+              <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--accent-crimson); letter-spacing: 0.2em; margin-bottom: 0.5rem;">[COST MARGIN COMPRESSION]</div>
+              <div style="font-family: var(--font-serif); font-size: 1.6rem; color: #fff; margin-bottom: 1rem;">Anatomi Pisau Bermata Dua</div>
+              <p style="font-size: 0.9rem; color: var(--text-muted); max-width: 360px; margin: 0 auto;">Lonjakan Pembukuan Komponen Impor vs Batas Toleransi Konsumen Akhir</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- [SECTION 3: PETA DAMPAK EKONOMI] -->
+    <section class="scrolly-section" id="section-3" data-section="3">
+      <div class="pinned-viewport" id="s3-pinned-viewport">
+        <div class="s3-question-hero">
+          <div class="section-tag">PERTANYAAN 03 // PETA DAMPAK EKONOMI</div>
+          <h2 class="question-anchor-huge">Bagaimana dampaknya terhadap eksportir, importir, konsumen, dan produsen domestik?</h2>
+          <div class="scroll-hint-micro">
+            <span class="pulse-line"></span>
+            <span>GULIR UNTUK MENELUSURI PETA DAMPAK MAKROEKONOMI</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- [SECTION 4: ANOMALI KURVA-J] -->
+    <section class="scrolly-section" id="section-4" data-section="4">
+      <div class="pinned-viewport" id="s4-pinned-viewport">
+        <div class="s4-question-hero">
+          <div class="section-tag">PERTANYAAN 04 // ANOMALI KURVA-J</div>
+          <h2 class="question-anchor-huge">Apakah pelemahan rupiah selalu menguntungkan kegiatan ekspor?</h2>
+          <div class="scroll-hint-micro">
+            <span class="pulse-line"></span>
+            <span>GULIR UNTUK MENGURAI ANOMALI KURVA-J</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- [SECTION 5: JALUR INFLASI] -->
+    <section class="scrolly-section" id="section-5" data-section="5">
+      <div class="pinned-viewport" id="s5-pinned-viewport">
+        <div class="s5-question-hero">
+          <div class="section-tag">PERTANYAAN 05 // JALUR INFLASI</div>
+          <h2 class="question-anchor-huge">Bagaimana kondisi tersebut dapat memengaruhi inflasi?</h2>
+          <div class="scroll-hint-micro">
+            <span class="pulse-line"></span>
+            <span>GULIR UNTUK MEMBONGKAR TRANSMISI JALUR INFLASI</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- [SECTION 6: DIAGRAM SEBAB-AKIBAT] -->
+    <section class="scrolly-section" id="section-6" data-section="6">
+      <div class="pinned-viewport" id="s6-pinned-viewport">
+        <div class="s6-question-hero">
+          <div class="section-tag">TANTANGAN ANALISIS // DIAGRAM SEBAB-AKIBAT</div>
+          <h2 class="question-anchor-huge">Tantangan: Buat diagram sebab-akibat: Pelemahan nilai tukar → … → … → … → dampak terhadap perekonomian.</h2>
+          <div class="scroll-hint-micro">
+            <span class="pulse-line"></span>
+            <span>GULIR UNTUK MENELUSURI POHON SEBAB-AKIBAT MAKROEKONOMI</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- [SECTION 7: SIMULASI STRATEGIS // RUANG KENDALI KRISIS] -->
+    <section class="scrolly-section" id="section-7" data-section="7">
+      <div class="s7-pinned-viewport" id="s7-pinned-viewport">
+        <div class="s7-question-hero">
+          <div class="section-tag" style="border-color: var(--accent-crimson); color: var(--accent-crimson);">SIMULASI STRATEGIS // RUANG KENDALI KRISIS</div>
+          <h2 class="question-anchor-huge">Jika Anda menjadi pengambil kebijakan, apa yang akan Anda lakukan untuk mengurangi dampak negatifnya?</h2>
+          <div class="scroll-hint-micro">
+            <span class="pulse-line"></span>
+            <span>GULIR UNTUK MEMASUKI RUANG KENDALI KRISIS</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- [SECTION 8: EPILOGUE // Q&A & FINAL CLOSING] -->
+    <section class="scrolly-section" id="section-8" data-section="8">
+      <div class="s8-pinned-viewport" id="s8-pinned-viewport">
+        <!-- Phase 1: Q&A Discussion Floor -->
+        <div class="s8-phase-qa" id="s8-phase-qa">
+          <div class="section-tag s8-kicker">// SESI TANYA JAWAB & DISKUSI</div>
+          <h1 class="s8-qa-headline">Any Questions?</h1>
+          <div class="scroll-hint-micro s8-scroll-hint">
+            <span class="pulse-line"></span>
+            <span>GULIR UNTUK PENUTUP DOKUMENTER</span>
+          </div>
+        </div>
+
+        <!-- Phase 2: Formal Sign-off (Closing) -->
+        <div class="s8-phase-closing" id="s8-phase-closing">
+          <div class="s8-closing-wrapper">
+            <span class="s8-closing-badge">DOKUMENTER SELESAI</span>
+            <h2 class="s8-closing-headline">Sekian dari kami, Terima kasih.</h2>
+            <div class="s8-divider"></div>
+            <p class="s8-metadata-title">Mata Uang Melemah, Ekspor Meningkat? • Kelompok 2 Ekonomi</p>
+            <div class="s8-status-tag">
+              <span class="hud-pulse-dot"></span>
+              <span>[STATUS: DOKUMENTASI SELESAI // SESI PRESENTASI DITUTUP]</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Application Main Script -->
+  <script type="module" src="./src/scripts/main.ts"></script>
+</body>
+</html>

@@ -1,0 +1,207 @@
+/* ==========================================================================
+   DESIGN TOKENS & SYSTEM VARIABLES
+   Visual Style: Dark Editorial Aesthetic (#080C14 obsidian, Bloomberg Amber,
+   Terminal Emerald, Alert Crimson, film grain texture, high kinetic energy)
+   ========================================================================== */
+
+:root {
+  /* Editorial Palette */
+  --bg-obsidian: #080C14;
+  --bg-obsidian-subtle: #0B101B;
+  --bg-surface-elevated: #111827;
+  --bg-surface-glass: rgba(13, 19, 31, 0.78);
+  --bg-surface-glass-border: rgba(255, 255, 255, 0.08);
+
+  /* Accents & Data Telemetry */
+  --accent-gold: #F59E0B;
+  --accent-gold-glow: rgba(245, 158, 11, 0.25);
+  --accent-gold-dim: #D97706;
+  
+  --accent-emerald: #10B981;
+  --accent-emerald-glow: rgba(16, 185, 129, 0.22);
+  
+  --accent-crimson: #EF4444;
+  --accent-crimson-glow: rgba(239, 68, 68, 0.25);
+  
+  --accent-cyan: #38BDF8;
+  --accent-cyan-glow: rgba(56, 189, 248, 0.22);
+
+  /* Monochromatic Tones */
+  --text-primary: #F8FAFC;
+  --text-secondary: #CBD5E1;
+  --text-muted: #64748B;
+  --border-subtle: rgba(255, 255, 255, 0.09);
+  --border-bright: rgba(255, 255, 255, 0.22);
+
+  /* Typography */
+  --font-serif: "Cinzel", "Playfair Display", "Times New Roman", serif;
+  --font-editorial-heading: "Playfair Display", "Georgia", serif;
+  --font-mono: "JetBrains Mono", "SF Mono", "Fira Code", monospace;
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  /* Spacing & Layout */
+  --content-max-width: 1360px;
+  --editorial-gutter: clamp(1.5rem, 5vw, 4.5rem);
+  --transition-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Base Resets */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  background-color: var(--bg-obsidian);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  touch-action: pan-y;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background-color: var(--bg-obsidian);
+  color: var(--text-primary);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+  touch-action: pan-y;
+  user-select: none; /* Prevents accidental drag-selection on interactive smartboards */
+}
+
+/* Enable text selection specifically for narrative paragraphs and editorial headings */
+.narrative-card, .question-headline, .text-beat, .pipe-text, .s4-beat-item, .domino-desc {
+  user-select: text;
+}
+
+/* 4K UHD Smartboard Dynamic Scaling */
+@media (min-width: 2560px) {
+  :root {
+    --content-max-width: 1720px;
+  }
+  html {
+    font-size: 18px;
+  }
+}
+
+@media (min-width: 3840px) {
+  :root {
+    --content-max-width: 2200px;
+  }
+  html {
+    font-size: 22px;
+  }
+}
+
+/* Universal Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-obsidian);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(245, 158, 11, 0.35);
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-gold);
+}
+
+/* Subtle Film Grain Noise Overlay */
+.film-grain-overlay {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 999;
+  opacity: 0.038;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* Telemetry Scanline Overlay (ultra-subtle) */
+.scanlines-overlay {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 998;
+  opacity: 0.035;
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%, 
+    rgba(0, 0, 0, 0.4) 50%
+  );
+  background-size: 100% 4px;
+}
+
+/* Subtle Technical Ambient Coordinate Grid */
+.ambient-grid {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 80px 80px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Permanent Minimalist Telemetry HUD (Fixed In Corners, zero intrusive bars) */
+.telemetry-progress-line {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2.5px;
+  width: 0%;
+  background: linear-gradient(90deg, var(--accent-gold), var(--accent-emerald), var(--accent-cyan));
+  z-index: 1000;
+  box-shadow: 0 0 10px var(--accent-gold);
+  transition: width 0.05s linear;
+}
+
+.hud-watermark-corner {
+  position: fixed;
+  top: 1.5rem;
+  left: 2rem;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  pointer-events: none;
+  backdrop-filter: blur(8px);
+  background: rgba(8, 12, 20, 0.4);
+  padding: 0.4rem 0.85rem;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.hud-pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--accent-emerald);
+  box-shadow: 0 0 8px var(--accent-emerald);
+  animation: pulseBeacon 2.2s infinite ease-in-out;
+}
+
+@keyframes pulseBeacon {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.35; transform: scale(0.85); }
+}

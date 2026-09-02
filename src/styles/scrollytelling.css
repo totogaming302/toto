@@ -1,0 +1,353 @@
+/* ==========================================================================
+   SCROLLYTELLING ENGINE & EDITORIAL LAYOUTS
+   Rules:
+   - Zero slides, zero topbars, zero sidebars.
+   - Continuous full-viewport editorial journey.
+   - Bold visual Question Anchors preceding scroll answers.
+   ========================================================================== */
+
+#app-viewport {
+  position: relative;
+  width: 100%;
+  overflow: visible;
+  z-index: 10;
+}
+
+/* Base Scrollytelling Section Container */
+.scrolly-section {
+  position: relative;
+  width: 100%;
+  min-height: 120vh;
+  box-sizing: border-box;
+}
+
+/* Pinned Full-Viewport Stage */
+.pinned-viewport {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: clamp(1rem, 2.5vh, 2rem) var(--editorial-gutter);
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Editorial Container Constraints */
+.container-editorial {
+  width: 100%;
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  position: relative;
+  z-index: 20;
+}
+
+/* Two-Column Split Layout for Scrollytelling (Editorial Text vs Visual Canvas) */
+.container-editorial.split-stage {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: clamp(1.5rem, 3vw, 3.5rem);
+  align-items: center;
+  transform: translate3d(0, 0, 0);
+}
+
+@media (max-width: 960px) {
+  .container-editorial.split-stage {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+/* Adaptive Height Optimization for Lower-Height Projectors & Displays */
+@media (max-height: 820px) {
+  .pinned-viewport {
+    padding: 1rem var(--editorial-gutter);
+  }
+  .container-editorial.split-stage {
+    gap: 1.5rem;
+  }
+  .visual-stage {
+    height: min(460px, 78dvh) !important;
+  }
+  .narrative-card {
+    padding: 1.25rem 1.6rem !important;
+  }
+  .question-headline {
+    font-size: clamp(1.6rem, 2.8vw, 2.2rem) !important;
+    margin-bottom: 0.85rem !important;
+  }
+  .text-beat {
+    font-size: 0.95rem !important;
+    line-height: 1.55 !important;
+    margin-bottom: 0.85rem !important;
+  }
+}
+
+@media (max-height: 700px) {
+  .visual-stage {
+    height: min(400px, 75dvh) !important;
+  }
+  .narrative-card {
+    padding: 1rem 1.25rem !important;
+  }
+}
+
+/* Full Width Central Stage Layout */
+.container-editorial.full-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* Visual Stage Container */
+.visual-stage {
+  position: relative;
+  width: 100%;
+  height: 520px;
+  border-radius: 12px;
+  background: var(--bg-surface-glass);
+  border: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(16px);
+}
+
+/* Editorial Narrative Glass Card */
+.narrative-card {
+  position: relative;
+  background: rgba(11, 16, 27, 0.85);
+  border: 1px solid var(--border-subtle);
+  border-radius: 14px;
+  padding: clamp(1.8rem, 3.5vw, 2.75rem);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.85);
+  transition: border-color 0.4s ease;
+}
+
+.narrative-card:hover {
+  border-color: rgba(245, 158, 11, 0.28);
+}
+
+/* SECTION HEADERS & TAGLINES */
+.section-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  color: var(--accent-gold);
+  text-transform: uppercase;
+  margin-bottom: 1.25rem;
+  padding: 0.3rem 0.75rem;
+  background: rgba(245, 158, 11, 0.08);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  border-radius: 4px;
+}
+
+/* BOLD QUESTION ANCHORS (Strict directive: Bold visual anchor before revealing answer) */
+.question-headline {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 3.8vw, 3.4rem);
+  font-weight: 700;
+  line-height: 1.18;
+  letter-spacing: -0.015em;
+  color: #FFFFFF;
+  margin-bottom: 1.5rem;
+  text-wrap: balance;
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.8);
+}
+
+/* Narrative Beat Paragraphs */
+.text-beat {
+  font-size: clamp(1.05rem, 1.25vw, 1.2rem);
+  line-height: 1.7;
+  color: var(--text-secondary);
+  margin-bottom: 1.25rem;
+  font-weight: 400;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.text-beat strong {
+  color: #FFFFFF;
+  font-weight: 600;
+}
+
+.text-beat:last-child {
+  margin-bottom: 0;
+}
+
+/* Case Study Callout Box */
+.case-study-box {
+  margin-top: 2rem;
+  padding: 1.4rem 1.6rem;
+  border-left: 3px solid var(--accent-gold);
+  background: rgba(245, 158, 11, 0.05);
+  border-radius: 0 10px 10px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  border-right: 1px solid rgba(255, 255, 255, 0.04);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.case-study-title {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--accent-gold);
+  text-transform: uppercase;
+  margin-bottom: 0.6rem;
+}
+
+.case-study-text {
+  font-size: 0.98rem;
+  line-height: 1.65;
+  color: var(--text-secondary);
+}
+
+/* ==========================================================================
+   HERO STAGE SPECIAL STYLES
+   ========================================================================== */
+
+#hero-section {
+  min-height: 160vh;
+  position: relative;
+}
+
+.hero-pinned-content {
+  position: relative;
+  z-index: 25;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  max-width: 1080px;
+  margin: 0 auto;
+  pointer-events: auto;
+}
+
+.hero-tagline {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.32em;
+  color: var(--accent-gold);
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.hero-tagline::before,
+.hero-tagline::after {
+  content: "";
+  display: inline-block;
+  width: 24px;
+  height: 1px;
+  background: var(--accent-gold);
+  opacity: 0.6;
+}
+
+.hero-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2.8rem, 6.5vw, 5.6rem);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: #FFFFFF;
+  margin-bottom: 1.5rem;
+  text-wrap: balance;
+  background: linear-gradient(180deg, #FFFFFF 40%, rgba(255, 255, 255, 0.75) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 10px 40px rgba(0, 0, 0, 0.9);
+}
+
+.hero-subtitle {
+  font-family: var(--font-sans);
+  font-size: clamp(1.1rem, 1.8vw, 1.55rem);
+  font-weight: 300;
+  color: var(--text-secondary);
+  max-width: 780px;
+  margin: 0 auto 3rem auto;
+  line-height: 1.5;
+  letter-spacing: -0.005em;
+}
+
+/* Prompt indicator to scroll */
+.hero-scroll-prompt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.85rem;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.hero-scroll-prompt:hover {
+  transform: translateY(4px);
+}
+
+.hero-scroll-label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.hero-scroll-indicator {
+  width: 1.5px;
+  height: 48px;
+  background: linear-gradient(180deg, var(--accent-gold), rgba(245, 158, 11, 0.05));
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-scroll-indicator::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  background: #FFFFFF;
+  animation: scrollDownDrop 2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+@keyframes scrollDownDrop {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(200%); }
+}
+
+/* Persistent Global WebGL 3D Background Layer */
+#global-canvas-container,
+#hero-canvas-container {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2;
+  pointer-events: none;
+}
+
+#global-canvas,
+#hero-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}

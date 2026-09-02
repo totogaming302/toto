@@ -1,0 +1,23 @@
+{
+  "name": "mata-uang-melemah-ekspor-meningkat",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "chart.js": "^4.4.8",
+    "gsap": "^3.12.7",
+    "lenis": "^1.1.20",
+    "lucide": "^0.475.0",
+    "three": "^0.174.0"
+  },
+  "devDependencies": {
+    "@types/three": "^0.174.0",
+    "typescript": "^5.9.3",
+    "vite": "^6.2.0"
+  }
+}

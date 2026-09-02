@@ -1,0 +1,276 @@
+import Lenis from 'lenis';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { createIcons, Globe, TrendingUp, TrendingDown, AlertTriangle, Cpu, DollarSign, Activity } from 'lucide';
+import { GlobalBackground3D } from './components/GlobalBackground3D.ts';
+import { Section1Erdogan } from './components/Section1Erdogan.ts';
+import { Section2CostBlade } from './components/Section2CostBlade.ts';
+import { Section3ImpactGrid } from './components/Section3ImpactGrid.ts';
+import { Section4JCurve } from './components/Section4JCurve.ts';
+import { Section5SupplyChain } from './components/Section5SupplyChain.ts';
+import { Section6CauseTree } from './components/Section6CauseTree.ts';
+import { Section7Simulator } from './components/Section7Simulator.ts';
+import { Section8Closing } from './components/Section8Closing.ts';
+import { BeatNavigator } from './components/BeatNavigator.ts';
+import { HERO_COPY } from '../data/editorialCopy.ts';
+
+// Register GSAP plugins
+gsap.registerPlugin(ScrollTrigger);
+
+class WebDocumentaryApp {
+  private lenis!: Lenis;
+  public background3D!: GlobalBackground3D;
+  public section1!: Section1Erdogan;
+  public section2!: Section2CostBlade;
+  public section3!: Section3ImpactGrid;
+  public section4!: Section4JCurve;
+  public section5!: Section5SupplyChain;
+  public section6!: Section6CauseTree;
+  public section7!: Section7Simulator;
+  public section8!: Section8Closing;
+  public beatNavigator!: BeatNavigator;
+  private progressBar: HTMLElement | null = null;
+
+  constructor() {
+    this.hydrateHeroContent();
+    this.initLenis();
+    this.initIcons();
+    this.initGlobal3D();
+    this.initSections();
+    this.initTelemetryTracker();
+    this.initEditorialQuestionAnimations();
+    this.bindInteractions();
+    this.bindResizeHandler();
+    ScrollTrigger.refresh();
+    this.initBeatNavigator();
+  }
+
+  /**
+   * Initializes the bottom-right HUD Beat Navigator.
+   */
+  private initBeatNavigator(): void {
+    try {
+      this.beatNavigator = new BeatNavigator(this.lenis);
+    } catch (err) {
+      console.error('Failed to initialize BeatNavigator:', err);
+    }
+  }
+
+  /**
+   * Hydrates the Hero stage with immutable copy assets
+   */
+  private hydrateHeroContent(): void {
+    const titleEl = document.getElementById('hero-title');
+    const subtitleEl = document.getElementById('hero-subtitle');
+    const taglineEl = document.getElementById('hero-tagline');
+    const scrollLabelEl = document.getElementById('hero-scroll-label');
+    const watermarkEl = document.getElementById('hud-watermark-text');
+
+    if (titleEl) titleEl.textContent = HERO_COPY.title;
+    if (subtitleEl) subtitleEl.textContent = HERO_COPY.subtitle;
+    if (taglineEl) taglineEl.textContent = HERO_COPY.tagline;
+    if (scrollLabelEl) scrollLabelEl.textContent = HERO_COPY.scrollPrompt;
+    if (watermarkEl) watermarkEl.textContent = HERO_COPY.hudBadge;
+  }
+
+  /**
+   * Initializes Lenis smooth scrolling and couples it with GSAP's RAF tick loop.
+   */
+  private initLenis(): void {
+    this.lenis = new Lenis({
+      duration: 1.8,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: true,
+      touchMultiplier: 1.1,
+      wheelMultiplier: 0.85
+    });
+
+    // Synchronize Lenis scroll event with GSAP ScrollTrigger
+    this.lenis.on('scroll', () => {
+      ScrollTrigger.update();
+      this.updateTelemetryProgress();
+    });
+
+    // Drive Lenis through GSAP ticker for 60fps lockstep animation
+    gsap.ticker.add((time: number) => {
+      this.lenis.raf(time * 1000);
+    });
+
+    // Prevent GSAP ticker lag smoothing from interfering with smooth physics
+    gsap.ticker.lagSmoothing(0);
+  }
+
+  /**
+   * Initializes Lucide icon set across current document
+   */
+  private initIcons(): void {
+    createIcons({
+      icons: {
+        Globe,
+        TrendingUp,
+        TrendingDown,
+        AlertTriangle,
+        Cpu,
+        DollarSign,
+        Activity
+      }
+    });
+  }
+
+  /**
+   * Instantiates persistent Global 3D background with InstancedMesh coins, cash & particles
+   */
+  private initGlobal3D(): void {
+    try {
+      this.background3D = new GlobalBackground3D({
+        canvasId: 'global-canvas'
+      });
+    } catch (err) {
+      console.error('Failed to initialize GlobalBackground3D:', err);
+    }
+  }
+
+  /**
+   * Global 2.5px Telemetry Progress Bar Tracker
+   */
+  private initTelemetryTracker(): void {
+    this.progressBar = document.getElementById('telemetry-progress');
+  }
+
+  private updateTelemetryProgress(): void {
+    if (!this.progressBar) return;
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    this.progressBar.style.width = `${Math.min(100, Math.max(0, progress))}%`;
+  }
+
+  /**
+   * Initializes all 7 pinned interactive scrollytelling components
+   */
+  private initSections(): void {
+    try {
+      this.section1 = new Section1Erdogan('section-1');
+      this.section2 = new Section2CostBlade('section-2');
+      this.section3 = new Section3ImpactGrid('section-3');
+      this.section4 = new Section4JCurve('section-4');
+      this.section5 = new Section5SupplyChain('section-5');
+      this.section6 = new Section6CauseTree('section-6');
+      this.section7 = new Section7Simulator('section-7');
+      this.section8 = new Section8Closing('section-8');
+    } catch (err) {
+      console.error('Failed to initialize editorial sections:', err);
+    }
+  }
+
+  /**
+   * Sets up ScrollTrigger entrances for any generic question headlines (if any remain)
+   */
+  private initEditorialQuestionAnimations(): void {
+    const questionSections = document.querySelectorAll<HTMLElement>(
+      '.scrolly-section[data-section]:not(#section-1):not(#section-2):not(#section-3):not(#section-4):not(#section-5):not(#section-6):not(#section-7):not(#section-8)'
+    );
+
+    questionSections.forEach((section) => {
+      const headline = section.querySelector<HTMLElement>('.question-headline');
+      const narrativeCard = section.querySelector<HTMLElement>('.narrative-card');
+      const visualStage = section.querySelector<HTMLElement>('.visual-stage');
+
+      if (headline) {
+        gsap.fromTo(
+          headline,
+          { opacity: 0.25, y: 30, filter: 'blur(4px)' },
+          {
+            opacity: 1,
+            y: 0,
+            filter: 'blur(0px)',
+            duration: 0.8,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: headline,
+              start: 'top 85%',
+              end: 'top 55%',
+              scrub: 0.8
+            }
+          }
+        );
+      }
+
+      if (narrativeCard) {
+        gsap.fromTo(
+          narrativeCard,
+          { borderColor: 'rgba(255, 255, 255, 0.05)' },
+          {
+            borderColor: 'rgba(245, 158, 11, 0.3)',
+            duration: 1,
+            scrollTrigger: {
+              trigger: narrativeCard,
+              start: 'top 75%',
+              end: 'top 40%',
+              scrub: true
+            }
+          }
+        );
+      }
+
+      if (visualStage) {
+        gsap.fromTo(
+          visualStage,
+          { opacity: 0.4, scale: 0.96 },
+          {
+            opacity: 1,
+            scale: 1,
+            duration: 0.9,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: visualStage,
+              start: 'top 80%',
+              end: 'top 45%',
+              scrub: true
+            }
+          }
+        );
+      }
+    });
+  }
+
+  /**
+   * Click interactions (e.g. hero scroll prompt smoothly travels to Section 1)
+   */
+  private bindInteractions(): void {
+    const scrollPrompt = document.getElementById('hero-scroll-prompt');
+    if (scrollPrompt) {
+      scrollPrompt.addEventListener('click', () => {
+        this.lenis.scrollTo('#section-1', {
+          offset: 0,
+          duration: 1.4,
+          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+        });
+      });
+    }
+  }
+
+  /**
+   * Resilient debounced resize & orientation listener for smartboards, classroom projectors, and window scaling.
+   */
+  private bindResizeHandler(): void {
+    let resizeTimer: number;
+    const handleResize = () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(() => {
+        ScrollTrigger.refresh();
+        this.beatNavigator?.recalculatePositions();
+      }, 200);
+    };
+
+    window.addEventListener('resize', handleResize, { passive: true });
+    window.addEventListener('orientationchange', handleResize, { passive: true });
+  }
+}
+
+// Bootstrap once DOM content is ready
+window.addEventListener('DOMContentLoaded', () => {
+  new WebDocumentaryApp();
+});

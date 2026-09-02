@@ -1,0 +1,155 @@
+/* ==========================================================================
+   HUD BEAT NAVIGATOR (Subtle Bottom-Right Corner Telemetry Navigation)
+   ========================================================================== */
+
+.hud-beat-navigator {
+  position: fixed;
+  bottom: 2rem;
+  right: 2.5rem;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.45rem;
+  pointer-events: auto;
+  user-select: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Beat Mini Tooltip Readout (Reveals active chapter name) */
+.hud-beat-tooltip {
+  background: rgba(8, 12, 20, 0.88);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-radius: 4px;
+  padding: 0.25rem 0.65rem;
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--accent-gold);
+  text-transform: uppercase;
+  white-space: nowrap;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
+  pointer-events: none;
+  opacity: 0.95;
+  transition: all 0.25s ease;
+}
+
+/* Floating Glass Capsule */
+.hud-nav-capsule {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: rgba(8, 12, 20, 0.78);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  border-radius: 24px;
+  padding: 0.3rem 0.55rem;
+  backdrop-filter: blur(14px);
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.8), 0 0 15px rgba(245, 158, 11, 0.08);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hud-nav-capsule:hover {
+  border-color: rgba(245, 158, 11, 0.55);
+  box-shadow: 0 12px 35px -5px rgba(0, 0, 0, 0.9), 0 0 22px rgba(245, 158, 11, 0.2);
+  transform: translateY(-2px);
+}
+
+/* Chevron Action Buttons */
+.hud-nav-btn {
+  position: relative;
+  background: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  color: #FFFFFF;
+  touch-action: manipulation;
+  transition: all 0.2s ease;
+}
+
+.hud-nav-btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 48px;
+  min-height: 48px;
+}
+
+.hud-nav-btn svg {
+  width: 16px;
+  height: 16px;
+  stroke: var(--text-secondary);
+  stroke-width: 2.2;
+  transition: stroke 0.2s ease, transform 0.2s ease;
+}
+
+.hud-nav-btn:hover {
+  background: rgba(245, 158, 11, 0.15);
+}
+
+.hud-nav-btn:hover svg {
+  stroke: var(--accent-gold);
+}
+
+.hud-nav-btn:active {
+  transform: scale(0.9);
+}
+
+.hud-nav-btn:disabled {
+  opacity: 0.25;
+  cursor: not-allowed;
+}
+
+.hud-nav-btn:disabled:hover {
+  background: transparent;
+}
+
+.hud-nav-btn:disabled:hover svg {
+  stroke: var(--text-secondary);
+}
+
+/* Beat Counter Pill */
+.hud-beat-counter {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--accent-gold);
+  padding: 0 0.45rem;
+  min-width: 105px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.hud-beat-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent-gold);
+  box-shadow: 0 0 6px var(--accent-gold);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .hud-beat-navigator {
+    bottom: 1.25rem;
+    right: 1.25rem;
+  }
+
+  .hud-beat-counter {
+    font-size: 0.65rem;
+    min-width: 90px;
+  }
+}
