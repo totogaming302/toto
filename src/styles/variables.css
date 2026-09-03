@@ -186,6 +186,30 @@ body {
   z-index: 1;
 }
 
+/* Ambient Cursor Spotlight (Subtle Interactive Obsidian Aura) */
+.ambient-cursor-spotlight {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 440px;
+  height: 440px;
+  margin-top: -220px;
+  margin-left: -220px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(245, 158, 11, 0.055) 0%, rgba(16, 185, 129, 0.025) 35%, transparent 70%);
+  pointer-events: none;
+  z-index: 10;
+  mix-blend-mode: screen;
+  transition: opacity 0.4s ease;
+  will-change: transform;
+}
+
+@media (pointer: coarse) {
+  .ambient-cursor-spotlight {
+    display: none !important;
+  }
+}
+
 /* Permanent Minimalist Telemetry HUD (Fixed In Corners, zero intrusive bars) */
 .telemetry-progress-line {
   position: fixed;

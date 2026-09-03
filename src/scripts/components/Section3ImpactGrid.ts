@@ -131,6 +131,7 @@ export class Section3ImpactGrid {
 
                   <div class="surplus-readout-pill">
                     <span class="pill-tag">WINDFALL SURPLUS:</span>
+                    <span class="vault-coin-beacon">🪙</span>
                     <strong>+Rp 48,3 Milyar (+33.3% Laba Tambahan Konversi IDR)</strong>
                   </div>
 
@@ -176,6 +177,30 @@ export class Section3ImpactGrid {
                     </div>
                   </div>
 
+                  <!-- Interactive Price Dilemma Mechanical Balance Scale SVG -->
+                  <div class="dilemma-balance-visual">
+                    <svg class="balance-scale-svg" viewBox="0 0 280 85">
+                      <!-- Fulcrum Base -->
+                      <polygon points="140,50 126,80 154,80" fill="#1e293b" stroke="rgba(255,255,255,0.25)" stroke-width="1.5" />
+                      <circle cx="140" cy="50" r="4" fill="#ef4444" stroke="#ffffff" stroke-width="1.2" />
+                      <!-- Beam (Tilted showing dilemma tension) -->
+                      <g class="balance-beam-group" transform="rotate(-5 140 50)">
+                        <line x1="30" y1="50" x2="250" y2="50" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round" />
+                        <!-- Left Pan (Dilemma 1) -->
+                        <line x1="45" y1="50" x2="35" y2="68" stroke="rgba(255,255,255,0.3)" stroke-width="1" />
+                        <line x1="45" y1="50" x2="55" y2="68" stroke="rgba(255,255,255,0.3)" stroke-width="1" />
+                        <path d="M 28 68 Q 45 76 62 68 Z" fill="#ef4444" opacity="0.9" />
+                        <!-- Right Pan (Dilemma 2) -->
+                        <line x1="235" y1="50" x2="225" y2="68" stroke="rgba(255,255,255,0.3)" stroke-width="1" />
+                        <line x1="235" y1="50" x2="245" y2="68" stroke="rgba(255,255,255,0.3)" stroke-width="1" />
+                        <path d="M 218 68 Q 235 76 252 68 Z" fill="#f59e0b" opacity="0.9" />
+                      </g>
+                    </svg>
+                    <div class="balance-caption">
+                      <span>⚖️ BEBAN TIDAK SEIMBANG: KEDUA OPSI MENGGERUS FINANSIAL PERUSAHAAN</span>
+                    </div>
+                  </div>
+
                   <div class="surplus-readout-pill crimson">
                     <span class="pill-tag">BUNGA & BIAYA PENGADAAN:</span>
                     <strong>+33.3% Lonjakan Tagihan Impor Pembukuan Kuartalan</strong>
@@ -207,6 +232,19 @@ export class Section3ImpactGrid {
                 <div class="telemetry-top-badge cyan">
                   <span class="badge-icon">◆</span>
                   <span>KONDISIONAL: KOMPOSISI BAHAN BAKU MENENTUKAN KELANGSUNGAN HIDUP</span>
+                </div>
+
+                <!-- Divergence Spectrum Metric Bar -->
+                <div class="divergence-spectrum-bar">
+                  <div class="spectrum-track">
+                    <div class="spectrum-segment local-zone" style="width: 50%;">
+                      <span class="spec-label text-emerald">0% KOMPONEN IMPOR (DAYA TAHAN TINGGI)</span>
+                    </div>
+                    <div class="spectrum-divider"></div>
+                    <div class="spectrum-segment import-zone" style="width: 50%;">
+                      <span class="spec-label text-crimson">70%+ KOMPONEN IMPOR (MARGIN CRUNCH)</span>
+                    </div>
+                  </div>
                 </div>
 
                 <div class="divergence-grid">

@@ -196,6 +196,12 @@ export class Section5SupplyChain {
                   </div>
                 </div>
 
+                <!-- Passthrough Transmission Lag Telemetry Badge -->
+                <div class="passthrough-lag-badge">
+                  <span class="lag-clock-icon">⏱️</span>
+                  <span class="lag-text">TRANSMISSION LAG: <strong>T+0 (Guncangan Valas) ➔ T+3 BULAN (Puncak Inflasi IHK Konsumen)</strong></span>
+                </div>
+
                 <div class="surplus-readout-pill crimson">
                   <span class="pill-tag">LOGIKA PRODUSEN:</span>
                   <strong>Menaikkan Harga Jual ke Konsumen Akhir Adalah Satu-satunya Cara Mencegah Kebangkrutan</strong>
@@ -219,6 +225,14 @@ export class Section5SupplyChain {
                 </div>
 
                 <div class="domino-ripple-container">
+                  <!-- Laser Energy Conduction Line Between Domino Cards -->
+                  <div class="domino-conduction-line" aria-hidden="true">
+                    <div class="conduction-cable">
+                      <span class="conduction-photon p1"></span>
+                      <span class="conduction-photon p2"></span>
+                    </div>
+                  </div>
+
                   <div class="domino-chain-grid">
                     
                     <div class="domino-card pulse-border-red">

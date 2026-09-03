@@ -663,6 +663,7 @@ export class GlobalBackground3D {
     this.camera.position.y = cameraScrollY + this.mouse.y * 0.5;
     this.camera.position.x = this.mouse.x * 0.8;
     this.camera.lookAt(0, cameraScrollY * 0.8, 0);
+    this.camera.rotation.z = (this.mouse.x * -0.02) + (velocityFactor * 0.012);
 
     // Dynamic light movement
     this.keyLight.position.x = 8 + this.mouse.x * 4;

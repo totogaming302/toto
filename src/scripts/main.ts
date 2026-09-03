@@ -39,6 +39,8 @@ class WebDocumentaryApp {
     this.initSections();
     this.initTelemetryTracker();
     this.initEditorialQuestionAnimations();
+    this.initCursorSpotlight();
+    this.initCardTiltEffect();
     this.bindInteractions();
     this.bindResizeHandler();
     ScrollTrigger.refresh();
@@ -250,6 +252,63 @@ class WebDocumentaryApp {
         });
       });
     }
+  }
+
+  /**
+   * Smooth ambient luminous cursor spotlight that projects subtle illumination onto borders and glass cards.
+   */
+  private initCursorSpotlight(): void {
+    if (window.matchMedia('(pointer: coarse)').matches) return;
+
+    const spotlight = document.createElement('div');
+    spotlight.className = 'ambient-cursor-spotlight';
+    document.body.appendChild(spotlight);
+
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    let currentX = mouseX;
+    let currentY = mouseY;
+
+    window.addEventListener('mousemove', (e: MouseEvent) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    }, { passive: true });
+
+    gsap.ticker.add(() => {
+      currentX += (mouseX - currentX) * 0.12;
+      currentY += (mouseY - currentY) * 0.12;
+      spotlight.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`;
+    });
+  }
+
+  /**
+   * Subtle 3D card parallax perspective tilt on active cards and visual stages for desktop.
+   */
+  private initCardTiltEffect(): void {
+    if (window.matchMedia('(pointer: coarse)').matches) return;
+
+    const tiltTargets = document.querySelectorAll<HTMLElement>('.narrative-card, .visual-stage, .telemetry-box');
+    tiltTargets.forEach((card) => {
+      card.addEventListener('mousemove', (e: MouseEvent) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = ((y - centerY) / centerY) * -3.5;
+        const rotateY = ((x - centerX) / centerX) * 3.5;
+
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+      });
+
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
+        card.style.transition = 'transform 0.5s ease-out';
+        setTimeout(() => {
+          card.style.transition = '';
+        }, 500);
+      });
+    });
   }
 
   /**

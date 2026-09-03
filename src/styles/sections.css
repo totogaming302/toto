@@ -427,6 +427,125 @@
 }
 
 /* State 2: Foreign Purchasing Power Deck */
+/* FX Interactive Simulation Switcher */
+.fx-interactive-toggle-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(8, 12, 20, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  padding: 0.35rem 0.65rem;
+  margin-bottom: 0.75rem;
+  gap: 0.5rem;
+}
+
+.toggle-bar-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+}
+
+.fx-pill-group {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.fx-sim-pill {
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  font-weight: 700;
+  padding: 0.25rem 0.55rem;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  touch-action: manipulation;
+}
+
+.fx-sim-pill:hover {
+  border-color: rgba(245, 158, 11, 0.4);
+  color: #FFFFFF;
+}
+
+.fx-sim-pill.active {
+  background: rgba(16, 185, 129, 0.15);
+  border-color: var(--accent-emerald);
+  color: var(--accent-emerald);
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.25);
+}
+
+.fx-multiplier-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--accent-emerald);
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  border-radius: 4px;
+  padding: 0.4rem 0.75rem;
+  margin-top: 0.5rem;
+  width: fit-content;
+}
+
+.multiplier-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-emerald);
+  box-shadow: 0 0 6px var(--accent-emerald);
+  animation: pulseBeacon 2s infinite ease-in-out;
+}
+
+/* Strategy Bifurcation Bridge Graphic */
+.strategy-bifurcation-bridge {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.85rem;
+  padding: 0.4rem 0.75rem;
+  background: rgba(8, 12, 20, 0.6);
+  border: 1px dashed rgba(245, 158, 11, 0.3);
+  border-radius: 8px;
+}
+
+.bridge-branch {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.bridge-tag {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.bridge-hub {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: var(--accent-gold);
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  border-radius: 20px;
+  padding: 0.25rem 0.75rem;
+  box-shadow: 0 0 15px rgba(245, 158, 11, 0.15);
+}
+
 .purchasing-power-deck {
   display: flex;
   flex-direction: column;
@@ -870,6 +989,95 @@
   line-height: 1.4;
 }
 
+/* Kinetic Spark Particle Animations for Spearhead Tips */
+.spear-sparks .spark-dot {
+  animation: sparkJitter 1.2s infinite ease-in-out alternate;
+}
+
+.left-sparks .sp1 { animation-delay: 0.1s; }
+.left-sparks .sp2 { animation-delay: 0.35s; }
+.left-sparks .sp3 { animation-delay: 0.2s; }
+.left-sparks .sp4 { animation-delay: 0.5s; }
+
+.right-sparks .spr1 { animation-delay: 0.15s; }
+.right-sparks .spr2 { animation-delay: 0.4s; }
+.right-sparks .spr3 { animation-delay: 0.25s; }
+.right-sparks .spr4 { animation-delay: 0.55s; }
+
+@keyframes sparkJitter {
+  0% { transform: translate(0, 0) scale(0.8); opacity: 0.4; }
+  50% { transform: translate(-3px, -2px) scale(1.4); opacity: 1; }
+  100% { transform: translate(2px, 3px) scale(0.6); opacity: 0.3; }
+}
+
+/* Margin Pressure Gauge Card & Dial Visual */
+.margin-pressure-gauge-card {
+  background: rgba(8, 12, 20, 0.7);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 8px;
+  padding: 0.65rem 0.95rem;
+  margin-top: 0.65rem;
+  margin-bottom: 0.65rem;
+}
+
+.gauge-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.25rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+}
+
+.gauge-tag {
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+}
+
+.gauge-status {
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.gauge-dial-visual {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.pressure-dial-svg {
+  width: 100%;
+  max-width: 240px;
+  height: 90px;
+  overflow: visible;
+}
+
+.dial-readout-center {
+  position: absolute;
+  bottom: 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.dial-num {
+  font-family: var(--font-serif);
+  font-size: 1.45rem;
+  font-weight: 800;
+  line-height: 1;
+  text-shadow: 0 0 15px rgba(239, 68, 68, 0.5);
+}
+
+.dial-lbl {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+  margin-top: 0.1rem;
+}
+
 .cost-summary-pills {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -1309,6 +1517,97 @@
   letter-spacing: 0.08em;
 }
 
+/* Freeport Bullion Vault Telemetry Beacon */
+.vault-coin-beacon {
+  font-size: 1.1rem;
+  animation: pulseBeacon 1.5s infinite ease-in-out;
+}
+
+/* Mechanical Price Dilemma Balance Scale SVG */
+.dilemma-balance-visual {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px dashed rgba(239, 68, 68, 0.3);
+  border-radius: 6px;
+  padding: 0.35rem 0.65rem;
+}
+
+.balance-scale-svg {
+  width: 100%;
+  max-width: 280px;
+  height: 60px;
+  overflow: visible;
+}
+
+.balance-beam-group {
+  transform-origin: 140px 50px;
+  animation: scaleTiltJitter 3.6s ease-in-out infinite alternate;
+}
+
+@keyframes scaleTiltJitter {
+  0% { transform: rotate(-6deg); }
+  50% { transform: rotate(-2deg); }
+  100% { transform: rotate(-7deg); }
+}
+
+.balance-caption {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+  margin-top: 0.2rem;
+  text-align: center;
+}
+
+/* Divergence Spectrum Metric Bar */
+.divergence-spectrum-bar {
+  margin-bottom: 0.75rem;
+  background: rgba(8, 12, 20, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  padding: 0.3rem 0.5rem;
+}
+
+.spectrum-track {
+  display: flex;
+  height: 22px;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.spectrum-segment {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0.4rem;
+}
+
+.spectrum-segment.local-zone {
+  background: rgba(16, 185, 129, 0.18);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+}
+
+.spectrum-segment.import-zone {
+  background: rgba(239, 68, 68, 0.18);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+}
+
+.spectrum-divider {
+  width: 2px;
+  background: #ffffff;
+}
+
+.spec-label {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+
 /* Dilemma Grid (Importir) */
 .crunch-dilemma-grid {
   display: grid;
@@ -1592,6 +1891,34 @@
   font-family: var(--font-mono);
   font-size: 0.75rem;
   color: #FFFFFF;
+}
+
+.pillar-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pillar-check-badge {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  padding: 0.15rem 0.35rem;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid currentColor;
+}
+
+/* Radar tracker rotating ring */
+.radar-spin-ring {
+  transform-origin: 200px 270px;
+  animation: radarSpin 6s linear infinite;
+}
+
+@keyframes radarSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 .pillar-status {
@@ -2024,6 +2351,69 @@
   display: block;
 }
 
+/* Passthrough Transmission Lag Telemetry Badge */
+.passthrough-lag-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(8, 12, 20, 0.7);
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  border-radius: 6px;
+  padding: 0.4rem 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--text-secondary);
+  margin-top: 0.45rem;
+}
+
+.lag-clock-icon {
+  font-size: 0.95rem;
+}
+
+/* Domino Conduction Line */
+.domino-ripple-container {
+  position: relative;
+}
+
+.domino-conduction-line {
+  position: absolute;
+  top: 18px;
+  left: 10%;
+  right: 10%;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.08);
+  pointer-events: none;
+  z-index: 5;
+}
+
+.conduction-cable {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.conduction-photon {
+  position: absolute;
+  top: -3px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ef4444;
+  box-shadow: 0 0 10px #ef4444, 0 0 20px #f59e0b;
+  animation: photonTravel 3s infinite linear;
+}
+
+.conduction-photon.p2 {
+  animation-delay: 1.5s;
+}
+
+@keyframes photonTravel {
+  0% { left: 0%; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { left: 100%; opacity: 0; }
+}
+
 .domino-chain-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -2112,6 +2502,82 @@
   font-size: 0.65rem;
   color: var(--accent-gold);
   letter-spacing: 0.08em;
+}
+
+/* Section 6 Interactive Branch Focus Spotlight Switcher */
+.s6-branch-filter-group {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: rgba(8, 12, 20, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  padding: 0.25rem 0.5rem;
+}
+
+.s6-branch-filter-group .filter-label {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: var(--text-muted);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  margin-right: 0.2rem;
+}
+
+.s6-filter-btn {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 0.25rem 0.6rem;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.s6-filter-btn:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+  color: #FFFFFF;
+}
+
+.s6-filter-btn.active {
+  background: rgba(245, 158, 11, 0.15);
+  border-color: var(--accent-gold);
+  color: var(--accent-gold);
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.2);
+}
+
+.branch-column {
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.branch-column.dimmed {
+  opacity: 0.22;
+  transform: scale(0.98);
+}
+
+.branch-column.spotlighted {
+  opacity: 1;
+  transform: scale(1.02);
+}
+
+.s6-flow-svg.focus-export path[id*="r1"],
+.s6-flow-svg.focus-export path[id*="r2"],
+.s6-flow-svg.focus-export path[id*="r3"],
+.s6-flow-svg.focus-export path[id*="r4"] {
+  opacity: 0.15;
+  transition: opacity 0.4s ease;
+}
+
+.s6-flow-svg.focus-inflation path[id*="l1"],
+.s6-flow-svg.focus-inflation path[id*="l2"],
+.s6-flow-svg.focus-inflation path[id*="l3"],
+.s6-flow-svg.focus-inflation path[id*="l4"] {
+  opacity: 0.15;
+  transition: opacity 0.4s ease;
 }
 
 .s6-flowchart-wrapper {

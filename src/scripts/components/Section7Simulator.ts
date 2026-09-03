@@ -9,6 +9,12 @@ export class Section7Simulator {
   private container: HTMLElement;
   private timeline!: gsap.core.Timeline;
   private currentInputs: SimulatorInputs = { ...BASE_CRISIS_INPUTS };
+  private oscCanvas: HTMLCanvasElement | null = null;
+  private oscCtx: CanvasRenderingContext2D | null = null;
+  private oscPhase: number = 0;
+  private oscAnimationId: number | null = null;
+  private currentGdp: number = 4.2;
+  private currentInflation: number = 8.5;
 
   constructor(containerId: string = 'section-7') {
     const el = document.getElementById(containerId);
@@ -19,6 +25,7 @@ export class Section7Simulator {
     this.renderSectionStructure();
     this.initScrollytellingTimeline();
     this.bindInteractiveControls();
+    this.initOscilloscope();
     this.updateDashboard(calculateMacroEconomy(this.currentInputs));
   }
 
@@ -217,6 +224,18 @@ export class Section7Simulator {
 
               </div>
 
+              <!-- Live CRT Oscilloscope / Mini-Sparkline Canvas -->
+              <div class="simulator-oscilloscope-wrap">
+                <div class="oscilloscope-header">
+                  <span class="osc-title">TRAJEKTORI MAKRO REAL-TIME // LIVE WAVEFORM OSCILLOSCOPE</span>
+                  <div class="osc-legend">
+                    <span class="legend-dot green"></span><span>PDB</span>
+                    <span class="legend-dot red"></span><span>INFLASI</span>
+                  </div>
+                </div>
+                <canvas id="s7-oscilloscope-canvas" class="oscilloscope-canvas" width="520" height="75"></canvas>
+              </div>
+
               <!-- Real-Time Consequence Diagnosis -->
               <div class="s7-consequence-banner" id="s7-consequence-banner">
                 <div class="consequence-badge-row">
@@ -379,6 +398,18 @@ export class Section7Simulator {
     const label = document.getElementById('s7-status-label');
     const beacon = document.getElementById('s7-status-beacon');
     const consequenceText = document.getElementById('s7-consequence-text');
+    const consequenceBanner = document.getElementById('s7-consequence-banner');
+
+    this.currentGdp = out.gdpGrowth;
+    this.currentInflation = out.inflation;
+
+    if (consequenceBanner) {
+      if (out.status === 'crisis' || out.status === 'bailout' || (out.inflation >= 7.5 && out.gdpGrowth < 3.8)) {
+        consequenceBanner.classList.add('hazard-active');
+      } else {
+        consequenceBanner.classList.remove('hazard-active');
+      }
+    }
 
     if (badge && label && beacon) {
       label.textContent = out.statusLabel;
@@ -503,7 +534,75 @@ export class Section7Simulator {
     }
   }
 
+  /**
+   * Initializes real-time CRT waveform oscilloscope drawing loop.
+   */
+  private initOscilloscope(): void {
+    this.oscCanvas = document.getElementById('s7-oscilloscope-canvas') as HTMLCanvasElement;
+    if (!this.oscCanvas) return;
+    this.oscCtx = this.oscCanvas.getContext('2d');
+    if (!this.oscCtx) return;
+
+    const render = () => {
+      if (!this.oscCtx || !this.oscCanvas) return;
+      const ctx = this.oscCtx;
+      const w = this.oscCanvas.width;
+      const h = this.oscCanvas.height;
+
+      ctx.fillStyle = 'rgba(8, 12, 20, 0.4)';
+      ctx.fillRect(0, 0, w, h);
+
+      // Center reference zero-line
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(0, h / 2);
+      ctx.lineTo(w, h / 2);
+      ctx.stroke();
+
+      this.oscPhase += 0.045;
+
+      // 1. GDP Growth Trajectory Wave (Emerald)
+      ctx.strokeStyle = '#10b981';
+      ctx.lineWidth = 2;
+      ctx.shadowColor = '#10b981';
+      ctx.shadowBlur = 6;
+      ctx.beginPath();
+      for (let x = 0; x < w; x++) {
+        const freq = 0.022;
+        const amp = (this.currentGdp / 6.0) * (h * 0.32);
+        const y = h / 2 - Math.sin(x * freq + this.oscPhase) * amp;
+        if (x === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+
+      // 2. Inflation Shock Trajectory Wave (Crimson)
+      ctx.strokeStyle = '#ef4444';
+      ctx.lineWidth = 2;
+      ctx.shadowColor = '#ef4444';
+      ctx.shadowBlur = 6;
+      ctx.beginPath();
+      for (let x = 0; x < w; x++) {
+        const freq = 0.038;
+        const amp = (this.currentInflation / 10.0) * (h * 0.36);
+        const y = h / 2 + Math.sin(x * freq - this.oscPhase * 1.3) * amp;
+        if (x === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+
+      this.oscAnimationId = requestAnimationFrame(render);
+    };
+
+    render();
+  }
+
   public destroy(): void {
+    if (this.oscAnimationId !== null) {
+      cancelAnimationFrame(this.oscAnimationId);
+    }
     if (this.timeline) {
       this.timeline.kill();
     }

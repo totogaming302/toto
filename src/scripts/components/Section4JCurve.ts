@@ -95,6 +95,16 @@ export class Section4JCurve {
                       <stop offset="100%" stop-color="#10b981" />
                     </linearGradient>
 
+                    <!-- Fluid Shading Gradients -->
+                    <linearGradient id="deficitFluidGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" stop-color="#ef4444" stop-opacity="0.28" />
+                      <stop offset="100%" stop-color="#ef4444" stop-opacity="0.02" />
+                    </linearGradient>
+                    <linearGradient id="surplusFluidGradient" x1="0%" y1="100%" x2="0%" y2="0%">
+                      <stop offset="0%" stop-color="#10b981" stop-opacity="0.02" />
+                      <stop offset="100%" stop-color="#10b981" stop-opacity="0.25" />
+                    </linearGradient>
+
                     <!-- Glow Filter for Laser Curve -->
                     <filter id="laserGlow" x="-20%" y="-20%" width="140%" height="140%">
                       <feGaussianBlur stdDeviation="5" result="blur" />
@@ -117,6 +127,18 @@ export class Section4JCurve {
                     <line x1="330" y1="30" x2="330" y2="310" stroke-dasharray="3 3" />
                     <line x1="490" y1="30" x2="490" y2="310" stroke-dasharray="3 3" />
                   </g>
+
+                  <!-- Fluid Area Shading (Deficit & Surplus Zones) -->
+                  <path 
+                    d="M 60 170 C 120 170, 140 270, 200 270 C 260 270, 310 220, 370 170 L 60 170 Z" 
+                    fill="url(#deficitFluidGradient)" 
+                    class="jcurve-area-deficit"
+                  />
+                  <path 
+                    d="M 370 170 C 450 100, 520 50, 610 50 L 610 170 L 370 170 Z" 
+                    fill="url(#surplusFluidGradient)" 
+                    class="jcurve-area-surplus"
+                  />
 
                   <!-- Baseline Zero: Net Trade Balance Equilibrium -->
                   <line x1="50" y1="170" x2="650" y2="170" stroke="rgba(148, 163, 184, 0.4)" stroke-width="2" stroke-dasharray="6 4" />
@@ -174,23 +196,39 @@ export class Section4JCurve {
                     <circle cx="610" cy="50" r="16" stroke="#10b981" stroke-width="1.5" stroke-dasharray="3 3" />
                     <text x="610" y="30" text-anchor="middle" fill="#10b981" font-family="var(--font-mono)" font-size="10" font-weight="700">FASE 3: THE BOOM</text>
                   </g>
+
+                  <!-- Dynamic Radar Tracking Crosshair -->
+                  <g class="radar-tracker-group" id="jcurve-radar-tracker">
+                    <circle cx="200" cy="270" r="18" stroke="#ef4444" stroke-width="1.2" stroke-dasharray="4 2" class="radar-spin-ring" />
+                    <line x1="188" y1="270" x2="212" y2="270" stroke="#ef4444" stroke-width="1.2" />
+                    <line x1="200" y1="258" x2="200" y2="282" stroke="#ef4444" stroke-width="1.2" />
+                  </g>
                 </svg>
               </div>
 
               <!-- 3 Core Economic Conditionality Pillars -->
               <div class="jcurve-pillars-grid">
                 <div class="j-pillar-card" id="pillar-1">
-                  <div class="pillar-tag text-slate">PILAR 1</div>
+                  <div class="pillar-top-row">
+                    <span class="pillar-tag text-slate">PILAR 1</span>
+                    <span class="pillar-check-badge text-emerald">✓ VERIFIED</span>
+                  </div>
                   <strong class="pillar-name">Elastisitas Permintaan Valas</strong>
                   <span class="pillar-status text-emerald">Syarat: e > 1.0 (Marshall-Lerner)</span>
                 </div>
                 <div class="j-pillar-card" id="pillar-2">
-                  <div class="pillar-tag text-slate">PILAR 2</div>
+                  <div class="pillar-top-row">
+                    <span class="pillar-tag text-slate">PILAR 2</span>
+                    <span class="pillar-check-badge text-gold">✓ VERIFIED</span>
+                  </div>
                   <strong class="pillar-name">Kapasitas Produksi Siaga</strong>
                   <span class="pillar-status text-gold">Syarat: Siap Tampung Order Masif</span>
                 </div>
                 <div class="j-pillar-card" id="pillar-3">
-                  <div class="pillar-tag text-slate">PILAR 3</div>
+                  <div class="pillar-top-row">
+                    <span class="pillar-tag text-slate">PILAR 3</span>
+                    <span class="pillar-check-badge text-cyan">✓ VERIFIED</span>
+                  </div>
                   <strong class="pillar-name">Rantai Pasok Minim Impor</strong>
                   <span class="pillar-status text-cyan">Syarat: Tak Tercekik Input Valas</span>
                 </div>

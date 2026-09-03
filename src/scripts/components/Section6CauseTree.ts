@@ -136,7 +136,46 @@ export class Section6CauseTree {
     this.container = el;
     this.renderSectionStructure();
     this.initInteractiveModal();
+    this.bindFilterInteractions();
     this.initScrollytellingTimeline();
+  }
+
+  /**
+   * Binds spotlight filter buttons to emphasize either export branch or inflation branch.
+   */
+  private bindFilterInteractions(): void {
+    const filterBtns = this.container.querySelectorAll<HTMLButtonElement>('.s6-filter-btn');
+    const branchEmerald = this.container.querySelector<HTMLElement>('.branch-emerald');
+    const branchCrimson = this.container.querySelector<HTMLElement>('.branch-crimson');
+    const svgEl = document.getElementById('s6-flow-svg');
+
+    filterBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const filter = btn.getAttribute('data-filter');
+        if (filter === 'export') {
+          branchEmerald?.classList.remove('dimmed');
+          branchEmerald?.classList.add('spotlighted');
+          branchCrimson?.classList.remove('spotlighted');
+          branchCrimson?.classList.add('dimmed');
+          svgEl?.classList.remove('focus-inflation');
+          svgEl?.classList.add('focus-export');
+        } else if (filter === 'inflation') {
+          branchCrimson?.classList.remove('dimmed');
+          branchCrimson?.classList.add('spotlighted');
+          branchEmerald?.classList.remove('spotlighted');
+          branchEmerald?.classList.add('dimmed');
+          svgEl?.classList.remove('focus-export');
+          svgEl?.classList.add('focus-inflation');
+        } else {
+          branchEmerald?.classList.remove('dimmed', 'spotlighted');
+          branchCrimson?.classList.remove('dimmed', 'spotlighted');
+          svgEl?.classList.remove('focus-export', 'focus-inflation');
+        }
+      });
+    });
   }
 
   /**
@@ -167,6 +206,15 @@ export class Section6CauseTree {
               <span class="section-tag">${SECTION_6_COPY.tagline}</span>
               <h3 class="s6-compact-challenge">${SECTION_6_COPY.challengeAnchor}</h3>
             </div>
+            
+            <!-- Interactive Branch Focus Spotlight Switcher -->
+            <div class="s6-branch-filter-group">
+              <span class="filter-label">FOKUS ANALISIS:</span>
+              <button type="button" class="s6-filter-btn active" data-filter="all">SEMUA CABANG</button>
+              <button type="button" class="s6-filter-btn" data-filter="export">JALUR EKSPOR</button>
+              <button type="button" class="s6-filter-btn" data-filter="inflation">JALUR INFLASI</button>
+            </div>
+
             <div class="s6-interactive-hint">
               <span class="hint-icon">ⓘ</span>
               <span>KLIK SETIAP SIMPUL (NODE) UNTUK MELIHAT TELEMETRI MENDALAM</span>

@@ -15,7 +15,41 @@ export class Section1Erdogan {
     }
     this.container = el;
     this.renderSectionStructure();
+    this.bindVisualInteractions();
     this.initScrollytellingTimeline();
+  }
+
+  /**
+   * Binds click events for interactive simulation pills in Visual 2
+   */
+  private bindVisualInteractions(): void {
+    const btnNormal = document.getElementById('s1-btn-kurs-normal');
+    const btnDepresiasi = document.getElementById('s1-btn-kurs-depresiasi');
+    const rowNormal = document.getElementById('s1-row-normal');
+    const rowSurge = document.getElementById('s1-row-surge');
+    const multiplierPill = document.getElementById('s1-multiplier-pill');
+
+    if (!btnNormal || !btnDepresiasi) return;
+
+    btnNormal.addEventListener('click', () => {
+      btnNormal.classList.add('active');
+      btnDepresiasi.classList.remove('active');
+      rowNormal?.classList.add('highlight');
+      rowSurge?.classList.remove('highlight');
+      if (multiplierPill) {
+        multiplierPill.innerHTML = '<span class="multiplier-dot" style="background: var(--text-muted);"></span><span>KURS NORMAL: DAYA BELI DASAR (1.0x BASELINE)</span>';
+      }
+    });
+
+    btnDepresiasi.addEventListener('click', () => {
+      btnDepresiasi.classList.add('active');
+      btnNormal.classList.remove('active');
+      rowSurge?.classList.add('highlight');
+      rowNormal?.classList.remove('highlight');
+      if (multiplierPill) {
+        multiplierPill.innerHTML = '<span class="multiplier-dot"></span><span>ARBITRASE VALAS: +33.5% DAYA UNGKIT PEMBELIAN ASING</span>';
+      }
+    });
   }
 
   /**
@@ -102,6 +136,16 @@ export class Section1Erdogan {
             <!-- Visual State 2: Foreign Purchasing Power Comparison -->
             <div class="s1-visual-card" id="s1-visual-2">
               <div class="visual-badge">DAYA BELI VALUTA ASING (USD BUYER)</div>
+              
+              <!-- Interactive FX Simulation Switcher -->
+              <div class="fx-interactive-toggle-bar">
+                <span class="toggle-bar-label">// SIMULASI KURS GLOBAL:</span>
+                <div class="fx-pill-group">
+                  <button type="button" class="fx-sim-pill" id="s1-btn-kurs-normal">KURS Rp 14.500</button>
+                  <button type="button" class="fx-sim-pill active" id="s1-btn-kurs-depresiasi">KURS Rp 19.330 (DEPRESIASI)</button>
+                </div>
+              </div>
+
               <div class="purchasing-power-deck">
                 <div class="buyer-budget-card">
                   <div class="buyer-budget-label">ANGGARAN PEMBELI GLOBAL</div>
@@ -110,27 +154,33 @@ export class Section1Erdogan {
                 </div>
 
                 <div class="purchasing-bars-container">
-                  <div class="power-bar-row">
+                  <div class="power-bar-row" id="s1-row-normal">
                     <div class="power-row-header">
                       <span>KURS NORMAL (1 USD = Rp 14.500)</span>
-                      <strong class="text-slate">689 Unit</strong>
+                      <strong class="text-slate" id="s1-val-normal">689 Unit</strong>
                     </div>
                     <div class="power-bar-track">
-                      <div class="power-bar-progress base" style="width: 65%;"></div>
+                      <div class="power-bar-progress base" id="s1-prog-normal" style="width: 65%;"></div>
                     </div>
-                    <div class="power-subtext">Menebus total Rp 145.000.000 volume barang</div>
+                    <div class="power-subtext" id="s1-sub-normal">Menebus total Rp 145.000.000 volume barang</div>
                   </div>
 
-                  <div class="power-bar-row highlight">
+                  <div class="power-bar-row highlight" id="s1-row-surge">
                     <div class="power-row-header">
                       <span>KURS MELEMAH (1 USD = Rp 19.330)</span>
-                      <strong class="text-emerald">920 Unit (+33.5%)</strong>
+                      <strong class="text-emerald" id="s1-val-surge">920 Unit (+33.5%)</strong>
                     </div>
                     <div class="power-bar-track">
-                      <div class="power-bar-progress surge" style="width: 100%;"></div>
+                      <div class="power-bar-progress surge" id="s1-prog-surge" style="width: 100%;"></div>
                     </div>
-                    <div class="power-subtext text-emerald">Menebus total Rp 193.300.000 volume barang (+231 unit gratis dalam daya beli valas)</div>
+                    <div class="power-subtext text-emerald" id="s1-sub-surge">Menebus total Rp 193.300.000 volume barang (+231 unit gratis dalam daya beli valas)</div>
                   </div>
+                </div>
+
+                <!-- Dynamic Real-Time Multiplier Badge -->
+                <div class="fx-multiplier-badge" id="s1-multiplier-pill">
+                  <span class="multiplier-dot"></span>
+                  <span>ARBITRASE VALAS: +33.5% DAYA UNGKIT PEMBELIAN ASING</span>
                 </div>
               </div>
             </div>
@@ -138,6 +188,23 @@ export class Section1Erdogan {
             <!-- Visual State 3: Dual Strategic Pathways (Split Matrix) -->
             <div class="s1-visual-card" id="s1-visual-3">
               <div class="visual-badge">DUA JALUR STRATEGIS EKSPORTIR</div>
+              
+              <!-- Visual Bifurcation Bridge Graphic -->
+              <div class="strategy-bifurcation-bridge">
+                <div class="bridge-branch left">
+                  <span class="bridge-tag text-emerald">JALUR 01: VOLUME BOOM</span>
+                  <div class="bridge-arrow-line"></div>
+                </div>
+                <div class="bridge-hub">
+                  <span class="hub-icon">⚖️</span>
+                  <span class="hub-label">DILEMA STRATEGIS</span>
+                </div>
+                <div class="bridge-branch right">
+                  <span class="bridge-tag text-gold">JALUR 02: WINDFALL MARGIN</span>
+                  <div class="bridge-arrow-line"></div>
+                </div>
+              </div>
+
               <div class="strategy-matrix">
                 
                 <!-- Pathway A -->

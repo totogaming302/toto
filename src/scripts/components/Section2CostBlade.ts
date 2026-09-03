@@ -170,11 +170,26 @@ export class Section2CostBlade {
                     <line x1="458" y1="120" x2="600" y2="120" stroke="#ef4444" stroke-width="2.5" />
                     <line x1="458" y1="120" x2="600" y2="120" stroke="#ffffff" stroke-width="0.8" opacity="0.8" />
 
-                    <!-- Tip Energy Flares -->
+                    <!-- Tip Energy Flares & Kinetic Spark Emitters -->
                     <!-- Left Tip Point Energy Flare -->
                     <circle cx="40" cy="120" r="5" fill="#f59e0b" filter="url(#spearGoldFilter)" />
+                    <!-- Left Kinetic Sparks -->
+                    <g class="spear-sparks left-sparks">
+                      <circle cx="32" cy="116" r="2" fill="#fbbf24" class="spark-dot sp1" />
+                      <circle cx="26" cy="123" r="1.6" fill="#f59e0b" class="spark-dot sp2" />
+                      <circle cx="20" cy="118" r="1.2" fill="#34d399" class="spark-dot sp3" />
+                      <circle cx="14" cy="122" r="1.4" fill="#fbbf24" class="spark-dot sp4" />
+                    </g>
+
                     <!-- Right Tip Point Energy Flare -->
                     <circle cx="600" cy="120" r="5" fill="#ef4444" filter="url(#spearCrimsonFilter)" />
+                    <!-- Right Kinetic Sparks -->
+                    <g class="spear-sparks right-sparks">
+                      <circle cx="608" cy="116" r="2" fill="#ef4444" class="spark-dot spr1" />
+                      <circle cx="614" cy="123" r="1.6" fill="#f87171" class="spark-dot spr2" />
+                      <circle cx="620" cy="118" r="1.2" fill="#b91c1c" class="spark-dot spr3" />
+                      <circle cx="626" cy="122" r="1.4" fill="#ef4444" class="spark-dot spr4" />
+                    </g>
                   </g>
 
                   <!-- Thrust Telemetry Kinetic Vectors -->
@@ -263,6 +278,35 @@ export class Section2CostBlade {
                     <div class="deficit-indicator-banner">
                       <span class="deficit-icon">⚠️</span>
                       <span class="deficit-text">Total Biaya Produksi (110%) Melampaui 100% Harga Jual Maksimal Konsumen! Margin Tergerus Menjadi Defisit Bersih.</span>
+                    </div>
+
+                    <!-- Live Margin Compression Pressure Dial Gauge -->
+                    <div class="margin-pressure-gauge-card">
+                      <div class="gauge-header">
+                        <span class="gauge-tag">TEKANAN BIAYA IMPOR (PRESSURE INDEX)</span>
+                        <strong class="gauge-status text-crimson">110% OVER-CAPACITY (RUPTURE)</strong>
+                      </div>
+                      <div class="gauge-dial-visual">
+                        <svg class="pressure-dial-svg" viewBox="0 0 240 105">
+                          <!-- Gauge Track Arc -->
+                          <path d="M 30 95 A 90 90 0 0 1 210 95" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="12" stroke-linecap="round" />
+                          <!-- Normal Zone (Emerald) -->
+                          <path d="M 30 95 A 90 90 0 0 1 88 32" fill="none" stroke="#10b981" stroke-width="12" stroke-linecap="round" opacity="0.8" />
+                          <!-- Warning Zone (Amber) -->
+                          <path d="M 88 32 A 90 90 0 0 1 152 32" fill="none" stroke="#f59e0b" stroke-width="12" opacity="0.8" />
+                          <!-- Danger Rupture Zone (Crimson) -->
+                          <path d="M 152 32 A 90 90 0 0 1 210 95" fill="none" stroke="#ef4444" stroke-width="12" stroke-linecap="round" opacity="0.95" />
+                          <!-- Needle Group (Deflected into danger zone) -->
+                          <g class="gauge-needle-group">
+                            <line x1="120" y1="95" x2="185" y2="35" stroke="#ffffff" stroke-width="3" stroke-linecap="round" />
+                            <circle cx="120" cy="95" r="6" fill="#ef4444" stroke="#ffffff" stroke-width="1.5" />
+                          </g>
+                        </svg>
+                        <div class="dial-readout-center">
+                          <span class="dial-num text-crimson">110%</span>
+                          <span class="dial-lbl">BEBAN BIAYA POKOK PRODUKSI</span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
