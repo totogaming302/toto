@@ -70,15 +70,18 @@ export class BeatNavigator {
 
   constructor(lenis: Lenis) {
     this.lenis = lenis;
+    (window as any).__beatNavigator = this;
+    (window as any).__navigateToBeat = (beatId: string) => this.navigateToBeatById(beatId);
     this.renderNavigatorDOM();
     this.bindDOMReferences();
     this.bindEvents();
+    this.bindNarrativeBeatClicks();
     
     // Initial calculation after ScrollTrigger mounts
     setTimeout(() => {
       this.recalculatePositions();
       this.syncActiveBeatWithScroll(window.scrollY);
-    }, 250);
+    }, 400);
   }
 
   /**
@@ -173,6 +176,63 @@ export class BeatNavigator {
       onComplete: () => {
         this.isTraveling = false;
         this.syncActiveBeatWithScroll(window.scrollY);
+      }
+    });
+  }
+
+  /**
+   * Navigates directly to a beat by its ID string (e.g. 's1-b1', 's3-b3', 's5-b2').
+   * Recalculates fresh positions and smoothly scrolls to the target plateau.
+   */
+  public navigateToBeatById(beatId: string): void {
+    this.recalculatePositions();
+    const targetIndex = this.beats.findIndex((b) => b.id === beatId);
+    if (targetIndex !== -1) {
+      this.navigateToBeat(targetIndex);
+    }
+  }
+
+  /**
+   * Binds click handlers to all narrative beat items with [data-beat-id] or known IDs.
+   * Clicking a blurred, scrolled-past, or upcoming narrative beat immediately scrolls to it.
+   */
+  public bindNarrativeBeatClicks(): void {
+    // Delegated click on document for bulletproof responsiveness
+    document.addEventListener('click', (e: MouseEvent) => {
+      const target = (e.target as HTMLElement).closest<HTMLElement>('[data-beat-id]');
+      if (target) {
+        const beatId = target.getAttribute('data-beat-id');
+        if (beatId) {
+          e.preventDefault();
+          this.navigateToBeatById(beatId);
+        }
+      }
+    });
+
+    // Also support fallback mapping by DOM ID
+    const idMap: Record<string, string> = {
+      's1-beat-1': 's1-b1',
+      's1-beat-2': 's1-b2',
+      's1-beat-3': 's1-b3',
+      's2-beat-1': 's2-b1',
+      's2-beat-2': 's2-b2',
+      's3-actor-1': 's3-b1',
+      's3-actor-2': 's3-b2',
+      's3-actor-3': 's3-b3',
+      's3-actor-4': 's3-b4',
+      's4-beat-1': 's4-b1',
+      's4-beat-2': 's4-b2',
+      's4-beat-3': 's4-b3',
+      's5-pipe-1': 's5-b1',
+      's5-pipe-2': 's5-b2',
+      's5-pipe-3': 's5-b3'
+    };
+
+    Object.entries(idMap).forEach(([domId, beatId]) => {
+      const el = document.getElementById(domId);
+      if (el && !el.hasAttribute('data-beat-id')) {
+        el.setAttribute('data-beat-id', beatId);
+        el.setAttribute('title', 'Klik untuk menuju ke beat ini');
       }
     });
   }

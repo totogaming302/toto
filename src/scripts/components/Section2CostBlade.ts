@@ -50,7 +50,7 @@ export class Section2CostBlade {
 
             <div class="s2-narrative-content">
               <!-- Beat 1: Cinematic Typewriter -->
-              <div class="s2-beat-item" id="s2-beat-1">
+              <div class="s2-beat-item" id="s2-beat-1" data-beat-id="s2-b1" title="Klik untuk menuju ke beat ini">
                 <div class="beat-indicator">
                   <span class="beat-number crimson-num">01</span>
                   <span class="beat-title text-crimson">${SECTION_2_COPY.beats[0].label}</span>
@@ -59,7 +59,7 @@ export class Section2CostBlade {
               </div>
 
               <!-- Beat 2: Cost Mechanism & Margin Squeeze -->
-              <div class="s2-beat-item" id="s2-beat-2">
+              <div class="s2-beat-item" id="s2-beat-2" data-beat-id="s2-b2" title="Klik untuk menuju ke beat ini">
                 <div class="beat-indicator">
                   <span class="beat-number crimson-num">02</span>
                   <span class="beat-title text-crimson">${SECTION_2_COPY.beats[1].label}</span>

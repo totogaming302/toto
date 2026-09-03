@@ -91,7 +91,10 @@
   border-radius: 10px;
   padding: 1.35rem 1.6rem;
   margin-bottom: 1.35rem;
-  transition: all 0.5s var(--transition-smooth);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transition: all 0.4s var(--transition-smooth);
 }
 
 .s1-beat-item:last-child {
@@ -105,12 +108,48 @@
 }
 
 .s2-beat-item {
-  margin-bottom: 1.5rem;
-  transition: opacity 0.4s ease, filter 0.4s ease;
+  position: relative;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 1.25rem;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transition: opacity 0.4s ease, filter 0.4s ease, border-color 0.35s ease, background 0.35s ease, transform 0.35s ease;
 }
 
 .s2-beat-item:last-child {
   margin-bottom: 0;
+}
+
+/* Universal Hover Feedback on Inactive / Blurred Beats (Click to Travel / Skip) */
+.s1-beat-item:not(.active-beat):hover,
+.s3-actor-item:not(.active-actor):hover,
+.s4-beat-item:not(.active-beat):hover,
+.s5-pipeline-item:not(.active-pipe):hover {
+  opacity: 0.85 !important;
+  filter: blur(0px) !important;
+  border-color: rgba(245, 158, 11, 0.5) !important;
+  background: rgba(245, 158, 11, 0.08) !important;
+  transform: translateX(4px);
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.7), 0 0 14px rgba(245, 158, 11, 0.2);
+}
+
+.s2-beat-item:hover {
+  border-color: rgba(239, 68, 68, 0.45) !important;
+  background: rgba(239, 68, 68, 0.06) !important;
+  filter: blur(0px) !important;
+  opacity: 0.9 !important;
+  transform: translateX(4px);
+}
+
+.s1-beat-item:active,
+.s2-beat-item:active,
+.s3-actor-item:active,
+.s4-beat-item:active,
+.s5-pipeline-item:active {
+  transform: scale(0.985);
 }
 
 .beat-indicator {
@@ -946,6 +985,9 @@
   border: 1px solid rgba(255, 255, 255, 0.07);
   border-radius: 9px;
   padding: 0.82rem 1.18rem;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
   transition: all 0.4s var(--transition-smooth);
 }
 
@@ -1475,6 +1517,9 @@
   border: 1px solid rgba(255, 255, 255, 0.07);
   border-radius: 10px;
   padding: 1.25rem 1.5rem;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
   transition: all 0.5s var(--transition-smooth);
 }
 
@@ -1700,6 +1745,9 @@
   border: 1px solid rgba(255, 255, 255, 0.07);
   border-radius: 8px;
   padding: 0.75rem 1.15rem;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
   transition: all 0.4s var(--transition-smooth);
 }
 

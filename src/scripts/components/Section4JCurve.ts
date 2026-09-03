@@ -48,7 +48,7 @@ export class Section4JCurve {
 
             <div class="s4-beats-stack">
               <!-- Beat 1: Fenomena Kurva J -->
-              <div class="s4-beat-item active-beat" id="s4-beat-1">
+              <div class="s4-beat-item active-beat" id="s4-beat-1" data-beat-id="s4-b1" title="Klik untuk menuju ke beat ini">
                 <div class="beat-indicator">
                   <span class="beat-number">01</span>
                   <span class="beat-title">${b1.headline}</span>
@@ -58,7 +58,7 @@ export class Section4JCurve {
               </div>
 
               <!-- Beat 2: Kekakuan Kontrak Perdagangan -->
-              <div class="s4-beat-item" id="s4-beat-2">
+              <div class="s4-beat-item" id="s4-beat-2" data-beat-id="s4-b2" title="Klik untuk menuju ke beat ini">
                 <div class="beat-indicator">
                   <span class="beat-number">02</span>
                   <span class="beat-title">${b2.headline}</span>
@@ -68,7 +68,7 @@ export class Section4JCurve {
               </div>
 
               <!-- Beat 3: Prasyarat Elastisitas & Rantai Pasok -->
-              <div class="s4-beat-item" id="s4-beat-3">
+              <div class="s4-beat-item" id="s4-beat-3" data-beat-id="s4-b3" title="Klik untuk menuju ke beat ini">
                 <div class="beat-indicator">
                   <span class="beat-number">03</span>
                   <span class="beat-title">${b3.headline}</span>

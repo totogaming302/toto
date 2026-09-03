@@ -48,7 +48,7 @@ export class Section3ImpactGrid {
 
             <div class="s3-actors-stack">
               <!-- Actor 1: Eksportir -->
-              <div class="s3-actor-item active-actor" id="s3-actor-1">
+              <div class="s3-actor-item active-actor" id="s3-actor-1" data-beat-id="s3-b1" title="Klik untuk menuju ke beat ini">
                 <div class="actor-header-row">
                   <span class="actor-chip emerald">[SURPLUS VALAS // NET BENEFICIARY]</span>
                   <span class="actor-brand">${eksportir.brandingContext}</span>
@@ -58,7 +58,7 @@ export class Section3ImpactGrid {
               </div>
 
               <!-- Actor 2: Importir -->
-              <div class="s3-actor-item" id="s3-actor-2">
+              <div class="s3-actor-item" id="s3-actor-2" data-beat-id="s3-b2" title="Klik untuk menuju ke beat ini">
                 <div class="actor-header-row">
                   <span class="actor-chip crimson">[MARGIN CRUNCH // IMPORT PENALTY]</span>
                   <span class="actor-brand">${importir.brandingContext}</span>
@@ -68,7 +68,7 @@ export class Section3ImpactGrid {
               </div>
 
               <!-- Actor 3: Konsumen -->
-              <div class="s3-actor-item" id="s3-actor-3">
+              <div class="s3-actor-item" id="s3-actor-3" data-beat-id="s3-b3" title="Klik untuk menuju ke beat ini">
                 <div class="actor-header-row">
                   <span class="actor-chip amber">[INFLASI DAYA BELI // CASUALTY]</span>
                   <span class="actor-brand">${konsumen.brandingContext}</span>
@@ -78,7 +78,7 @@ export class Section3ImpactGrid {
               </div>
 
               <!-- Actor 4: Produsen Domestik -->
-              <div class="s3-actor-item" id="s3-actor-4">
+              <div class="s3-actor-item" id="s3-actor-4" data-beat-id="s3-b4" title="Klik untuk menuju ke beat ini">
                 <div class="actor-header-row">
                   <span class="actor-chip cyan">[CONDITIONAL // BIFURCATED EXPOSURE]</span>
                   <span class="actor-brand">${produsen.brandingContext}</span>

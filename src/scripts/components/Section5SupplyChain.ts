@@ -62,7 +62,7 @@ export class Section5SupplyChain {
               
               <div class="s5-pipeline-stack">
                 <!-- Node 1: Barang Konsumsi Impor -->
-                <div class="s5-pipeline-item active-pipe" id="s5-pipe-1">
+                <div class="s5-pipeline-item active-pipe" id="s5-pipe-1" data-beat-id="s5-b1" title="Klik untuk menuju ke beat ini">
                   <div class="pipe-header-row">
                     <span class="pipe-chip amber">[01 // KONSUMSI LANGSUNG]</span>
                     <span class="pipe-title">${node1.title}</span>
@@ -71,7 +71,7 @@ export class Section5SupplyChain {
                 </div>
 
                 <!-- Node 2: Biaya Input Manufaktur -->
-                <div class="s5-pipeline-item" id="s5-pipe-2">
+                <div class="s5-pipeline-item" id="s5-pipe-2" data-beat-id="s5-b2" title="Klik untuk menuju ke beat ini">
                   <div class="pipe-header-row">
                     <span class="pipe-chip crimson">[02 // INPUT MANUFAKTUR]</span>
                     <span class="pipe-title">${node2.title}</span>
@@ -80,7 +80,7 @@ export class Section5SupplyChain {
                 </div>
 
                 <!-- Node 3: Beban Energi & Logistik -->
-                <div class="s5-pipeline-item" id="s5-pipe-3">
+                <div class="s5-pipeline-item" id="s5-pipe-3" data-beat-id="s5-b3" title="Klik untuk menuju ke beat ini">
                   <div class="pipe-header-row">
                     <span class="pipe-chip gold">[03 // ENERGI & LOGISTIK]</span>
                     <span class="pipe-title">${node3.title}</span>

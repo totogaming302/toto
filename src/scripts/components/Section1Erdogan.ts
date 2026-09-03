@@ -47,7 +47,7 @@ export class Section1Erdogan {
 
             <div class="s1-beats-stack">
               <!-- Beat 1: Diskon Internasional -->
-              <div class="s1-beat-item active-beat" id="s1-beat-1">
+              <div class="s1-beat-item active-beat" id="s1-beat-1" data-beat-id="s1-b1" title="Klik untuk menuju ke beat ini">
                 <div class="beat-indicator">
                   <span class="beat-number">01</span>
                   <span class="beat-title">${SECTION_1_COPY.beats[0].label}</span>
@@ -57,7 +57,7 @@ export class Section1Erdogan {
               </div>
 
               <!-- Beat 2: Perspektif Pembeli Valas -->
-              <div class="s1-beat-item" id="s1-beat-2">
+              <div class="s1-beat-item" id="s1-beat-2" data-beat-id="s1-b2" title="Klik untuk menuju ke beat ini">
                 <div class="beat-indicator">
                   <span class="beat-number">02</span>
                   <span class="beat-title">${SECTION_1_COPY.beats[1].label}</span>
@@ -67,7 +67,7 @@ export class Section1Erdogan {
               </div>
 
               <!-- Beat 3: Dua Strategi Eksportir -->
-              <div class="s1-beat-item" id="s1-beat-3">
+              <div class="s1-beat-item" id="s1-beat-3" data-beat-id="s1-b3" title="Klik untuk menuju ke beat ini">
                 <div class="beat-indicator">
                   <span class="beat-number">03</span>
                   <span class="beat-title">${SECTION_1_COPY.beats[2].label}</span>
