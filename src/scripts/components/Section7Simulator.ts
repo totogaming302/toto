@@ -120,6 +120,11 @@ export class Section7Simulator {
           </div>
         </div>
 
+        <!-- Massive Centered "Crisis Room" Title (Dramatic Entrance before Simulator) -->
+        <div class="s7-massive-title-wrap" id="s7-massive-title-wrap">
+          <h1 class="s7-massive-title" id="s7-massive-title">${copy.massiveTitle}</h1>
+        </div>
+
         <!-- Main Interactive Crisis Dashboard Container -->
         <div class="s7-dashboard-container" id="s7-dashboard-container">
           
@@ -307,26 +312,30 @@ export class Section7Simulator {
    * Pinned scrollytelling entrance timeline:
    * 1. Question Hero fades out.
    * 2. Video Briefing popup appears and automatically plays.
-   * 3. Video fades out as user scrolls, revealing the Crisis Room Simulator dashboard.
+   * 3. Video fades out, Big Center Title ("CRISIS ROOM") appears dramatically.
+   * 4. Big Center Title shrinks and docks into HUD, revealing the Simulator dashboard.
    */
   private initScrollytellingTimeline(): void {
     const questionHero = document.getElementById('s7-question-hero');
     const videoBriefingWrap = document.getElementById('s7-video-briefing-wrap');
     const briefingVideo = document.getElementById('s7-briefing-video') as HTMLVideoElement | null;
+    const massiveTitleWrap = document.getElementById('s7-massive-title-wrap');
+    const massiveTitle = document.getElementById('s7-massive-title');
     const dashboard = document.getElementById('s7-dashboard-container');
 
-    if (!questionHero || !videoBriefingWrap || !dashboard) {
+    if (!questionHero || !videoBriefingWrap || !massiveTitleWrap || !massiveTitle || !dashboard) {
       return;
     }
 
     gsap.set(dashboard, { opacity: 0, scale: 0.96, pointerEvents: 'none' });
     gsap.set(videoBriefingWrap, { opacity: 0, scale: 0.92, pointerEvents: 'none' });
+    gsap.set(massiveTitleWrap, { opacity: 0, scale: 1, pointerEvents: 'none' });
 
     this.timeline = gsap.timeline({
       scrollTrigger: {
         trigger: this.container,
         start: 'top top',
-        end: '+=480%',
+        end: '+=580%',
         pin: true,
         scrub: 1.4,
         anticipatePin: 1,
@@ -339,7 +348,7 @@ export class Section7Simulator {
       }
     });
 
-    // Stage 0 -> 1: Question Hero fades out, Video Briefing popup appears and automatically plays
+    // 1. Stage 0 -> 1: Question Hero fades out, Video Briefing popup appears and automatically plays
     this.timeline
       .to(questionHero, {
         opacity: 0,
@@ -372,12 +381,12 @@ export class Section7Simulator {
       // Dedicated plateau to watch the video
       .to({}, { duration: 1.6 }, 2.3)
 
-      // Stage 1 -> 2: Video Briefing scales down & fades out, Dashboard reveals and becomes interactive
+      // 2. Stage 1 -> 2: Video fades out, Big Center Title Text ("CRISIS ROOM") appears dramatically
       .to(videoBriefingWrap, {
         opacity: 0,
         scale: 0.92,
         y: -40,
-        duration: 1.5,
+        duration: 1.4,
         ease: 'power2.inOut',
         onComplete: () => {
           videoBriefingWrap.style.pointerEvents = 'none';
@@ -392,6 +401,24 @@ export class Section7Simulator {
           }
         }
       }, 3.9)
+      .to(massiveTitleWrap, {
+        opacity: 1,
+        duration: 1.4,
+        ease: 'power2.out'
+      }, 4.2)
+
+      // Dedicated plateau for the Big Center Title
+      .to({}, { duration: 1.2 }, 5.6)
+
+      // 3. Stage 2 -> 3: Big Center Title shrinks & docks towards top-left, revealing Dashboard
+      .to(massiveTitle, {
+        scale: 0.28,
+        x: -380,
+        y: -310,
+        opacity: 0,
+        duration: 1.8,
+        ease: 'power3.inOut'
+      }, 6.8)
       .to(dashboard, {
         opacity: 1,
         scale: 1,
@@ -400,9 +427,9 @@ export class Section7Simulator {
         onStart: () => {
           dashboard.style.pointerEvents = 'auto';
         }
-      }, 4.4)
+      }, 7.2)
       // Dedicated resting window for Crisis Dashboard
-      .to({}, { duration: 1.8 }, 6.0);
+      .to({}, { duration: 2.0 }, 8.8);
   }
 
   /**
