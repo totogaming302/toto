@@ -2,6 +2,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SECTION_7_COPY } from '../../data/editorialCopy.ts';
 import { calculateMacroEconomy, BASE_CRISIS_INPUTS, SimulatorInputs, SimulatorOutputs } from '../utils/math.ts';
+import { SoundManager } from '../audio/SoundManager.ts';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -285,9 +286,16 @@ export class Section7Simulator {
         anticipatePin: 1,
         onEnter: () => {
           (window as any).__setMoodColor?.('#120507');
+          SoundManager.playTransitionWhoosh();
         },
         onEnterBack: () => {
           (window as any).__setMoodColor?.('#120507');
+        },
+        onLeave: () => {
+          SoundManager.stopCrisisSiren();
+        },
+        onLeaveBack: () => {
+          SoundManager.stopCrisisSiren();
         }
       }
     });
@@ -375,12 +383,25 @@ export class Section7Simulator {
       this.updateDashboard(results);
     };
 
-    inputForex?.addEventListener('input', handleUpdate);
-    inputRate?.addEventListener('input', handleUpdate);
-    inputLcs?.addEventListener('input', handleUpdate);
-    inputSubstitution?.addEventListener('change', handleUpdate);
+    inputForex?.addEventListener('input', () => {
+      SoundManager.playSliderTick();
+      handleUpdate();
+    });
+    inputRate?.addEventListener('input', () => {
+      SoundManager.playSliderTick();
+      handleUpdate();
+    });
+    inputLcs?.addEventListener('input', () => {
+      SoundManager.playSliderTick();
+      handleUpdate();
+    });
+    inputSubstitution?.addEventListener('change', () => {
+      SoundManager.playToggleSwitch(inputSubstitution.checked);
+      handleUpdate();
+    });
 
     resetBtn?.addEventListener('click', () => {
+      SoundManager.playTransitionWhoosh();
       if (inputForex) inputForex.value = '0';
       if (inputRate) inputRate.value = '0';
       if (inputLcs) inputLcs.value = '0';
@@ -406,8 +427,10 @@ export class Section7Simulator {
     if (consequenceBanner) {
       if (out.status === 'crisis' || out.status === 'bailout' || (out.inflation >= 7.5 && out.gdpGrowth < 3.8)) {
         consequenceBanner.classList.add('hazard-active');
+        SoundManager.startCrisisSiren();
       } else {
         consequenceBanner.classList.remove('hazard-active');
+        SoundManager.stopCrisisSiren();
       }
     }
 
@@ -600,6 +623,7 @@ export class Section7Simulator {
   }
 
   public destroy(): void {
+    SoundManager.stopCrisisSiren();
     if (this.oscAnimationId !== null) {
       cancelAnimationFrame(this.oscAnimationId);
     }

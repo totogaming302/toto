@@ -12,6 +12,7 @@ import { Section6CauseTree } from './components/Section6CauseTree.ts';
 import { Section7Simulator } from './components/Section7Simulator.ts';
 import { Section8Closing } from './components/Section8Closing.ts';
 import { BeatNavigator } from './components/BeatNavigator.ts';
+import { SoundManager } from './audio/SoundManager.ts';
 import { HERO_COPY } from '../data/editorialCopy.ts';
 
 // Register GSAP plugins
@@ -89,10 +90,13 @@ class WebDocumentaryApp {
       wheelMultiplier: 0.85
     });
 
-    // Synchronize Lenis scroll event with GSAP ScrollTrigger
-    this.lenis.on('scroll', () => {
+    // Synchronize Lenis scroll event with GSAP ScrollTrigger and sound fx
+    this.lenis.on('scroll', (e: any) => {
       ScrollTrigger.update();
       this.updateTelemetryProgress();
+      if (Math.abs(e.velocity) > 0.12) {
+        SoundManager.playScrollTick();
+      }
     });
 
     // Drive Lenis through GSAP ticker for 60fps lockstep animation
@@ -245,11 +249,27 @@ class WebDocumentaryApp {
     const scrollPrompt = document.getElementById('hero-scroll-prompt');
     if (scrollPrompt) {
       scrollPrompt.addEventListener('click', () => {
+        SoundManager.playTransitionWhoosh();
         this.lenis.scrollTo('#section-1', {
           offset: 0,
           duration: 1.4,
           easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
         });
+      });
+    }
+
+    const audioToggle = document.getElementById('hud-audio-toggle');
+    const audioLabel = document.getElementById('audio-toggle-label');
+    if (audioToggle) {
+      audioToggle.addEventListener('click', () => {
+        const isMuted = SoundManager.toggleMute();
+        audioToggle.classList.toggle('muted', isMuted);
+        if (audioLabel) {
+          audioLabel.textContent = isMuted ? 'AUDIO FX: OFF' : 'AUDIO FX: ON';
+        }
+        if (!isMuted) {
+          SoundManager.playBeatChime();
+        }
       });
     }
   }

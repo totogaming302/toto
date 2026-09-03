@@ -189,3 +189,64 @@
     height: 12px !important;
   }
 }
+
+/* Minimalist HUD Audio Toggle Button */
+.hud-audio-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-left: 0.75rem;
+  background: rgba(15, 23, 42, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 4px;
+  padding: 0.2rem 0.55rem;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--accent-gold);
+  cursor: pointer;
+  pointer-events: auto;
+  transition: all 0.25s ease;
+  user-select: none;
+}
+
+.hud-audio-btn:hover {
+  background: rgba(245, 158, 11, 0.15);
+  border-color: var(--accent-gold);
+  color: #FFFFFF;
+}
+
+.hud-audio-btn.muted {
+  color: var(--text-muted);
+  border-color: rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.audio-wave-icon {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 1.5px;
+  height: 10px;
+}
+
+.wave-bar {
+  width: 2px;
+  background: currentColor;
+  border-radius: 1px;
+}
+
+.wb-1 { height: 4px; animation: wavePulse 0.9s infinite ease-in-out alternate; }
+.wb-2 { height: 9px; animation: wavePulse 0.9s infinite ease-in-out alternate 0.25s; }
+.wb-3 { height: 6px; animation: wavePulse 0.9s infinite ease-in-out alternate 0.5s; }
+
+.hud-audio-btn.muted .wave-bar {
+  animation: none !important;
+  height: 2px !important;
+  opacity: 0.4;
+}
+
+@keyframes wavePulse {
+  0% { transform: scaleY(0.4); }
+  100% { transform: scaleY(1); }
+}
