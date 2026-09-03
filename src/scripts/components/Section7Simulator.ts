@@ -26,6 +26,7 @@ export class Section7Simulator {
     this.renderSectionStructure();
     this.initScrollytellingTimeline();
     this.bindInteractiveControls();
+    this.bindVideoControls();
     this.initOscilloscope();
     this.updateDashboard(calculateMacroEconomy(this.currentInputs));
   }
@@ -69,9 +70,54 @@ export class Section7Simulator {
           </div>
         </div>
 
-        <!-- Massive Centered "Crisis Room" Title (Entrance Transition) -->
-        <div class="s7-massive-title-wrap" id="s7-massive-title-wrap">
-          <h1 class="s7-massive-title" id="s7-massive-title">${copy.massiveTitle}</h1>
+        <!-- Video Briefing Popup Stage (Plays automatically after Hero, before Simulator) -->
+        <div class="s7-video-briefing-wrap" id="s7-video-briefing-wrap" data-beat-id="s7-b1">
+          <div class="s7-video-terminal-window">
+            <div class="s7-video-header">
+              <div class="s7-video-header-left">
+                <span class="video-rec-dot"></span>
+                <span class="video-header-title">LIVE CRISIS TRANSMISSION // TELEMETRI SITUASI NASIONAL</span>
+              </div>
+              <div class="s7-video-header-right">
+                <span class="video-timecode" id="s7-video-timecode">SEC-07 // T-00:00</span>
+                <button type="button" class="s7-video-sound-toggle" id="s7-video-sound-btn" title="Aktifkan Suara Video">
+                  <span>🔊 SUARA VIDEO</span>
+                </button>
+              </div>
+            </div>
+            
+            <div class="s7-video-frame">
+              <video 
+                id="s7-briefing-video" 
+                src="./images/crisis-briefing-video.mp4" 
+                playsinline 
+                muted 
+                loop 
+                preload="auto"
+                class="s7-briefing-video"
+              ></video>
+              <div class="s7-video-scanline-overlay"></div>
+              <div class="s7-video-hud-corners">
+                <span class="corner top-left"></span>
+                <span class="corner top-right"></span>
+                <span class="corner bottom-left"></span>
+                <span class="corner bottom-right"></span>
+              </div>
+              
+              <!-- Video Play/Pause Floating Control -->
+              <button type="button" class="s7-video-play-btn" id="s7-video-play-btn" aria-label="Play / Pause Video">
+                <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+              </button>
+            </div>
+
+            <div class="s7-video-footer">
+              <span class="video-caption">SITUATION REPORT: TEKANAN NILAI TUKAR & GEJOLAK MONETER SISTEMIK</span>
+              <div class="video-scroll-indicator">
+                <span>GULIR KE BAWAH UNTUK MEMASUKI SIMULATOR KEBIJAKAN</span>
+                <span class="scroll-arrow-down">▼</span>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- Main Interactive Crisis Dashboard Container -->
@@ -260,27 +306,27 @@ export class Section7Simulator {
   /**
    * Pinned scrollytelling entrance timeline:
    * 1. Question Hero fades out.
-   * 2. Massive "Crisis Room" scales down and docks into top HUD.
-   * 3. Dashboard reveals and becomes interactively accessible.
+   * 2. Video Briefing popup appears and automatically plays.
+   * 3. Video fades out as user scrolls, revealing the Crisis Room Simulator dashboard.
    */
   private initScrollytellingTimeline(): void {
     const questionHero = document.getElementById('s7-question-hero');
-    const massiveTitleWrap = document.getElementById('s7-massive-title-wrap');
-    const massiveTitle = document.getElementById('s7-massive-title');
+    const videoBriefingWrap = document.getElementById('s7-video-briefing-wrap');
+    const briefingVideo = document.getElementById('s7-briefing-video') as HTMLVideoElement | null;
     const dashboard = document.getElementById('s7-dashboard-container');
 
-    if (!questionHero || !massiveTitleWrap || !massiveTitle || !dashboard) {
+    if (!questionHero || !videoBriefingWrap || !dashboard) {
       return;
     }
 
     gsap.set(dashboard, { opacity: 0, scale: 0.96, pointerEvents: 'none' });
-    gsap.set(massiveTitleWrap, { opacity: 0, scale: 1 });
+    gsap.set(videoBriefingWrap, { opacity: 0, scale: 0.92, pointerEvents: 'none' });
 
     this.timeline = gsap.timeline({
       scrollTrigger: {
         trigger: this.container,
         start: 'top top',
-        end: '+=420%',
+        end: '+=480%',
         pin: true,
         scrub: 1.4,
         anticipatePin: 1,
@@ -293,7 +339,7 @@ export class Section7Simulator {
       }
     });
 
-    // Stage 0 -> 1: Question Hero fades out, Massive "Crisis Room" appears in center
+    // Stage 0 -> 1: Question Hero fades out, Video Briefing popup appears and automatically plays
     this.timeline
       .to(questionHero, {
         opacity: 0,
@@ -305,21 +351,47 @@ export class Section7Simulator {
           questionHero.style.pointerEvents = 'none';
         }
       }, 0)
-      .to(massiveTitleWrap, {
+      .to(videoBriefingWrap, {
         opacity: 1,
-        duration: 1.4,
-        ease: 'power2.out'
+        scale: 1,
+        duration: 1.5,
+        ease: 'power2.out',
+        onStart: () => {
+          videoBriefingWrap.style.pointerEvents = 'auto';
+          if (briefingVideo) {
+            briefingVideo.play().catch(() => {});
+          }
+        },
+        onReverseComplete: () => {
+          if (briefingVideo) {
+            briefingVideo.pause();
+          }
+        }
       }, 0.8)
 
-      // Stage 1 -> 2: Massive Title shrinks & docks towards top-left, revealing dashboard
-      .to(massiveTitle, {
-        scale: 0.28,
-        x: -380,
-        y: -310,
+      // Dedicated plateau to watch the video
+      .to({}, { duration: 1.6 }, 2.3)
+
+      // Stage 1 -> 2: Video Briefing scales down & fades out, Dashboard reveals and becomes interactive
+      .to(videoBriefingWrap, {
         opacity: 0,
-        duration: 1.8,
-        ease: 'power3.inOut'
-      }, 3.4)
+        scale: 0.92,
+        y: -40,
+        duration: 1.5,
+        ease: 'power2.inOut',
+        onComplete: () => {
+          videoBriefingWrap.style.pointerEvents = 'none';
+          if (briefingVideo) {
+            briefingVideo.pause();
+          }
+        },
+        onReverseComplete: () => {
+          videoBriefingWrap.style.pointerEvents = 'auto';
+          if (briefingVideo) {
+            briefingVideo.play().catch(() => {});
+          }
+        }
+      }, 3.9)
       .to(dashboard, {
         opacity: 1,
         scale: 1,
@@ -328,9 +400,55 @@ export class Section7Simulator {
         onStart: () => {
           dashboard.style.pointerEvents = 'auto';
         }
-      }, 4.0)
+      }, 4.4)
       // Dedicated resting window for Crisis Dashboard
-      .to({}, { duration: 1.8 }, 5.6);
+      .to({}, { duration: 1.8 }, 6.0);
+  }
+
+  /**
+   * Binds video controls (sound toggle, play/pause).
+   */
+  private bindVideoControls(): void {
+    const video = document.getElementById('s7-briefing-video') as HTMLVideoElement | null;
+    const soundBtn = document.getElementById('s7-video-sound-btn');
+    const playBtn = document.getElementById('s7-video-play-btn');
+
+    if (!video) return;
+
+    if (soundBtn) {
+      soundBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        SoundEngine.getInstance().playBeatClick();
+        video.muted = !video.muted;
+        if (video.muted) {
+          soundBtn.classList.remove('unmuted');
+          soundBtn.innerHTML = '<span>🔇 BISUKAN SUARA</span>';
+        } else {
+          soundBtn.classList.add('unmuted');
+          soundBtn.innerHTML = '<span>🔊 SUARA AKTIF</span>';
+        }
+      });
+    }
+
+    if (playBtn) {
+      playBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        SoundEngine.getInstance().playBeatClick();
+        if (video.paused) {
+          video.play().catch(() => {});
+          playBtn.classList.remove('paused');
+          playBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>';
+        } else {
+          video.pause();
+          playBtn.classList.add('paused');
+          playBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>';
+        }
+      });
+
+      video.addEventListener('click', () => {
+        playBtn.click();
+      });
+    }
   }
 
   /**
@@ -623,6 +741,10 @@ export class Section7Simulator {
   }
 
   public destroy(): void {
+    const briefingVideo = document.getElementById('s7-briefing-video') as HTMLVideoElement | null;
+    if (briefingVideo) {
+      briefingVideo.pause();
+    }
     SoundEngine.getInstance().stopCrisisAlarm();
     if (this.oscAnimationId !== null) {
       cancelAnimationFrame(this.oscAnimationId);
