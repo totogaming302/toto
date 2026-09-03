@@ -647,3 +647,148 @@ input:checked + .toggle-slider:before {
     gap: 1.25rem !important;
   }
 }
+
+/* ==========================================================================
+   20:9 & ULTRA-WIDE PHONE LANDSCAPE SIMULATOR ADAPTATIONS
+   ========================================================================== */
+@media screen and (orientation: landscape) and (max-height: 520px) {
+  .s7-dashboard-container {
+    height: 98dvh !important;
+    padding: 0.35rem 0.75rem 0.2rem !important;
+    max-height: 98dvh !important;
+  }
+
+  .s7-hud-bar {
+    margin-bottom: 0.15rem !important;
+    padding-bottom: 0.15rem !important;
+  }
+
+  .s7-docked-title {
+    font-size: 0.85rem !important;
+  }
+
+  .s7-status-badge {
+    font-size: 0.55rem !important;
+    padding: 0.1rem 0.35rem !important;
+  }
+
+  .s7-reset-btn {
+    min-height: 26px !important;
+    font-size: 0.55rem !important;
+    padding: 0.1rem 0.45rem !important;
+  }
+
+  .s7-briefing-callout {
+    display: none !important;
+  }
+
+  .s7-dashboard-body {
+    grid-template-columns: 1fr 1.05fr !important;
+    gap: 0.6rem !important;
+    flex: 1 !important;
+  }
+
+  .s7-controls-panel,
+  .s7-telemetry-panel {
+    padding: 0.35rem 0.55rem !important;
+    border-radius: 6px !important;
+  }
+
+  .s7-panel-header {
+    margin-bottom: 0.15rem !important;
+  }
+
+  .s7-panel-title {
+    font-size: 0.62rem !important;
+  }
+
+  .s7-controls-stack {
+    gap: 0.2rem !important;
+  }
+
+  .lever-card {
+    padding: 0.2rem 0.4rem !important;
+    gap: 0.05rem !important;
+  }
+
+  .lever-name {
+    font-size: 0.65rem !important;
+  }
+
+  .lever-desc {
+    display: none !important;
+  }
+
+  .lever-value-readout {
+    font-size: 0.65rem !important;
+  }
+
+  .lever-slider-wrap {
+    min-height: 20px !important;
+    margin-top: 0 !important;
+  }
+
+  .lever-range-slider {
+    height: 4px !important;
+  }
+
+  .lever-range-slider::-webkit-slider-thumb {
+    width: 18px !important;
+    height: 18px !important;
+  }
+
+  .toggle-switch-wrap {
+    min-height: 20px !important;
+  }
+
+  .toggle-switch {
+    width: 38px !important;
+    height: 20px !important;
+  }
+
+  .toggle-slider:before {
+    height: 14px !important;
+    width: 14px !important;
+  }
+
+  input:checked + .toggle-slider:before {
+    transform: translateX(18px) !important;
+  }
+
+  .toggle-status-text {
+    font-size: 0.6rem !important;
+  }
+
+  .s7-telemetry-grid {
+    gap: 0.35rem !important;
+  }
+
+  .telemetry-readout-card {
+    padding: 0.2rem 0.4rem !important;
+    gap: 0.1rem !important;
+  }
+
+  .t-value {
+    font-size: 0.88rem !important;
+    margin: 0 !important;
+  }
+
+  .t-label {
+    font-size: 0.5rem !important;
+  }
+
+  .s7-consequence-banner {
+    padding: 0.2rem 0.45rem !important;
+    margin-top: 0.15rem !important;
+  }
+
+  .consequence-badge {
+    font-size: 0.5rem !important;
+    padding: 0.05rem 0.3rem !important;
+  }
+
+  .consequence-text {
+    font-size: 0.58rem !important;
+    line-height: 1.2 !important;
+  }
+}

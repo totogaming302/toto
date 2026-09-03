@@ -2634,3 +2634,256 @@
   padding: 0.45rem 1rem;
   margin-top: 2rem;
 }
+
+/* ==========================================================================
+   20:9 & ULTRA-WIDE PHONE LANDSCAPE SECTION-SPECIFIC ADAPTATIONS
+   ========================================================================== */
+@media screen and (orientation: landscape) and (max-height: 520px) {
+  /* Common Section Headers */
+  .s1-compact-question,
+  .s2-compact-question,
+  .s3-compact-question,
+  .s4-compact-question,
+  .s5-compact-question {
+    font-size: 0.92rem !important;
+    line-height: 1.2 !important;
+    margin-top: 0.15rem !important;
+  }
+
+  .section-tag {
+    font-size: 0.58rem !important;
+    padding: 0.1rem 0.4rem !important;
+    letter-spacing: 0.1em !important;
+  }
+
+  .visual-badge {
+    font-size: 0.55rem !important;
+    padding: 0.2rem 0.5rem !important;
+    margin-bottom: 0.35rem !important;
+  }
+
+  /* Section 1 */
+  .s1-beats-stack {
+    gap: 0.25rem !important;
+  }
+  .s1-beat-item {
+    padding: 0.35rem 0.6rem !important;
+    margin-bottom: 0.25rem !important;
+  }
+  .beat-indicator {
+    margin-bottom: 0.2rem !important;
+    gap: 0.4rem !important;
+  }
+  .beat-number {
+    font-size: 0.56rem !important;
+    padding: 0.05rem 0.3rem !important;
+  }
+  .beat-title {
+    font-size: 0.65rem !important;
+  }
+  .beat-status-badge {
+    font-size: 0.5rem !important;
+    padding: 0.05rem 0.25rem !important;
+  }
+  .text-beat {
+    font-size: 0.68rem !important;
+    line-height: 1.3 !important;
+    margin-bottom: 0 !important;
+  }
+  .s1-visual-stage {
+    padding: 0.5rem !important;
+  }
+  .editorial-cartoon-img {
+    max-height: 140px !important;
+    object-fit: contain !important;
+  }
+  .editorial-image-caption {
+    font-size: 0.6rem !important;
+    line-height: 1.25 !important;
+    margin-top: 0.25rem !important;
+  }
+  .buyer-budget-card, .fx-rate-comparison-grid, .output-surge-card, .strategy-card {
+    padding: 0.35rem 0.55rem !important;
+  }
+
+  /* Section 2 */
+  .s2-beat-item {
+    margin-bottom: 0.35rem !important;
+    padding: 0.3rem 0.5rem !important;
+  }
+  .typewriter-container {
+    font-size: 0.72rem !important;
+    min-height: 44px !important;
+    padding: 0.35rem 0.6rem !important;
+    line-height: 1.35 !important;
+  }
+  #s2-beat-2-text {
+    font-size: 0.7rem !important;
+    line-height: 1.3 !important;
+  }
+  .spear-canvas-container {
+    height: 155px !important;
+  }
+  .spear-svg {
+    max-height: 155px !important;
+  }
+  #s2-margin-chart {
+    max-height: 180px !important;
+  }
+  .margin-bars-container {
+    gap: 0.35rem !important;
+  }
+  .margin-bar-item {
+    padding: 0.35rem 0.55rem !important;
+  }
+
+  /* Section 3 */
+  .s3-actors-stack {
+    gap: 0.2rem !important;
+  }
+  .s3-actor-item {
+    padding: 0.25rem 0.55rem !important;
+  }
+  .actor-role-title {
+    font-size: 0.68rem !important;
+    margin-bottom: 0.1rem !important;
+  }
+  .actor-text {
+    font-size: 0.6rem !important;
+    line-height: 1.22 !important;
+  }
+  .actor-chip {
+    font-size: 0.5rem !important;
+  }
+  .company-brand-banner {
+    padding: 0.25rem 0.6rem !important;
+    margin-bottom: 0.35rem !important;
+  }
+  .company-brand-logo {
+    height: 18px !important;
+  }
+  .s3-art-card .editorial-cartoon-img {
+    max-height: 220px !important;
+    object-fit: contain !important;
+  }
+  .telemetry-box {
+    padding: 0.4rem 0.65rem !important;
+  }
+
+  /* Section 4 */
+  .s4-beats-stack {
+    gap: 0.2rem !important;
+  }
+  .s4-beat-item {
+    padding: 0.35rem 0.55rem !important;
+  }
+  .jcurve-svg {
+    max-height: 180px !important;
+  }
+  .jcurve-canvas-wrap {
+    min-height: 135px !important;
+  }
+  .jcurve-pillars-grid {
+    gap: 0.25rem !important;
+    margin-top: 0.25rem !important;
+  }
+  .j-pillar-card {
+    padding: 0.25rem 0.35rem !important;
+  }
+  .pillar-tag {
+    font-size: 0.5rem !important;
+  }
+  .pillar-name {
+    font-size: 0.62rem !important;
+  }
+  .pillar-metric {
+    font-size: 0.58rem !important;
+  }
+
+  /* Section 5 */
+  .typewriter-hook-card {
+    padding: 0.3rem 0.5rem !important;
+    min-height: 38px !important;
+    margin-bottom: 0.35rem !important;
+  }
+  .typewriter-text {
+    font-size: 0.65rem !important;
+    line-height: 1.25 !important;
+  }
+  .s5-pipeline-stack {
+    gap: 0.2rem !important;
+  }
+  .s5-pipeline-item {
+    padding: 0.3rem 0.5rem !important;
+  }
+  .pipe-chip {
+    font-size: 0.5rem !important;
+  }
+  .pipe-title {
+    font-size: 0.68rem !important;
+  }
+  .pipe-text {
+    font-size: 0.58rem !important;
+    line-height: 1.2 !important;
+  }
+  .s5-art-container {
+    height: 110px !important;
+  }
+  .s5-domino-img {
+    max-height: 105px !important;
+    object-fit: contain !important;
+  }
+  .domino-ripple-container {
+    margin-top: 0.25rem !important;
+  }
+  .domino-card {
+    padding: 0.2rem 0.3rem !important;
+  }
+  .domino-title {
+    font-size: 0.62rem !important;
+  }
+  .domino-desc {
+    font-size: 0.52rem !important;
+    line-height: 1.15 !important;
+  }
+
+  /* Section 6 */
+  .s6-tree-stage {
+    height: min(94dvh, 310px) !important;
+    padding: 0 0.5rem !important;
+  }
+  .s6-compact-challenge {
+    font-size: 0.82rem !important;
+  }
+  .cause-tree-svg-container {
+    height: 200px !important;
+  }
+  .tree-svg {
+    max-height: 195px !important;
+  }
+  .s6-bifurcated-labels-row {
+    font-size: 0.58rem !important;
+    margin-top: 0.2rem !important;
+  }
+
+  /* Section 8 */
+  .s8-qa-headline {
+    font-size: clamp(1.6rem, 3.5vw, 2.2rem) !important;
+  }
+  .s8-closing-title {
+    font-size: clamp(1.4rem, 3vw, 2rem) !important;
+  }
+  .s8-closing-card {
+    padding: 0.65rem 1rem !important;
+    max-width: 650px !important;
+  }
+  .s8-team-grid {
+    gap: 0.35rem !important;
+    margin: 0.4rem 0 !important;
+  }
+  .s8-status-tag {
+    margin-top: 1rem !important;
+    padding: 0.3rem 0.75rem !important;
+    font-size: 0.65rem !important;
+  }
+}

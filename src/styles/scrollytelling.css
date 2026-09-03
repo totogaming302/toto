@@ -351,3 +351,74 @@
   height: 100%;
   display: block;
 }
+
+/* ==========================================================================
+   20:9 & ULTRA-WIDE PHONE LANDSCAPE ADJUSTMENTS (SCROLLYTELLING VIEWPORTS)
+   ========================================================================== */
+@media screen and (orientation: landscape) and (max-height: 520px) {
+  .pinned-viewport {
+    padding: 0.25rem var(--editorial-gutter);
+    height: 100vh;
+    height: 100dvh;
+  }
+
+  .container-editorial.split-stage {
+    display: grid;
+    grid-template-columns: 1fr 1.05fr;
+    gap: clamp(0.75rem, 2vw, 1.5rem);
+    align-items: center;
+    max-height: 96dvh;
+  }
+
+  .visual-stage {
+    height: min(285px, 86dvh) !important;
+    max-height: 285px !important;
+  }
+
+  .narrative-card {
+    padding: 0.65rem 0.85rem !important;
+  }
+
+  .question-headline {
+    font-size: clamp(1.15rem, 2.2vw, 1.45rem) !important;
+    margin-bottom: 0.35rem !important;
+    line-height: 1.2 !important;
+  }
+
+  .hero-pinned-content {
+    max-width: 680px;
+    padding: 0 1rem;
+  }
+
+  .hero-tagline {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    margin-bottom: 0.4rem;
+  }
+
+  .hero-title {
+    font-size: clamp(1.5rem, 3.8vw, 2.2rem) !important;
+    line-height: 1.12 !important;
+    margin-bottom: 0.35rem !important;
+  }
+
+  .hero-subtitle {
+    font-size: 0.76rem !important;
+    line-height: 1.35 !important;
+    margin-bottom: 0.6rem !important;
+    max-width: 600px;
+  }
+
+  .hero-scroll-prompt {
+    margin-top: 0.4rem;
+    gap: 0.35rem;
+  }
+
+  .hero-scroll-label {
+    font-size: 0.62rem;
+  }
+
+  .hero-scroll-indicator {
+    height: 24px;
+  }
+}

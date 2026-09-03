@@ -267,6 +267,9 @@ class WebDocumentaryApp {
 
     window.addEventListener('resize', handleResize, { passive: true });
     window.addEventListener('orientationchange', handleResize, { passive: true });
+    if (window.screen && window.screen.orientation) {
+      window.screen.orientation.addEventListener('change', handleResize);
+    }
   }
 }
 

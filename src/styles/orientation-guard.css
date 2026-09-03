@@ -1,0 +1,170 @@
+﻿/* ==========================================================================
+   ORIENTATION GUARD STYLES
+   Blocks portrait orientation on mobile/tablets with a sleek Bloomberg-themed
+   animated device rotation prompt. Releases instantly in landscape (16:9 - 20:9).
+   ========================================================================== */
+
+.orientation-portrait-guard {
+  display: none;
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  background: radial-gradient(circle at 50% 35%, rgba(18, 25, 42, 0.98) 0%, rgba(8, 12, 20, 0.99) 75%);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  z-index: 999999;
+  align-items: center;
+  justify-content: center;
+  padding: 1.75rem;
+  box-sizing: border-box;
+}
+
+/* Trigger on any screen in portrait orientation */
+@media screen and (orientation: portrait) {
+  .orientation-portrait-guard {
+    display: flex !important;
+  }
+}
+
+/* Fallback for mobile viewports where height strictly exceeds width */
+@media screen and (max-aspect-ratio: 13/14) {
+  .orientation-portrait-guard {
+    display: flex !important;
+  }
+}
+
+.orientation-guard-card {
+  position: relative;
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  border-radius: 16px;
+  padding: 2.25rem 2rem;
+  max-width: 440px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-shadow: 0 25px 60px -10px rgba(0, 0, 0, 0.95), 0 0 35px rgba(245, 158, 11, 0.15);
+}
+
+/* Kinetic Animated Phone Rotation Visual */
+.orientation-icon-wrapper {
+  position: relative;
+  width: 110px;
+  height: 110px;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.phone-device-icon {
+  width: 48px;
+  height: 82px;
+  border: 2.5px solid var(--accent-gold);
+  border-radius: 10px;
+  position: relative;
+  box-shadow: 0 0 20px var(--accent-gold-glow);
+  animation: phoneRotateKinetic 3.2s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.phone-screen-inner {
+  width: 36px;
+  height: 64px;
+  border-radius: 5px;
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.2) 0%, rgba(239, 68, 68, 0.15) 100%);
+  border: 1px dashed rgba(245, 158, 11, 0.4);
+}
+
+.rotate-arrow-indicator {
+  position: absolute;
+  inset: -8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  animation: arrowSpinSubtle 6.4s linear infinite;
+}
+
+.rotate-arrow-indicator svg {
+  width: 100%;
+  height: 100%;
+  color: rgba(245, 158, 11, 0.4);
+}
+
+@keyframes phoneRotateKinetic {
+  0% {
+    transform: rotate(0deg);
+  }
+  20% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(-90deg) scale(1.08);
+  }
+  75% {
+    transform: rotate(-90deg) scale(1.08);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes arrowSpinSubtle {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.orientation-meta-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--accent-crimson);
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+.orientation-title {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  letter-spacing: 0.04em;
+  line-height: 1.25;
+  margin-bottom: 0.85rem;
+}
+
+.orientation-desc {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+}
+
+.orientation-desc strong {
+  color: var(--accent-gold);
+}
+
+.orientation-footer-badge {
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 0.85rem;
+  width: 100%;
+}
