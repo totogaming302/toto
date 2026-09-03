@@ -1,6 +1,7 @@
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SECTION_1_COPY } from '../../data/editorialCopy.ts';
+import { SoundEngine } from '../audio/SoundEngine.ts';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -32,6 +33,7 @@ export class Section1Erdogan {
     if (!btnNormal || !btnDepresiasi) return;
 
     btnNormal.addEventListener('click', () => {
+      SoundEngine.getInstance().playBeatClick();
       btnNormal.classList.add('active');
       btnDepresiasi.classList.remove('active');
       rowNormal?.classList.add('highlight');
@@ -42,6 +44,7 @@ export class Section1Erdogan {
     });
 
     btnDepresiasi.addEventListener('click', () => {
+      SoundEngine.getInstance().playBeatClick();
       btnDepresiasi.classList.add('active');
       btnNormal.classList.remove('active');
       rowSurge?.classList.add('highlight');

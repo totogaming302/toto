@@ -1,6 +1,6 @@
 import Lenis from 'lenis';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { SoundManager } from '../audio/SoundManager.ts';
+import { SoundEngine } from '../audio/SoundEngine.ts';
 
 export interface BeatTarget {
   id: string;
@@ -168,8 +168,10 @@ export class BeatNavigator {
     const targetBeat = this.beats[clampedIndex];
     this.updateHUDDisplay(clampedIndex);
 
+    SoundEngine.getInstance().playBeatClick();
+    SoundEngine.getInstance().playBeatTransition();
+
     this.isTraveling = true;
-    SoundManager.playTransitionWhoosh();
 
     // Deliberate cinematic travel speed (2.4s with smooth cubic in-out deceleration)
     this.lenis.scrollTo(targetBeat.calculatedScrollY, {
@@ -206,7 +208,7 @@ export class BeatNavigator {
         const beatId = target.getAttribute('data-beat-id');
         if (beatId) {
           e.preventDefault();
-          SoundManager.playBeatChime();
+          SoundEngine.getInstance().playBeatClick();
           this.navigateToBeatById(beatId);
         }
       }
@@ -261,7 +263,7 @@ export class BeatNavigator {
     if (closestIndex !== this.currentIndex) {
       this.currentIndex = closestIndex;
       this.updateHUDDisplay(closestIndex);
-      SoundManager.playBeatChime();
+      SoundEngine.getInstance().playBeatTransition();
     }
   }
 

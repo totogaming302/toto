@@ -2,7 +2,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SECTION_7_COPY } from '../../data/editorialCopy.ts';
 import { calculateMacroEconomy, BASE_CRISIS_INPUTS, SimulatorInputs, SimulatorOutputs } from '../utils/math.ts';
-import { SoundManager } from '../audio/SoundManager.ts';
+import { SoundEngine } from '../audio/SoundEngine.ts';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -286,16 +286,9 @@ export class Section7Simulator {
         anticipatePin: 1,
         onEnter: () => {
           (window as any).__setMoodColor?.('#120507');
-          SoundManager.playTransitionWhoosh();
         },
         onEnterBack: () => {
           (window as any).__setMoodColor?.('#120507');
-        },
-        onLeave: () => {
-          SoundManager.stopCrisisSiren();
-        },
-        onLeaveBack: () => {
-          SoundManager.stopCrisisSiren();
         }
       }
     });
@@ -384,24 +377,30 @@ export class Section7Simulator {
     };
 
     inputForex?.addEventListener('input', () => {
-      SoundManager.playSliderTick();
+      const val = parseInt(inputForex.value, 10) || 0;
+      SoundEngine.getInstance().playSliderStep(val / 30);
       handleUpdate();
     });
+
     inputRate?.addEventListener('input', () => {
-      SoundManager.playSliderTick();
+      const val = parseInt(inputRate.value, 10) || 0;
+      SoundEngine.getInstance().playSliderStep(val / 500);
       handleUpdate();
     });
+
     inputLcs?.addEventListener('input', () => {
-      SoundManager.playSliderTick();
+      const val = parseInt(inputLcs.value, 10) || 0;
+      SoundEngine.getInstance().playSliderStep(val / 60);
       handleUpdate();
     });
+
     inputSubstitution?.addEventListener('change', () => {
-      SoundManager.playToggleSwitch(inputSubstitution.checked);
+      SoundEngine.getInstance().playBeatClick();
       handleUpdate();
     });
 
     resetBtn?.addEventListener('click', () => {
-      SoundManager.playTransitionWhoosh();
+      SoundEngine.getInstance().playBeatClick();
       if (inputForex) inputForex.value = '0';
       if (inputRate) inputRate.value = '0';
       if (inputLcs) inputLcs.value = '0';
@@ -424,13 +423,14 @@ export class Section7Simulator {
     this.currentGdp = out.gdpGrowth;
     this.currentInflation = out.inflation;
 
+    const sound = SoundEngine.getInstance();
     if (consequenceBanner) {
       if (out.status === 'crisis' || out.status === 'bailout' || (out.inflation >= 7.5 && out.gdpGrowth < 3.8)) {
         consequenceBanner.classList.add('hazard-active');
-        SoundManager.startCrisisSiren();
+        sound.playCrisisAlarm();
       } else {
         consequenceBanner.classList.remove('hazard-active');
-        SoundManager.stopCrisisSiren();
+        sound.stopCrisisAlarm();
       }
     }
 
@@ -623,7 +623,7 @@ export class Section7Simulator {
   }
 
   public destroy(): void {
-    SoundManager.stopCrisisSiren();
+    SoundEngine.getInstance().stopCrisisAlarm();
     if (this.oscAnimationId !== null) {
       cancelAnimationFrame(this.oscAnimationId);
     }

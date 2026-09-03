@@ -244,6 +244,71 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
+/* Interactive HUD Audio Toggle Button */
+.hud-audio-btn {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(15, 23, 42, 0.75);
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  border-radius: 4px;
+  padding: 0.2rem 0.55rem;
+  cursor: pointer;
+  color: var(--accent-gold);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  transition: all 0.25s ease;
+  margin-left: 0.5rem;
+  user-select: none;
+  touch-action: manipulation;
+}
+
+.hud-audio-btn:hover {
+  background: rgba(245, 158, 11, 0.15);
+  border-color: var(--accent-gold);
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.3);
+  transform: translateY(-1px);
+}
+
+.audio-wave-icon {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 10px;
+}
+
+.audio-wave-bar {
+  width: 2px;
+  background: var(--accent-gold);
+  border-radius: 1px;
+  animation: audioWavePulse 1.2s ease-in-out infinite alternate;
+}
+
+.audio-wave-bar:nth-child(1) { height: 4px; animation-delay: 0.1s; }
+.audio-wave-bar:nth-child(2) { height: 9px; animation-delay: 0.3s; }
+.audio-wave-bar:nth-child(3) { height: 6px; animation-delay: 0.5s; }
+
+@keyframes audioWavePulse {
+  0% { transform: scaleY(0.4); }
+  100% { transform: scaleY(1); }
+}
+
+/* Audio Muted State */
+.hud-audio-btn.muted {
+  border-color: rgba(255, 255, 255, 0.15);
+  color: var(--text-muted);
+  background: rgba(15, 23, 42, 0.4);
+}
+
+.hud-audio-btn.muted .audio-wave-bar {
+  animation: none;
+  height: 2px !important;
+  background: var(--text-muted);
+}
+
 .hud-pulse-dot {
   width: 6px;
   height: 6px;

@@ -12,14 +12,15 @@ import { Section6CauseTree } from './components/Section6CauseTree.ts';
 import { Section7Simulator } from './components/Section7Simulator.ts';
 import { Section8Closing } from './components/Section8Closing.ts';
 import { BeatNavigator } from './components/BeatNavigator.ts';
-import { SoundManager } from './audio/SoundManager.ts';
 import { HERO_COPY } from '../data/editorialCopy.ts';
+import { SoundEngine } from './audio/SoundEngine.ts';
 
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger);
 
 class WebDocumentaryApp {
   private lenis!: Lenis;
+  public soundEngine!: SoundEngine;
   public background3D!: GlobalBackground3D;
   public section1!: Section1Erdogan;
   public section2!: Section2CostBlade;
@@ -33,6 +34,7 @@ class WebDocumentaryApp {
   private progressBar: HTMLElement | null = null;
 
   constructor() {
+    this.initSoundEngine();
     this.hydrateHeroContent();
     this.initLenis();
     this.initIcons();
@@ -77,6 +79,58 @@ class WebDocumentaryApp {
   }
 
   /**
+   * Initializes the procedural Web Audio sound engine and binds global audio controls.
+   */
+  private initSoundEngine(): void {
+    this.soundEngine = SoundEngine.getInstance();
+
+    // Auto-unlock audio context on first user gesture
+    const unlockGesture = () => {
+      this.soundEngine.unlockAudio();
+      window.removeEventListener('pointerdown', unlockGesture);
+      window.removeEventListener('keydown', unlockGesture);
+      window.removeEventListener('wheel', unlockGesture);
+      window.removeEventListener('touchstart', unlockGesture);
+    };
+
+    window.addEventListener('pointerdown', unlockGesture, { passive: true });
+    window.addEventListener('keydown', unlockGesture, { passive: true });
+    window.addEventListener('wheel', unlockGesture, { passive: true });
+    window.addEventListener('touchstart', unlockGesture, { passive: true });
+
+    // HUD Audio Toggle button
+    const audioBtn = document.getElementById('hud-audio-toggle');
+    const audioLabel = document.getElementById('hud-audio-label');
+
+    if (audioBtn) {
+      audioBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isMuted = this.soundEngine.toggleMute();
+        if (isMuted) {
+          audioBtn.classList.add('muted');
+          if (audioLabel) audioLabel.textContent = 'AUDIO: OFF';
+        } else {
+          audioBtn.classList.remove('muted');
+          if (audioLabel) audioLabel.textContent = 'AUDIO: ON';
+          this.soundEngine.playBeatClick();
+        }
+      });
+    }
+
+    this.soundEngine.onMuteChange((muted) => {
+      if (audioBtn) {
+        if (muted) {
+          audioBtn.classList.add('muted');
+          if (audioLabel) audioLabel.textContent = 'AUDIO: OFF';
+        } else {
+          audioBtn.classList.remove('muted');
+          if (audioLabel) audioLabel.textContent = 'AUDIO: ON';
+        }
+      }
+    });
+  }
+
+  /**
    * Initializes Lenis smooth scrolling and couples it with GSAP's RAF tick loop.
    */
   private initLenis(): void {
@@ -90,13 +144,21 @@ class WebDocumentaryApp {
       wheelMultiplier: 0.85
     });
 
-    // Synchronize Lenis scroll event with GSAP ScrollTrigger and sound fx
-    this.lenis.on('scroll', (e: any) => {
+    // Synchronize Lenis scroll event with GSAP ScrollTrigger and sound engine
+    this.lenis.on('scroll', (e: { velocity: number }) => {
       ScrollTrigger.update();
       this.updateTelemetryProgress();
-      if (Math.abs(e.velocity) > 0.12) {
-        SoundManager.playScrollTick();
+
+      // Tactile debounced scroll tick on active motion
+      if (Math.abs(e.velocity) > 0.45) {
+        this.soundEngine.playScrollTick(Math.abs(e.velocity));
       }
+
+      // Modulate ambient tension drone based on vertical travel
+      const scrollY = window.scrollY;
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = maxScroll > 0 ? scrollY / maxScroll : 0;
+      this.soundEngine.setAmbientTension(progress);
     });
 
     // Drive Lenis through GSAP ticker for 60fps lockstep animation
@@ -249,27 +311,11 @@ class WebDocumentaryApp {
     const scrollPrompt = document.getElementById('hero-scroll-prompt');
     if (scrollPrompt) {
       scrollPrompt.addEventListener('click', () => {
-        SoundManager.playTransitionWhoosh();
         this.lenis.scrollTo('#section-1', {
           offset: 0,
           duration: 1.4,
           easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
         });
-      });
-    }
-
-    const audioToggle = document.getElementById('hud-audio-toggle');
-    const audioLabel = document.getElementById('audio-toggle-label');
-    if (audioToggle) {
-      audioToggle.addEventListener('click', () => {
-        const isMuted = SoundManager.toggleMute();
-        audioToggle.classList.toggle('muted', isMuted);
-        if (audioLabel) {
-          audioLabel.textContent = isMuted ? 'AUDIO FX: OFF' : 'AUDIO FX: ON';
-        }
-        if (!isMuted) {
-          SoundManager.playBeatChime();
-        }
       });
     }
   }

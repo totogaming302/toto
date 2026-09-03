@@ -1,6 +1,7 @@
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SECTION_6_COPY } from '../../data/editorialCopy.ts';
+import { SoundEngine } from '../audio/SoundEngine.ts';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -151,6 +152,7 @@ export class Section6CauseTree {
 
     filterBtns.forEach((btn) => {
       btn.addEventListener('click', () => {
+        SoundEngine.getInstance().playBeatClick();
         filterBtns.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
 
@@ -465,11 +467,13 @@ export class Section6CauseTree {
       `).join('');
 
       modal.style.display = 'flex';
+      SoundEngine.getInstance().playRadarPing(1150);
       gsap.fromTo(modal, { opacity: 0 }, { opacity: 1, duration: 0.3 });
       gsap.fromTo('#s6-modal-card', { y: 40, scale: 0.95 }, { y: 0, scale: 1, duration: 0.35, ease: 'back.out(1.5)' });
     };
 
     const closeModal = () => {
+      SoundEngine.getInstance().playBeatClick();
       gsap.to(modal, {
         opacity: 0,
         duration: 0.25,

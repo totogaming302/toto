@@ -1,6 +1,7 @@
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SECTION_4_COPY } from '../../data/editorialCopy.ts';
+import { SoundEngine } from '../audio/SoundEngine.ts';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -15,7 +16,19 @@ export class Section4JCurve {
     }
     this.container = el;
     this.renderSectionStructure();
+    this.bindPillarInteractions();
     this.initScrollytellingTimeline();
+  }
+
+  private bindPillarInteractions(): void {
+    const pillars = this.container.querySelectorAll<HTMLElement>('.j-pillar-card');
+    pillars.forEach((pillar, idx) => {
+      pillar.style.cursor = 'pointer';
+      pillar.addEventListener('click', () => {
+        SoundEngine.getInstance().playRadarPing(880 + idx * 180);
+        gsap.fromTo(pillar, { scale: 0.96 }, { scale: 1.02, duration: 0.2, yoyo: true, repeat: 1 });
+      });
+    });
   }
 
   /**
