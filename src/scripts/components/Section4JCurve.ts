@@ -98,7 +98,7 @@ export class Section4JCurve {
               <div class="visual-badge">TRAJEKTORI MAKRO // J-CURVE SIMULATION ENGINE</div>
 
               <div class="jcurve-canvas-wrap">
-                <svg class="jcurve-svg" viewBox="0 0 680 340" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg class="jcurve-svg" viewBox="0 0 680 340" preserveAspectRatio="xMidYMid meet" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <defs>
                     <!-- Laser Gradient for Curve -->
                     <linearGradient id="jCurveGradient" x1="0%" y1="100%" x2="100%" y2="0%">

@@ -102,9 +102,11 @@ export class GlobalBackground3D {
     this.scene = new THREE.Scene();
     this.scene.fog = new THREE.FogExp2(0x080c14, 0.032);
 
+    const initialAspect = window.innerWidth / window.innerHeight;
+    const initialFov = initialAspect < 1.6 ? 45 + (1.6 - initialAspect) * 16 : 45;
     this.camera = new THREE.PerspectiveCamera(
-      45,
-      window.innerWidth / window.innerHeight,
+      initialFov,
+      initialAspect,
       0.1,
       120
     );
@@ -525,7 +527,13 @@ export class GlobalBackground3D {
 
     window.addEventListener('resize', () => {
       const isLowPerf = isSluggishDevice();
-      this.camera.aspect = window.innerWidth / window.innerHeight;
+      const aspect = window.innerWidth / window.innerHeight;
+      this.camera.aspect = aspect;
+      if (aspect < 1.6) {
+        this.camera.fov = 45 + (1.6 - aspect) * 16;
+      } else {
+        this.camera.fov = 45;
+      }
       this.camera.updateProjectionMatrix();
       this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, isLowPerf ? 1.0 : 1.35));
       this.renderer.setSize(window.innerWidth, window.innerHeight);

@@ -54,7 +54,7 @@
   align-items: center;
   transform: translate3d(0, 0, 0);
   width: 100%;
-  max-height: min(92vh, 92dvh, 760px);
+  max-height: min(92vh, 92dvh, 880px);
 }
 
 @media (max-width: 960px) and (orientation: portrait) {
@@ -64,59 +64,122 @@
   }
 }
 
-/* Adaptive Height Optimization for Lower-Height Projectors, Laptops & Smartboards */
-@media (max-height: 840px) {
+/* 4:3 & 3:2 Aspect Ratio Landscape Adaptations (Tablets, iPads, Surface, Narrow Laptops) */
+@media screen and (orientation: landscape) and (max-aspect-ratio: 16/10) {
+  .container-editorial.split-stage {
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(0.75rem, 1.8vw, 1.5rem);
+  }
+  .narrative-card {
+    padding: clamp(0.75rem, 1.4vh + 0.8vw, 1.45rem) !important;
+  }
+  .visual-stage,
+  .s1-visual-stage,
+  .s2-visual-stage,
+  .s3-visual-stage,
+  .s4-visual-stage,
+  .s5-visual-stage {
+    height: min(480px, 78vh, 78dvh) !important;
+    max-height: min(480px, 78vh, 78dvh) !important;
+  }
+}
+
+/* Adaptive Height Optimization for Lower-Height Projectors, Laptops & Smartboards (Height <= 860px) */
+@media (max-height: 860px) {
   .pinned-viewport {
-    padding: 0.75rem var(--editorial-gutter);
+    padding: 0.65rem var(--editorial-gutter);
   }
   .container-editorial.split-stage {
-    gap: 1.25rem;
+    gap: clamp(0.75rem, 1.8vw, 1.35rem);
+    max-height: 94dvh;
   }
-  .visual-stage {
+  .visual-stage,
+  .s1-visual-stage,
+  .s2-visual-stage,
+  .s3-visual-stage,
+  .s4-visual-stage,
+  .s5-visual-stage {
     height: min(420px, 78dvh) !important;
     max-height: min(420px, 78dvh) !important;
   }
   .narrative-card {
-    padding: 1rem 1.35rem !important;
+    padding: clamp(0.75rem, 1.4vh + 0.7vw, 1.25rem) !important;
   }
   .question-headline {
-    font-size: clamp(1.3rem, 2.2vw, 1.9rem) !important;
-    margin-bottom: 0.65rem !important;
+    font-size: clamp(1.2rem, 2vw, 1.65rem) !important;
+    margin-bottom: 0.5rem !important;
   }
   .text-beat {
-    font-size: 0.88rem !important;
-    line-height: 1.48 !important;
-    margin-bottom: 0.65rem !important;
+    font-size: 0.84rem !important;
+    line-height: 1.45 !important;
+    margin-bottom: 0.5rem !important;
   }
   .case-study-box {
-    margin-top: 0.75rem !important;
-    padding: 0.65rem 0.9rem !important;
+    margin-top: 0.65rem !important;
+    padding: 0.6rem 0.85rem !important;
   }
 }
 
-@media (max-height: 700px) {
+/* Compact Displays & 150% DPI Scaling Laptops (Height <= 720px) */
+@media (max-height: 720px) {
   .pinned-viewport {
-    padding: 0.5rem var(--editorial-gutter);
+    padding: 0.4rem var(--editorial-gutter);
   }
-  .visual-stage {
+  .container-editorial.split-stage {
+    gap: clamp(0.5rem, 1.5vw, 1rem);
+    max-height: 96dvh;
+  }
+  .visual-stage,
+  .s1-visual-stage,
+  .s2-visual-stage,
+  .s3-visual-stage,
+  .s4-visual-stage,
+  .s5-visual-stage {
     height: min(340px, 75dvh) !important;
     max-height: min(340px, 75dvh) !important;
   }
   .narrative-card {
-    padding: 0.75rem 1rem !important;
+    padding: clamp(0.6rem, 1.2vh + 0.6vw, 1rem) !important;
   }
   .question-headline {
-    font-size: clamp(1.15rem, 2vw, 1.5rem) !important;
-    margin-bottom: 0.45rem !important;
+    font-size: clamp(1.05rem, 1.8vw, 1.4rem) !important;
+    margin-bottom: 0.35rem !important;
   }
   .text-beat {
-    font-size: 0.8rem !important;
-    line-height: 1.4 !important;
-    margin-bottom: 0.45rem !important;
+    font-size: 0.76rem !important;
+    line-height: 1.38 !important;
+    margin-bottom: 0.35rem !important;
   }
   .case-study-box {
-    margin-top: 0.5rem !important;
-    padding: 0.5rem 0.75rem !important;
+    margin-top: 0.45rem !important;
+    padding: 0.45rem 0.7rem !important;
+  }
+}
+
+/* Ultra-Compact Displays (Height <= 600px) */
+@media (max-height: 600px) {
+  .pinned-viewport {
+    padding: 0.25rem var(--editorial-gutter);
+  }
+  .container-editorial.split-stage {
+    gap: clamp(0.4rem, 1.2vw, 0.75rem);
+    max-height: 98dvh;
+  }
+  .visual-stage,
+  .s1-visual-stage,
+  .s2-visual-stage,
+  .s3-visual-stage,
+  .s4-visual-stage,
+  .s5-visual-stage {
+    height: min(290px, 72dvh) !important;
+    max-height: min(290px, 72dvh) !important;
+  }
+  .narrative-card {
+    padding: 0.45rem 0.75rem !important;
+  }
+  .question-headline {
+    font-size: 0.95rem !important;
+    margin-bottom: 0.25rem !important;
   }
 }
 

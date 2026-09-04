@@ -84,19 +84,71 @@ body {
 /* 4K UHD Smartboard Dynamic Scaling */
 @media (min-width: 2560px) {
   :root {
-    --content-max-width: 1720px;
+    --content-max-width: 1800px;
   }
   html {
     font-size: 18px;
+  }
+  .narrative-card,
+  .visual-stage,
+  .s1-visual-stage,
+  .s2-visual-stage,
+  .s3-visual-stage,
+  .s4-visual-stage,
+  .s5-visual-stage,
+  .container-editorial.split-stage {
+    max-height: min(90vh, 1100px) !important;
+  }
+  .visual-stage,
+  .s1-visual-stage,
+  .s2-visual-stage,
+  .s3-visual-stage,
+  .s4-visual-stage,
+  .s5-visual-stage {
+    height: min(720px, 80vh) !important;
+  }
+  .s7-dashboard-container {
+    max-width: 1720px !important;
+    height: min(90vh, 1080px) !important;
+  }
+  .s7-video-briefing-wrap {
+    max-width: 1320px !important;
+    height: min(84vh, 880px) !important;
   }
 }
 
 @media (min-width: 3840px) {
   :root {
-    --content-max-width: 2200px;
+    --content-max-width: 2400px;
   }
   html {
     font-size: 22px;
+  }
+  .narrative-card,
+  .visual-stage,
+  .s1-visual-stage,
+  .s2-visual-stage,
+  .s3-visual-stage,
+  .s4-visual-stage,
+  .s5-visual-stage,
+  .container-editorial.split-stage {
+    max-height: min(90vh, 1500px) !important;
+  }
+  .visual-stage,
+  .s1-visual-stage,
+  .s2-visual-stage,
+  .s3-visual-stage,
+  .s4-visual-stage,
+  .s5-visual-stage {
+    height: min(980px, 80vh) !important;
+  }
+  .s7-dashboard-container {
+    max-width: 2100px !important;
+    height: min(90vh, 1400px) !important;
+  }
+  .s7-video-briefing-wrap {
+    max-width: 1600px !important;
+    height: min(84vh, 1100px) !important;
   }
 }
 

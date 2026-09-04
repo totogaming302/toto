@@ -77,7 +77,7 @@ export class Section2CostBlade {
               <div class="visual-badge crimson-badge">METAFORA: TOMBAK BERMATA DUA // DUAL-SIDED IMPACT</div>
               
               <div class="blade-canvas-container">
-                <svg class="spear-svg" viewBox="0 0 640 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg class="spear-svg" viewBox="0 0 640 240" preserveAspectRatio="xMidYMid meet" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <defs>
                     <!-- Metallic Spearhead Gradient (Upper Bevel Light) -->
                     <linearGradient id="spearBladeLight" x1="0%" y1="0%" x2="100%" y2="100%">

@@ -718,6 +718,22 @@ export class Section7Simulator {
     const step = isLowPerf ? 3 : 2;
     const shadow = isLowPerf ? 0 : 3;
 
+    const resizeCanvas = () => {
+      if (!this.oscCanvas) return;
+      const rect = this.oscCanvas.getBoundingClientRect();
+      if (rect.width > 0 && rect.height > 0) {
+        const dpr = Math.min(window.devicePixelRatio || 1, isLowPerf ? 1.0 : 1.35);
+        const newW = Math.floor(rect.width * dpr);
+        const newH = Math.floor(rect.height * dpr);
+        if (this.oscCanvas.width !== newW || this.oscCanvas.height !== newH) {
+          this.oscCanvas.width = newW;
+          this.oscCanvas.height = newH;
+        }
+      }
+    };
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas, { passive: true });
+
     const render = () => {
       if (!this.oscCtx || !this.oscCanvas || !this.isOscVisible) return;
       const ctx = this.oscCtx;

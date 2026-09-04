@@ -227,7 +227,7 @@ export class Section6CauseTree {
           <div class="s6-flowchart-wrapper" id="s6-flowchart-wrap">
             
             <!-- SVG Connecting Vector Cables Canvas -->
-            <svg class="s6-flow-svg" id="s6-flow-svg" viewBox="0 0 1200 680" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg class="s6-flow-svg" id="s6-flow-svg" viewBox="0 0 1200 680" preserveAspectRatio="xMidYMid meet" fill="none" xmlns="http://www.w3.org/2000/svg">
               <defs>
                 <!-- Emerald Cable Gradient -->
                 <linearGradient id="emeraldCableGrad" x1="50%" y1="0%" x2="0%" y2="100%">
