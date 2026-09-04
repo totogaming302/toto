@@ -47,7 +47,9 @@ export class GlobalBackground3D {
 
   // Particle System
   private particleSystem!: THREE.Points;
-  private particleCount = 420;
+  private particleCount = 240;
+  public isLowEnd = false;
+  private frameCount = 0;
 
   // Lighting
   private keyLight!: THREE.DirectionalLight;
@@ -74,14 +76,23 @@ export class GlobalBackground3D {
     }
     this.canvas = el;
 
+    // Detect sluggish / low-end / smartboard devices to dynamically scale 3D workload
+    this.isLowEnd =
+      (typeof navigator !== 'undefined' && (
+        (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) ||
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+      )) || window.innerWidth < 1024;
+    const isLowEnd = this.isLowEnd;
+
     // High performance WebGL setup with alpha transparency
     this.renderer = new THREE.WebGLRenderer({
       canvas: this.canvas,
-      antialias: true,
+      antialias: !isLowEnd,
       alpha: true,
-      powerPreference: 'high-performance'
+      powerPreference: 'high-performance',
+      precision: isLowEnd ? 'mediump' : 'highp'
     });
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    this.renderer.setPixelRatio(isLowEnd ? Math.min(window.devicePixelRatio, 1.0) : Math.min(window.devicePixelRatio, 1.5));
     this.renderer.setSize(window.innerWidth, window.innerHeight);
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
     this.renderer.toneMappingExposure = 1.2;
@@ -196,14 +207,14 @@ export class GlobalBackground3D {
    * Initializes InstancedMesh for USD, IDR, and EUR coins (total ~54 coins)
    */
   private initCoinMeshes(): void {
-    const coinGeo = new THREE.CylinderGeometry(1.0, 1.0, 0.14, 48);
+    const coinGeo = new THREE.CylinderGeometry(1.0, 1.0, 0.14, this.isLowEnd ? 18 : 32);
     // Rotate so coin face points outward
     coinGeo.rotateX(Math.PI / 2);
 
     const configs = [
       {
         type: 'USD',
-        count: 20,
+        count: this.isLowEnd ? 8 : 16,
         symbol: '$',
         sub: 'USD // RESERVE',
         mainCol: '#F59E0B',
@@ -212,7 +223,7 @@ export class GlobalBackground3D {
       },
       {
         type: 'IDR',
-        count: 20,
+        count: this.isLowEnd ? 8 : 16,
         symbol: 'Rp',
         sub: 'IDR // SPOT',
         mainCol: '#10B981',
@@ -221,7 +232,7 @@ export class GlobalBackground3D {
       },
       {
         type: 'EUR',
-        count: 16,
+        count: this.isLowEnd ? 6 : 12,
         symbol: '€',
         sub: 'EUR // BLOC',
         mainCol: '#38BDF8',
@@ -380,10 +391,10 @@ export class GlobalBackground3D {
   }
 
   /**
-   * Initializes 30 floating curled banknotes in 3D space
+   * Initializes floating curled banknotes in 3D space
    */
   private initBanknotes(): void {
-    const count = 30;
+    const count = this.isLowEnd ? 8 : 18;
     const usdTex = this.createBanknoteTexture('USD');
     const idrTex = this.createBanknoteTexture('IDR');
 
@@ -405,8 +416,8 @@ export class GlobalBackground3D {
       // Create curved plane geometry for natural fluttering paper look
       const width = 2.4;
       const height = 1.2;
-      const segW = 12;
-      const segH = 6;
+      const segW = this.isLowEnd ? 6 : 10;
+      const segH = this.isLowEnd ? 4 : 6;
       const geo = new THREE.PlaneGeometry(width, height, segW, segH);
 
       // Curve the vertices slightly
@@ -669,13 +680,16 @@ export class GlobalBackground3D {
     this.keyLight.position.x = 8 + this.mouse.x * 4;
     this.keyLight.position.y = 12 + this.mouse.y * 3;
 
-    // Update coins (USD, IDR, EUR)
-    if (this.usdInstancedMesh) this.updateCoins(this.usdInstancedMesh, this.usdCoinsData, time, velocityFactor);
-    if (this.idrInstancedMesh) this.updateCoins(this.idrInstancedMesh, this.idrCoinsData, time, velocityFactor);
-    if (this.eurInstancedMesh) this.updateCoins(this.eurInstancedMesh, this.eurCoinsData, time, velocityFactor);
+    this.frameCount++;
+    const shouldUpdateMeshes = !this.isLowEnd || this.frameCount % 2 === 0;
 
-    // Update banknotes
-    this.updateBanknotes(time, velocityFactor);
+    // Update coins (USD, IDR, EUR) & banknotes
+    if (shouldUpdateMeshes) {
+      if (this.usdInstancedMesh) this.updateCoins(this.usdInstancedMesh, this.usdCoinsData, time, velocityFactor);
+      if (this.idrInstancedMesh) this.updateCoins(this.idrInstancedMesh, this.idrCoinsData, time, velocityFactor);
+      if (this.eurInstancedMesh) this.updateCoins(this.eurInstancedMesh, this.eurCoinsData, time, velocityFactor);
+      this.updateBanknotes(time, velocityFactor);
+    }
 
     // Ambient dust particles slow drift
     if (this.particleSystem) {

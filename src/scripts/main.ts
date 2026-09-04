@@ -224,14 +224,20 @@ class WebDocumentaryApp {
    * Initializes Lenis smooth scrolling and couples it with GSAP's RAF tick loop.
    */
   private initLenis(): void {
+    const isTouchOrSluggish =
+      (typeof navigator !== 'undefined' && (
+        (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) ||
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+      )) || window.matchMedia('(pointer: coarse)').matches;
+
     this.lenis = new Lenis({
-      duration: 1.8,
+      duration: isTouchOrSluggish ? 1.0 : 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
-      touchMultiplier: 1.1,
-      wheelMultiplier: 0.85
+      touchMultiplier: 1.0,
+      wheelMultiplier: 1.0
     });
 
     // Synchronize Lenis scroll event with GSAP ScrollTrigger and sound engine
@@ -240,7 +246,7 @@ class WebDocumentaryApp {
       this.updateTelemetryProgress();
 
       // Tactile debounced scroll tick on active motion
-      if (Math.abs(e.velocity) > 0.45) {
+      if (Math.abs(e.velocity) > 0.6) {
         this.soundEngine.playScrollTick(Math.abs(e.velocity));
       }
 
@@ -256,8 +262,8 @@ class WebDocumentaryApp {
       this.lenis.raf(time * 1000);
     });
 
-    // Prevent GSAP ticker lag smoothing from interfering with smooth physics
-    gsap.ticker.lagSmoothing(0);
+    // Enable GSAP lag smoothing to smoothly handle micro-pauses without jumping
+    gsap.ticker.lagSmoothing(500, 33);
   }
 
   /**
@@ -415,6 +421,7 @@ class WebDocumentaryApp {
    */
   private initCursorSpotlight(): void {
     if (window.matchMedia('(pointer: coarse)').matches) return;
+    if (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) return;
 
     const spotlight = document.createElement('div');
     spotlight.className = 'ambient-cursor-spotlight';
@@ -439,30 +446,45 @@ class WebDocumentaryApp {
 
   /**
    * Subtle 3D card parallax perspective tilt on active cards and visual stages for desktop.
+   * Throttled with RAF and cached rect to avoid forced reflows on main thread.
    */
   private initCardTiltEffect(): void {
     if (window.matchMedia('(pointer: coarse)').matches) return;
+    if (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) return;
 
     const tiltTargets = document.querySelectorAll<HTMLElement>('.narrative-card, .visual-stage, .telemetry-box');
     tiltTargets.forEach((card) => {
-      card.addEventListener('mousemove', (e: MouseEvent) => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-        const rotateX = ((y - centerY) / centerY) * -3.5;
-        const rotateY = ((x - centerX) / centerX) * 3.5;
+      let rect: DOMRect | null = null;
+      let rafId: number | null = null;
 
-        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-      });
+      card.addEventListener('mouseenter', () => {
+        rect = card.getBoundingClientRect();
+      }, { passive: true });
+
+      card.addEventListener('mousemove', (e: MouseEvent) => {
+        if (!rect) rect = card.getBoundingClientRect();
+        if (rafId !== null) cancelAnimationFrame(rafId);
+
+        rafId = requestAnimationFrame(() => {
+          const x = e.clientX - rect!.left;
+          const y = e.clientY - rect!.top;
+          const centerX = rect!.width / 2;
+          const centerY = rect!.height / 2;
+          const rotateX = ((y - centerY) / centerY) * -2.5;
+          const rotateY = ((x - centerX) / centerX) * 2.5;
+
+          card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        });
+      }, { passive: true });
 
       card.addEventListener('mouseleave', () => {
+        if (rafId !== null) cancelAnimationFrame(rafId);
+        rect = null;
         card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
-        card.style.transition = 'transform 0.5s ease-out';
+        card.style.transition = 'transform 0.4s ease-out';
         setTimeout(() => {
           card.style.transition = '';
-        }, 500);
+        }, 400);
       });
     });
   }
