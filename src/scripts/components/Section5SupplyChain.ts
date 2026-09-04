@@ -293,8 +293,8 @@ export class Section5SupplyChain {
 
     // Set initial layout states
     gsap.set(splitStage, { opacity: 0, y: 50, pointerEvents: 'none' });
-    gsap.set([pipe2, pipe3], { opacity: 0.28, filter: 'blur(1px)' });
-    gsap.set(pipe1, { opacity: 1, filter: 'blur(0px)' });
+    gsap.set([pipe2, pipe3], { opacity: 0.28 });
+    gsap.set(pipe1, { opacity: 1 });
 
     // Set initial visual card visibility cleanly via GSAP autoAlpha
     gsap.set(visual1, { autoAlpha: 1, y: 0 });
@@ -318,7 +318,7 @@ export class Section5SupplyChain {
         start: 'top top',
         end: '+=560%',
         pin: true,
-        scrub: 1.4,
+        scrub: 0.9,
         anticipatePin: 1,
         onEnter: () => {
           (window as any).__setMoodColor?.('#120E08');
@@ -361,18 +361,16 @@ export class Section5SupplyChain {
         }
       }, 0.8);
 
-    // Stage 1 -> 2: Node 1 -> Node 2 Transition (Begins at 4.2, LONG AFTER typewriter finishes at 2.6)
+    // Stage 1 -> 2: Node 1 -> Node 2 Transition (GPU Compositor-Friendly)
     this.timeline
       .to(pipe1, { 
         opacity: 0.32, 
-        filter: 'blur(1.5px)', 
         borderColor: 'rgba(255, 255, 255, 0.06)',
         backgroundColor: 'rgba(15, 23, 42, 0.4)',
         duration: 1.2 
       }, 4.2)
       .to(pipe2, { 
         opacity: 1, 
-        filter: 'blur(0px)', 
         borderColor: 'rgba(239, 68, 68, 0.45)',
         backgroundColor: 'rgba(239, 68, 68, 0.06)',
         duration: 1.2 
@@ -390,18 +388,16 @@ export class Section5SupplyChain {
         ease: 'power2.out'
       }, 4.8);
 
-    // Stage 2 -> 3: Node 2 -> Node 3 Transition (Deliberate & cinematic)
+    // Stage 2 -> 3: Node 2 -> Node 3 Transition (GPU Compositor-Friendly)
     this.timeline
       .to(pipe2, { 
         opacity: 0.32, 
-        filter: 'blur(1.5px)', 
         borderColor: 'rgba(255, 255, 255, 0.06)',
         backgroundColor: 'rgba(15, 23, 42, 0.4)',
         duration: 1.2 
       }, 7.6)
       .to(pipe3, { 
         opacity: 1, 
-        filter: 'blur(0px)', 
         borderColor: 'rgba(245, 158, 11, 0.45)',
         backgroundColor: 'rgba(245, 158, 11, 0.06)',
         duration: 1.2 

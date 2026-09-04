@@ -14,6 +14,7 @@ import { Section8Closing } from './components/Section8Closing.ts';
 import { BeatNavigator } from './components/BeatNavigator.ts';
 import { HERO_COPY } from '../data/editorialCopy.ts';
 import { SoundEngine } from './audio/SoundEngine.ts';
+import { isSluggishDevice } from './utils/math.ts';
 
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger);
@@ -224,20 +225,16 @@ class WebDocumentaryApp {
    * Initializes Lenis smooth scrolling and couples it with GSAP's RAF tick loop.
    */
   private initLenis(): void {
-    const isTouchOrSluggish =
-      (typeof navigator !== 'undefined' && (
-        (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) ||
-        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
-      )) || window.matchMedia('(pointer: coarse)').matches;
+    const isLowPerf = isSluggishDevice();
 
     this.lenis = new Lenis({
-      duration: isTouchOrSluggish ? 1.0 : 1.2,
+      duration: isLowPerf ? 1.0 : 1.25,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
       touchMultiplier: 1.0,
-      wheelMultiplier: 1.0
+      wheelMultiplier: 0.95
     });
 
     // Synchronize Lenis scroll event with GSAP ScrollTrigger and sound engine
@@ -246,7 +243,7 @@ class WebDocumentaryApp {
       this.updateTelemetryProgress();
 
       // Tactile debounced scroll tick on active motion
-      if (Math.abs(e.velocity) > 0.6) {
+      if (Math.abs(e.velocity) > 0.45) {
         this.soundEngine.playScrollTick(Math.abs(e.velocity));
       }
 
@@ -262,7 +259,7 @@ class WebDocumentaryApp {
       this.lenis.raf(time * 1000);
     });
 
-    // Enable GSAP lag smoothing to smoothly handle micro-pauses without jumping
+    // Smooth delta clamping: Prevents violent animation jumps if low-end CPU drops a frame
     gsap.ticker.lagSmoothing(500, 33);
   }
 
@@ -345,11 +342,10 @@ class WebDocumentaryApp {
       if (headline) {
         gsap.fromTo(
           headline,
-          { opacity: 0.25, y: 30, filter: 'blur(4px)' },
+          { opacity: 0.25, y: 24 },
           {
             opacity: 1,
             y: 0,
-            filter: 'blur(0px)',
             duration: 0.8,
             ease: 'power3.out',
             scrollTrigger: {
@@ -409,7 +405,7 @@ class WebDocumentaryApp {
       scrollPrompt.addEventListener('click', () => {
         this.lenis.scrollTo('#section-1', {
           offset: 0,
-          duration: 1.4,
+          duration: 1.2,
           easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
         });
       });
@@ -420,8 +416,7 @@ class WebDocumentaryApp {
    * Smooth ambient luminous cursor spotlight that projects subtle illumination onto borders and glass cards.
    */
   private initCursorSpotlight(): void {
-    if (window.matchMedia('(pointer: coarse)').matches) return;
-    if (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) return;
+    if (window.matchMedia('(pointer: coarse)').matches || 'ontouchstart' in window || navigator.maxTouchPoints > 0 || isSluggishDevice()) return;
 
     const spotlight = document.createElement('div');
     spotlight.className = 'ambient-cursor-spotlight';
@@ -446,45 +441,30 @@ class WebDocumentaryApp {
 
   /**
    * Subtle 3D card parallax perspective tilt on active cards and visual stages for desktop.
-   * Throttled with RAF and cached rect to avoid forced reflows on main thread.
    */
   private initCardTiltEffect(): void {
-    if (window.matchMedia('(pointer: coarse)').matches) return;
-    if (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) return;
+    if (window.matchMedia('(pointer: coarse)').matches || 'ontouchstart' in window || navigator.maxTouchPoints > 0 || isSluggishDevice()) return;
 
     const tiltTargets = document.querySelectorAll<HTMLElement>('.narrative-card, .visual-stage, .telemetry-box');
     tiltTargets.forEach((card) => {
-      let rect: DOMRect | null = null;
-      let rafId: number | null = null;
-
-      card.addEventListener('mouseenter', () => {
-        rect = card.getBoundingClientRect();
-      }, { passive: true });
-
       card.addEventListener('mousemove', (e: MouseEvent) => {
-        if (!rect) rect = card.getBoundingClientRect();
-        if (rafId !== null) cancelAnimationFrame(rafId);
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = ((y - centerY) / centerY) * -3.5;
+        const rotateY = ((x - centerX) / centerX) * 3.5;
 
-        rafId = requestAnimationFrame(() => {
-          const x = e.clientX - rect!.left;
-          const y = e.clientY - rect!.top;
-          const centerX = rect!.width / 2;
-          const centerY = rect!.height / 2;
-          const rotateX = ((y - centerY) / centerY) * -2.5;
-          const rotateY = ((x - centerX) / centerX) * 2.5;
-
-          card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-        });
-      }, { passive: true });
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+      });
 
       card.addEventListener('mouseleave', () => {
-        if (rafId !== null) cancelAnimationFrame(rafId);
-        rect = null;
         card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
-        card.style.transition = 'transform 0.4s ease-out';
+        card.style.transition = 'transform 0.5s ease-out';
         setTimeout(() => {
           card.style.transition = '';
-        }, 400);
+        }, 500);
       });
     });
   }

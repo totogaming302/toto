@@ -1,7 +1,7 @@
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SECTION_7_COPY } from '../../data/editorialCopy.ts';
-import { calculateMacroEconomy, BASE_CRISIS_INPUTS, SimulatorInputs, SimulatorOutputs } from '../utils/math.ts';
+import { calculateMacroEconomy, BASE_CRISIS_INPUTS, SimulatorInputs, SimulatorOutputs, isSluggishDevice } from '../utils/math.ts';
 import { SoundEngine } from '../audio/SoundEngine.ts';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -338,19 +338,12 @@ export class Section7Simulator {
         end: '+=580%',
         pin: true,
         scrub: 1.4,
+        anticipatePin: 1,
         onEnter: () => {
           (window as any).__setMoodColor?.('#120507');
-          this.startOscilloscope();
         },
         onEnterBack: () => {
           (window as any).__setMoodColor?.('#120507');
-          this.startOscilloscope();
-        },
-        onLeave: () => {
-          this.stopOscilloscope();
-        },
-        onLeaveBack: () => {
-          this.stopOscilloscope();
         }
       }
     });
@@ -709,96 +702,93 @@ export class Section7Simulator {
     }
   }
 
-  private isOscilloscopeRunning = false;
+  private isOscVisible: boolean = false;
 
   /**
-   * Starts the CRT oscilloscope rendering loop only when Section 7 is active.
-   */
-  public startOscilloscope(): void {
-    if (this.isOscilloscopeRunning) return;
-    if (!this.oscCanvas) {
-      this.oscCanvas = document.getElementById('s7-oscilloscope-canvas') as HTMLCanvasElement;
-    }
-    if (!this.oscCanvas) return;
-    if (!this.oscCtx) {
-      this.oscCtx = this.oscCanvas.getContext('2d');
-    }
-    if (!this.oscCtx) return;
-
-    this.isOscilloscopeRunning = true;
-    this.renderOscilloscope();
-  }
-
-  /**
-   * Pauses the CRT oscilloscope when outside Section 7 to free GPU/CPU for other sections.
-   */
-  public stopOscilloscope(): void {
-    this.isOscilloscopeRunning = false;
-    if (this.oscAnimationId !== null) {
-      cancelAnimationFrame(this.oscAnimationId);
-      this.oscAnimationId = null;
-    }
-  }
-
-  /**
-   * High-performance 60fps CRT waveform oscilloscope drawing.
-   */
-  private renderOscilloscope = (): void => {
-    if (!this.isOscilloscopeRunning || !this.oscCtx || !this.oscCanvas) return;
-    const ctx = this.oscCtx;
-    const w = this.oscCanvas.width;
-    const h = this.oscCanvas.height;
-
-    ctx.fillStyle = 'rgba(8, 12, 20, 0.45)';
-    ctx.fillRect(0, 0, w, h);
-
-    // Center reference zero-line
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.moveTo(0, h / 2);
-    ctx.lineTo(w, h / 2);
-    ctx.stroke();
-
-    this.oscPhase += 0.045;
-
-    // 1. GDP Growth Trajectory Wave (Emerald Glow)
-    ctx.strokeStyle = '#10b981';
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    for (let x = 0; x < w; x += 2) {
-      const freq = 0.022;
-      const amp = (this.currentGdp / 6.0) * (h * 0.32);
-      const y = h / 2 - Math.sin(x * freq + this.oscPhase) * amp;
-      if (x === 0) ctx.moveTo(x, y);
-      else ctx.lineTo(x, y);
-    }
-    ctx.stroke();
-
-    // 2. Inflation Shock Trajectory Wave (Crimson Glow)
-    ctx.strokeStyle = '#ef4444';
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    for (let x = 0; x < w; x += 2) {
-      const freq = 0.038;
-      const amp = (this.currentInflation / 10.0) * (h * 0.36);
-      const y = h / 2 + Math.sin(x * freq - this.oscPhase * 1.3) * amp;
-      if (x === 0) ctx.moveTo(x, y);
-      else ctx.lineTo(x, y);
-    }
-    ctx.stroke();
-
-    this.oscAnimationId = requestAnimationFrame(this.renderOscilloscope);
-  };
-
-  /**
-   * Initializes real-time CRT waveform oscilloscope.
+   * Initializes real-time CRT waveform oscilloscope drawing loop.
+   * Uses an IntersectionObserver to strictly pause execution when off-screen.
    */
   private initOscilloscope(): void {
     this.oscCanvas = document.getElementById('s7-oscilloscope-canvas') as HTMLCanvasElement;
-    if (this.oscCanvas) {
-      this.oscCtx = this.oscCanvas.getContext('2d');
-    }
+    if (!this.oscCanvas) return;
+    this.oscCtx = this.oscCanvas.getContext('2d');
+    if (!this.oscCtx) return;
+
+    const isLowPerf = isSluggishDevice();
+    const step = isLowPerf ? 3 : 2;
+    const shadow = isLowPerf ? 0 : 3;
+
+    const render = () => {
+      if (!this.oscCtx || !this.oscCanvas || !this.isOscVisible) return;
+      const ctx = this.oscCtx;
+      const w = this.oscCanvas.width;
+      const h = this.oscCanvas.height;
+
+      ctx.fillStyle = 'rgba(8, 12, 20, 0.45)';
+      ctx.fillRect(0, 0, w, h);
+
+      // Center reference zero-line
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(0, h / 2);
+      ctx.lineTo(w, h / 2);
+      ctx.stroke();
+
+      this.oscPhase += 0.045;
+
+      // 1. GDP Growth Trajectory Wave (Emerald)
+      ctx.strokeStyle = '#10b981';
+      ctx.lineWidth = 2;
+      if (shadow > 0) {
+        ctx.shadowColor = '#10b981';
+        ctx.shadowBlur = shadow;
+      }
+      ctx.beginPath();
+      for (let x = 0; x < w; x += step) {
+        const freq = 0.022;
+        const amp = (this.currentGdp / 6.0) * (h * 0.32);
+        const y = h / 2 - Math.sin(x * freq + this.oscPhase) * amp;
+        if (x === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+
+      // 2. Inflation Shock Trajectory Wave (Crimson)
+      ctx.strokeStyle = '#ef4444';
+      ctx.lineWidth = 2;
+      if (shadow > 0) {
+        ctx.shadowColor = '#ef4444';
+        ctx.shadowBlur = shadow;
+      }
+      ctx.beginPath();
+      for (let x = 0; x < w; x += step) {
+        const freq = 0.038;
+        const amp = (this.currentInflation / 10.0) * (h * 0.36);
+        const y = h / 2 + Math.sin(x * freq - this.oscPhase * 1.3) * amp;
+        if (x === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+      if (shadow > 0) ctx.shadowBlur = 0;
+
+      this.oscAnimationId = requestAnimationFrame(render);
+    };
+
+    // Pause RAF loop whenever Section 7 is not currently scrolled into view
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        this.isOscVisible = entry.isIntersecting;
+        if (this.isOscVisible) {
+          if (this.oscAnimationId !== null) {
+            cancelAnimationFrame(this.oscAnimationId);
+          }
+          this.oscAnimationId = requestAnimationFrame(render);
+        }
+      });
+    }, { threshold: 0.05 });
+
+    observer.observe(this.container);
   }
 
   public destroy(): void {

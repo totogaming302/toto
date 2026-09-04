@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { isSluggishDevice } from '../utils/math';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -47,9 +48,7 @@ export class GlobalBackground3D {
 
   // Particle System
   private particleSystem!: THREE.Points;
-  private particleCount = 240;
-  public isLowEnd = false;
-  private frameCount = 0;
+  private particleCount = 420;
 
   // Lighting
   private keyLight!: THREE.DirectionalLight;
@@ -76,26 +75,28 @@ export class GlobalBackground3D {
     }
     this.canvas = el;
 
-    // Detect sluggish / low-end / smartboard devices to dynamically scale 3D workload
-    this.isLowEnd =
-      (typeof navigator !== 'undefined' && (
-        (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) ||
-        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
-      )) || window.innerWidth < 1024;
-    const isLowEnd = this.isLowEnd;
+    const isLowPerf = isSluggishDevice();
+    if (isLowPerf) {
+      document.documentElement.classList.add('perf-boosted');
+    }
 
-    // High performance WebGL setup with alpha transparency
+    // High performance WebGL setup with hardware-conscious limits
     this.renderer = new THREE.WebGLRenderer({
       canvas: this.canvas,
-      antialias: !isLowEnd,
+      antialias: !isLowPerf, // Disable antialiasing on 4K smartboards to save 50% GPU fill rate
       alpha: true,
       powerPreference: 'high-performance',
-      precision: isLowEnd ? 'mediump' : 'highp'
+      precision: isLowPerf ? 'mediump' : 'highp'
     });
-    this.renderer.setPixelRatio(isLowEnd ? Math.min(window.devicePixelRatio, 1.0) : Math.min(window.devicePixelRatio, 1.5));
+    // Cap pixel ratio to 1.0 on sluggish/smartboard devices, 1.35 on desktop
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, isLowPerf ? 1.0 : 1.35));
     this.renderer.setSize(window.innerWidth, window.innerHeight);
-    this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    this.renderer.toneMappingExposure = 1.2;
+    if (!isLowPerf) {
+      this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      this.renderer.toneMappingExposure = 1.2;
+    } else {
+      this.renderer.toneMapping = THREE.NoToneMapping;
+    }
 
     // Scene & Perspective Camera
     this.scene = new THREE.Scene();
@@ -109,7 +110,7 @@ export class GlobalBackground3D {
     );
     this.camera.position.set(0, 0, 14);
 
-    this.setupLighting();
+    this.setupLighting(isLowPerf);
     this.initCoinMeshes();
     this.initBanknotes();
     this.initDustParticles();
@@ -118,7 +119,7 @@ export class GlobalBackground3D {
     this.render();
   }
 
-  private setupLighting(): void {
+  private setupLighting(isLowPerf: boolean = false): void {
     this.ambientLight = new THREE.AmbientLight(0x0e1726, 2.0);
     this.scene.add(this.ambientLight);
 
@@ -130,9 +131,12 @@ export class GlobalBackground3D {
     this.rimLight.position.set(-10, -6, 6);
     this.scene.add(this.rimLight);
 
-    const fillLight = new THREE.PointLight(0xf59e0b, 2.2, 35);
-    fillLight.position.set(0, 0, 8);
-    this.scene.add(fillLight);
+    // Skip point light on sluggish devices to save pixel shader ALU instructions
+    if (!isLowPerf) {
+      const fillLight = new THREE.PointLight(0xf59e0b, 2.2, 35);
+      fillLight.position.set(0, 0, 8);
+      this.scene.add(fillLight);
+    }
   }
 
   /**
@@ -207,14 +211,15 @@ export class GlobalBackground3D {
    * Initializes InstancedMesh for USD, IDR, and EUR coins (total ~54 coins)
    */
   private initCoinMeshes(): void {
-    const coinGeo = new THREE.CylinderGeometry(1.0, 1.0, 0.14, this.isLowEnd ? 18 : 32);
+    const isLowPerf = isSluggishDevice();
+    const coinGeo = new THREE.CylinderGeometry(1.0, 1.0, 0.14, isLowPerf ? 24 : 44);
     // Rotate so coin face points outward
     coinGeo.rotateX(Math.PI / 2);
 
     const configs = [
       {
         type: 'USD',
-        count: this.isLowEnd ? 8 : 16,
+        count: isLowPerf ? 10 : 20,
         symbol: '$',
         sub: 'USD // RESERVE',
         mainCol: '#F59E0B',
@@ -223,7 +228,7 @@ export class GlobalBackground3D {
       },
       {
         type: 'IDR',
-        count: this.isLowEnd ? 8 : 16,
+        count: isLowPerf ? 10 : 20,
         symbol: 'Rp',
         sub: 'IDR // SPOT',
         mainCol: '#10B981',
@@ -232,7 +237,7 @@ export class GlobalBackground3D {
       },
       {
         type: 'EUR',
-        count: this.isLowEnd ? 6 : 12,
+        count: isLowPerf ? 8 : 16,
         symbol: '€',
         sub: 'EUR // BLOC',
         mainCol: '#38BDF8',
@@ -391,10 +396,11 @@ export class GlobalBackground3D {
   }
 
   /**
-   * Initializes floating curled banknotes in 3D space
+   * Initializes floating curled banknotes in 3D space with adaptive complexity
    */
   private initBanknotes(): void {
-    const count = this.isLowEnd ? 8 : 18;
+    const isLowPerf = isSluggishDevice();
+    const count = isLowPerf ? 10 : 26;
     const usdTex = this.createBanknoteTexture('USD');
     const idrTex = this.createBanknoteTexture('IDR');
 
@@ -416,8 +422,8 @@ export class GlobalBackground3D {
       // Create curved plane geometry for natural fluttering paper look
       const width = 2.4;
       const height = 1.2;
-      const segW = this.isLowEnd ? 6 : 10;
-      const segH = this.isLowEnd ? 4 : 6;
+      const segW = isLowPerf ? 4 : 10;
+      const segH = isLowPerf ? 2 : 5;
       const geo = new THREE.PlaneGeometry(width, height, segW, segH);
 
       // Curve the vertices slightly
@@ -467,9 +473,12 @@ export class GlobalBackground3D {
   }
 
   /**
-   * Initializes 420 ambient glowing gold/emerald telemetry dust particles
+   * Initializes ambient glowing gold/emerald telemetry dust particles with adaptive count
    */
   private initDustParticles(): void {
+    const isLowPerf = isSluggishDevice();
+    this.particleCount = isLowPerf ? 90 : 380;
+
     const positions = new Float32Array(this.particleCount * 3);
     const colors = new Float32Array(this.particleCount * 3);
 
@@ -515,9 +524,10 @@ export class GlobalBackground3D {
     });
 
     window.addEventListener('resize', () => {
+      const isLowPerf = isSluggishDevice();
       this.camera.aspect = window.innerWidth / window.innerHeight;
       this.camera.updateProjectionMatrix();
-      this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, isLowPerf ? 1.0 : 1.35));
       this.renderer.setSize(window.innerWidth, window.innerHeight);
     });
 
@@ -646,8 +656,16 @@ export class GlobalBackground3D {
     }
   }
 
-  private render = (): void => {
+  private lastRenderTime = 0;
+  private render = (currentTime: number = 0): void => {
     this.animationFrameId = requestAnimationFrame(this.render);
+
+    // Frame throttle limiter: Caps to ~40fps on sluggish devices to keep GPU completely relaxed
+    const isLowPerf = isSluggishDevice();
+    if (isLowPerf && currentTime - this.lastRenderTime < 24) {
+      return;
+    }
+    this.lastRenderTime = currentTime;
 
     const time = this.clock.getElapsedTime();
 
@@ -680,16 +698,13 @@ export class GlobalBackground3D {
     this.keyLight.position.x = 8 + this.mouse.x * 4;
     this.keyLight.position.y = 12 + this.mouse.y * 3;
 
-    this.frameCount++;
-    const shouldUpdateMeshes = !this.isLowEnd || this.frameCount % 2 === 0;
+    // Update coins (USD, IDR, EUR)
+    if (this.usdInstancedMesh) this.updateCoins(this.usdInstancedMesh, this.usdCoinsData, time, velocityFactor);
+    if (this.idrInstancedMesh) this.updateCoins(this.idrInstancedMesh, this.idrCoinsData, time, velocityFactor);
+    if (this.eurInstancedMesh) this.updateCoins(this.eurInstancedMesh, this.eurCoinsData, time, velocityFactor);
 
-    // Update coins (USD, IDR, EUR) & banknotes
-    if (shouldUpdateMeshes) {
-      if (this.usdInstancedMesh) this.updateCoins(this.usdInstancedMesh, this.usdCoinsData, time, velocityFactor);
-      if (this.idrInstancedMesh) this.updateCoins(this.idrInstancedMesh, this.idrCoinsData, time, velocityFactor);
-      if (this.eurInstancedMesh) this.updateCoins(this.eurInstancedMesh, this.eurCoinsData, time, velocityFactor);
-      this.updateBanknotes(time, velocityFactor);
-    }
+    // Update banknotes
+    this.updateBanknotes(time, velocityFactor);
 
     // Ambient dust particles slow drift
     if (this.particleSystem) {

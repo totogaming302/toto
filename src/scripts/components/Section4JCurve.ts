@@ -290,8 +290,8 @@ export class Section4JCurve {
 
     // Initial states
     gsap.set(splitStage, { opacity: 0, y: 50, pointerEvents: 'none' });
-    gsap.set([beat2, beat3], { opacity: 0.28, filter: 'blur(1px)' });
-    gsap.set(beat1, { opacity: 1, filter: 'blur(0px)' });
+    gsap.set([beat2, beat3], { opacity: 0.28 });
+    gsap.set(beat1, { opacity: 1 });
 
     this.timeline = gsap.timeline({
       scrollTrigger: {
@@ -299,7 +299,7 @@ export class Section4JCurve {
         start: 'top top',
         end: '+=520%',
         pin: true,
-        scrub: 1.4,
+        scrub: 0.9,
         anticipatePin: 1,
         onEnter: () => {
           (window as any).__setMoodColor?.('#0D1117');
@@ -342,18 +342,16 @@ export class Section4JCurve {
       .to(marker1, { opacity: 1, scale: 1.1, duration: 0.8 }, 2.4)
       .to(pillar1, { borderColor: 'rgba(239, 68, 68, 0.4)', background: 'rgba(239, 68, 68, 0.08)', duration: 0.8 }, 2.4);
 
-    // Stage 1 -> 2: Beat 1 -> Beat 2 & Path reaches Rebound Inflection (exactly 58.03% to Net Zero point)
+    // Stage 1 -> 2: Beat 1 -> Beat 2 & Path reaches Rebound Inflection (GPU Compositor-Friendly)
     this.timeline
       .to(beat1, { 
         opacity: 0.32, 
-        filter: 'blur(1.5px)', 
         borderColor: 'rgba(255, 255, 255, 0.06)',
         backgroundColor: 'rgba(15, 23, 42, 0.4)',
         duration: 1.2 
       }, 4.2)
       .to(beat2, { 
         opacity: 1, 
-        filter: 'blur(0px)', 
         borderColor: 'rgba(245, 158, 11, 0.45)',
         backgroundColor: 'rgba(245, 158, 11, 0.06)',
         duration: 1.2 
@@ -366,18 +364,16 @@ export class Section4JCurve {
       .to(marker2, { opacity: 1, scale: 1.1, duration: 0.8 }, 5.2)
       .to(pillar2, { borderColor: 'rgba(245, 158, 11, 0.4)', background: 'rgba(245, 158, 11, 0.08)', duration: 0.8 }, 5.2);
 
-    // Stage 2 -> 3: Beat 2 -> Beat 3 & Path rockets into Surplus Peak (62% to 100%)
+    // Stage 2 -> 3: Beat 2 -> Beat 3 & Path rockets into Surplus Peak (GPU Compositor-Friendly)
     this.timeline
       .to(beat2, { 
         opacity: 0.32, 
-        filter: 'blur(1.5px)', 
         borderColor: 'rgba(255, 255, 255, 0.06)',
         backgroundColor: 'rgba(15, 23, 42, 0.4)',
         duration: 1.2 
       }, 7.6)
       .to(beat3, { 
         opacity: 1, 
-        filter: 'blur(0px)', 
         borderColor: 'rgba(16, 185, 129, 0.45)',
         backgroundColor: 'rgba(16, 185, 129, 0.06)',
         duration: 1.2 

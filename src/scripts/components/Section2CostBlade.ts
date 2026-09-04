@@ -366,7 +366,7 @@ export class Section2CostBlade {
     }
 
     gsap.set(splitStage, { opacity: 0, y: 50, pointerEvents: 'none' });
-    gsap.set(beat2, { opacity: 0.2, filter: 'blur(2px)' });
+    gsap.set(beat2, { opacity: 0.2 });
 
     // Set initial visual card visibility cleanly via GSAP autoAlpha
     gsap.set(bladeVisual, { autoAlpha: 1, y: 0 });
@@ -378,7 +378,7 @@ export class Section2CostBlade {
         start: 'top top',
         end: '+=350%',
         pin: true,
-        scrub: 1,
+        scrub: 0.9,
         anticipatePin: 1,
         onEnter: () => {
           (window as any).__setMoodColor?.('#1A080C');
@@ -434,8 +434,8 @@ export class Section2CostBlade {
 
     // Stage 1 -> 2: Beat 1 -> Beat 2 & Margin Squeeze Chart Transition (Begins at 2.8 after generous Beat 1 plateau)
     this.timeline
-      .to(beat1, { opacity: 0.35, filter: 'blur(1.5px)', duration: 0.8 }, 2.8)
-      .to(beat2, { opacity: 1, filter: 'blur(0px)', duration: 0.8 }, 2.8)
+      .to(beat1, { opacity: 0.35, duration: 0.8 }, 2.8)
+      .to(beat2, { opacity: 1, duration: 0.8 }, 2.8)
       .to(bladeVisual, {
         autoAlpha: 0,
         y: -30,

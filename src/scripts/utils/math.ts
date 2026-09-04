@@ -129,3 +129,17 @@ export function calculateMacroEconomy(inputs: SimulatorInputs): SimulatorOutputs
     summaryWarning
   };
 }
+
+/**
+ * Detects whether the current device has low computing power or high display constraints
+ * (e.g., Android Smartboards, interactive flat panels, low CPU core counts, or budget mobile devices).
+ */
+export function isSluggishDevice(): boolean {
+  if (typeof window === 'undefined') return false;
+  const ua = navigator.userAgent || '';
+  const isAndroid = /Android/i.test(ua);
+  const isSmartBoard = /SmartTV|Tizen|NetCast|Web0S|LargeScreen|CrKey|SmartBoard|ViewSonic|IFP|Interactive/i.test(ua);
+  const lowCores = typeof navigator.hardwareConcurrency === 'number' && navigator.hardwareConcurrency <= 4;
+  const lowMemory = typeof (navigator as any).deviceMemory === 'number' && (navigator as any).deviceMemory <= 4;
+  return isAndroid || isSmartBoard || lowCores || lowMemory;
+}

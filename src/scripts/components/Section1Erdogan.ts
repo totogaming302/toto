@@ -273,8 +273,8 @@ export class Section1Erdogan {
 
     // Set initial layout states
     gsap.set(splitStage, { opacity: 0, y: 50, pointerEvents: 'none' });
-    gsap.set([beat2, beat3], { opacity: 0.28, filter: 'blur(1px)' });
-    gsap.set(beat1, { opacity: 1, filter: 'blur(0px)' });
+    gsap.set([beat2, beat3], { opacity: 0.28 });
+    gsap.set(beat1, { opacity: 1 });
 
     // Set initial visual card visibility cleanly via GSAP autoAlpha
     gsap.set(visual1, { autoAlpha: 1, y: 0 });
@@ -286,7 +286,7 @@ export class Section1Erdogan {
         start: 'top top',
         end: '+=440%',
         pin: true,
-        scrub: 1.4,
+        scrub: 0.9,
         anticipatePin: 1,
         onEnter: () => {
           (window as any).__setMoodColor?.('#091220');
@@ -319,18 +319,16 @@ export class Section1Erdogan {
         }
       }, 0.7);
 
-    // Stage 1 -> 2: Beat 1 Active -> Beat 2 Transition (Deliberate & cinematic)
+    // Stage 1 -> 2: Beat 1 Active -> Beat 2 Transition (GPU Compositor-Friendly)
     this.timeline
       .to(beat1, { 
         opacity: 0.32, 
-        filter: 'blur(1.5px)', 
         borderColor: 'rgba(255, 255, 255, 0.06)',
         backgroundColor: 'rgba(15, 23, 42, 0.4)',
         duration: 1.2 
       }, 3.2)
       .to(beat2, { 
         opacity: 1, 
-        filter: 'blur(0px)', 
         borderColor: 'rgba(56, 189, 248, 0.45)',
         backgroundColor: 'rgba(56, 189, 248, 0.06)',
         duration: 1.2 
@@ -348,18 +346,16 @@ export class Section1Erdogan {
         ease: 'power2.out'
       }, 3.8);
 
-    // Stage 2 -> 3: Beat 2 Active -> Beat 3 Transition (Deliberate & cinematic)
+    // Stage 2 -> 3: Beat 2 Active -> Beat 3 Transition (GPU Compositor-Friendly)
     this.timeline
       .to(beat2, { 
         opacity: 0.32, 
-        filter: 'blur(1.5px)', 
         borderColor: 'rgba(255, 255, 255, 0.06)',
         backgroundColor: 'rgba(15, 23, 42, 0.4)',
         duration: 1.2 
       }, 5.8)
       .to(beat3, { 
         opacity: 1, 
-        filter: 'blur(0px)', 
         borderColor: 'rgba(245, 158, 11, 0.45)',
         backgroundColor: 'rgba(245, 158, 11, 0.06)',
         duration: 1.2 

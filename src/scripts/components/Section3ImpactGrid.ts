@@ -311,8 +311,8 @@ export class Section3ImpactGrid {
 
     // Set initial layout states
     gsap.set(splitStage, { opacity: 0, y: 50, pointerEvents: 'none' });
-    gsap.set([actor2, actor3, actor4], { opacity: 0.28, filter: 'blur(1px)' });
-    gsap.set(actor1, { opacity: 1, filter: 'blur(0px)' });
+    gsap.set([actor2, actor3, actor4], { opacity: 0.28 });
+    gsap.set(actor1, { opacity: 1 });
 
     // Set initial visual card visibility cleanly via GSAP autoAlpha
     gsap.set(visual1, { autoAlpha: 1, y: 0 });
@@ -324,7 +324,7 @@ export class Section3ImpactGrid {
         start: 'top top',
         end: '+=580%',
         pin: true,
-        scrub: 1.4,
+        scrub: 0.9,
         anticipatePin: 1,
         onEnter: () => {
           (window as any).__setMoodColor?.('#0A0E17');
@@ -357,18 +357,16 @@ export class Section3ImpactGrid {
         }
       }, 0.7);
 
-    // Stage 1 -> 2: Eksportir -> Importir Transition (Deliberate & cinematic)
+    // Stage 1 -> 2: Eksportir -> Importir Transition (GPU Compositor-Friendly)
     this.timeline
       .to(actor1, { 
         opacity: 0.32, 
-        filter: 'blur(1.5px)', 
         borderColor: 'rgba(255, 255, 255, 0.06)',
         backgroundColor: 'rgba(15, 23, 42, 0.4)',
         duration: 1.2 
       }, 3.4)
       .to(actor2, { 
         opacity: 1, 
-        filter: 'blur(0px)', 
         borderColor: 'rgba(239, 68, 68, 0.45)',
         backgroundColor: 'rgba(239, 68, 68, 0.06)',
         duration: 1.2 
@@ -386,18 +384,16 @@ export class Section3ImpactGrid {
         ease: 'power2.out'
       }, 4.0);
 
-    // Stage 2 -> 3: Importir -> Konsumen Transition (Deliberate & cinematic)
+    // Stage 2 -> 3: Importir -> Konsumen Transition (GPU Compositor-Friendly)
     this.timeline
       .to(actor2, { 
         opacity: 0.32, 
-        filter: 'blur(1.5px)', 
         borderColor: 'rgba(255, 255, 255, 0.06)',
         backgroundColor: 'rgba(15, 23, 42, 0.4)',
         duration: 1.2 
       }, 6.6)
       .to(actor3, { 
         opacity: 1, 
-        filter: 'blur(0px)', 
         borderColor: 'rgba(245, 158, 11, 0.45)',
         backgroundColor: 'rgba(245, 158, 11, 0.06)',
         duration: 1.2 
@@ -415,18 +411,16 @@ export class Section3ImpactGrid {
         ease: 'power2.out'
       }, 7.2);
 
-    // Stage 3 -> 4: Konsumen -> Produsen Domestik Transition (Deliberate & cinematic)
+    // Stage 3 -> 4: Konsumen -> Produsen Domestik Transition (GPU Compositor-Friendly)
     this.timeline
       .to(actor3, { 
         opacity: 0.32, 
-        filter: 'blur(1.5px)', 
         borderColor: 'rgba(255, 255, 255, 0.06)',
         backgroundColor: 'rgba(15, 23, 42, 0.4)',
         duration: 1.2 
       }, 9.8)
       .to(actor4, { 
         opacity: 1, 
-        filter: 'blur(0px)', 
         borderColor: 'rgba(56, 189, 248, 0.45)',
         backgroundColor: 'rgba(56, 189, 248, 0.06)',
         duration: 1.2 

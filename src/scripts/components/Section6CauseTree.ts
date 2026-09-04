@@ -549,10 +549,9 @@ export class Section6CauseTree {
     // Initial node states: Root illuminated, branches dimmed
     gsap.set(treeStage, { opacity: 0, y: 50, pointerEvents: 'none' });
     gsap.set([nodeL1, nodeL2, nodeL3, nodeL4, nodeR1, nodeR2, nodeR3, nodeR4], {
-      opacity: 0.28,
-      filter: 'blur(1px)'
+      opacity: 0.28
     });
-    gsap.set(nodeRoot, { opacity: 1, filter: 'blur(0px)' });
+    gsap.set(nodeRoot, { opacity: 1 });
 
     this.timeline = gsap.timeline({
       scrollTrigger: {
@@ -560,7 +559,7 @@ export class Section6CauseTree {
         start: 'top top',
         end: '+=560%',
         pin: true,
-        scrub: 1.4,
+        scrub: 0.9,
         anticipatePin: 1,
         onEnter: () => {
           (window as any).__setMoodColor?.('#120E08');
@@ -597,29 +596,29 @@ export class Section6CauseTree {
     this.timeline
       .to(laserRootL1, { strokeDashoffset: 0, duration: 1.8, ease: 'none' }, 1.8)
       .to(laserRootR1, { strokeDashoffset: 0, duration: 1.8, ease: 'none' }, 1.8)
-      .to(nodeL1, { opacity: 1, filter: 'blur(0px)', duration: 0.8 }, 2.6)
-      .to(nodeR1, { opacity: 1, filter: 'blur(0px)', duration: 0.8 }, 2.6);
+      .to(nodeL1, { opacity: 1, duration: 0.8 }, 2.6)
+      .to(nodeR1, { opacity: 1, duration: 0.8 }, 2.6);
 
     // Stage 2: Level 2 Progression (L1 -> L2 & R1 -> R2)
     this.timeline
       .to(laserL1L2, { strokeDashoffset: 0, duration: 1.8, ease: 'none' }, 3.8)
       .to(laserR1R2, { strokeDashoffset: 0, duration: 1.8, ease: 'none' }, 3.8)
-      .to(nodeL2, { opacity: 1, filter: 'blur(0px)', duration: 0.8 }, 4.6)
-      .to(nodeR2, { opacity: 1, filter: 'blur(0px)', duration: 0.8 }, 4.6);
+      .to(nodeL2, { opacity: 1, duration: 0.8 }, 4.6)
+      .to(nodeR2, { opacity: 1, duration: 0.8 }, 4.6);
 
     // Stage 3: Level 3 Progression (L2 -> L3 & R2 -> R3)
     this.timeline
       .to(laserL2L3, { strokeDashoffset: 0, duration: 1.8, ease: 'none' }, 5.8)
       .to(laserR2R3, { strokeDashoffset: 0, duration: 1.8, ease: 'none' }, 5.8)
-      .to(nodeL3, { opacity: 1, filter: 'blur(0px)', duration: 0.8 }, 6.6)
-      .to(nodeR3, { opacity: 1, filter: 'blur(0px)', duration: 0.8 }, 6.6);
+      .to(nodeL3, { opacity: 1, duration: 0.8 }, 6.6)
+      .to(nodeR3, { opacity: 1, duration: 0.8 }, 6.6);
 
     // Stage 4: Level 4 Terminal Boom (L3 -> L4 & R3 -> R4)
     this.timeline
       .to(laserL3L4, { strokeDashoffset: 0, duration: 1.8, ease: 'none' }, 7.8)
       .to(laserR3R4, { strokeDashoffset: 0, duration: 1.8, ease: 'none' }, 7.8)
-      .to(nodeL4, { opacity: 1, filter: 'blur(0px)', scale: 1.03, duration: 0.9 }, 8.6)
-      .to(nodeR4, { opacity: 1, filter: 'blur(0px)', scale: 1.03, duration: 0.9 }, 8.6)
+      .to(nodeL4, { opacity: 1, scale: 1.03, duration: 0.9 }, 8.6)
+      .to(nodeR4, { opacity: 1, scale: 1.03, duration: 0.9 }, 8.6)
       // Dedicated resting window for complete bifurcated tree
       .to({}, { duration: 1.8 }, 9.8);
   }

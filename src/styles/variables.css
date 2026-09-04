@@ -374,42 +374,52 @@ body {
 }
 
 /* ==========================================================================
-   HARDWARE ACCELERATION & SLUGGISH DEVICE PERFORMANCE ENGINE
+   PERFORMANCE ACCELERATION ENGINE (SMARTBOARDS & SLUGGISH DEVICES)
    ========================================================================== */
-
-/* Hardware layer promotion for pinned stages and animated elements */
-.pinned-viewport,
-.scrolly-section,
-#global-canvas-container,
-.hud-watermark-corner,
-.hud-beat-navigator {
-  transform: translate3d(0, 0, 0);
-  backface-visibility: hidden;
+.perf-boosted,
+.perf-boosted * {
+  /* Eliminate GPU texture readback and expensive multi-pass gaussian blurs */
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
 }
 
+.perf-boosted .narrative-card,
+.perf-boosted .s3-narrative-card,
+.perf-boosted .s4-narrative-card,
+.perf-boosted .s5-narrative-card,
+.perf-boosted .s7-levers-panel,
+.perf-boosted .s7-telemetry-panel,
+.perf-boosted .visual-stage,
+.perf-boosted .s3-visual-stage,
+.perf-boosted .s4-visual-stage,
+.perf-boosted .s5-visual-stage,
+.perf-boosted .hud-watermark-corner,
+.perf-boosted .hud-beat-navigator,
+.perf-boosted .hud-nav-capsule,
+.perf-boosted .typewriter-hook-card,
+.perf-boosted .s1-beat-item,
+.perf-boosted .s2-beat-item,
+.perf-boosted .s3-actor-item,
+.perf-boosted .s5-pipeline-item,
+.perf-boosted .tree-node,
+.perf-boosted .lever-card,
+.perf-boosted .telemetry-readout-card {
+  background-color: rgba(11, 16, 28, 0.96) !important;
+  box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.7) !important;
+}
+
+/* Universal GPU compositing optimization */
 .narrative-card,
 .visual-stage,
+.s3-narrative-card,
 .s3-visual-stage,
+.s4-narrative-card,
 .s4-visual-stage,
+.s5-narrative-card,
 .s5-visual-stage,
-.s7-dashboard-container {
-  will-change: transform, opacity;
+.s7-levers-panel,
+.s7-telemetry-panel,
+.hud-nav-capsule {
   transform: translateZ(0);
-}
-
-/* Offload GPU fillrate on touch screens, tablets, and sluggish smartboard chipsets */
-@media (hover: none), (max-width: 1024px), (max-height: 640px) {
-  .narrative-card,
-  .visual-stage,
-  .s3-visual-stage,
-  .s4-visual-stage,
-  .s5-visual-stage,
-  .s7-dashboard-container,
-  .s7-levers-panel,
-  .s7-telemetry-panel {
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-    background: rgba(11, 16, 27, 0.95) !important;
-    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.8) !important;
-  }
+  backface-visibility: hidden;
 }
