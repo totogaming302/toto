@@ -219,41 +219,9 @@ export class Section5SupplyChain {
                   <span>EFEK DOMINO: ENERGI MINYAK MENTAH VALAS & TARIF TRANSPORTASI NASIONAL</span>
                 </div>
 
-                <!-- Editorial Cartoon: 4-Panel Energy & CPI Contagion Comic -->
-                <div class="s5-art-container">
+                <!-- Editorial Cartoon: 4-Panel Energy & CPI Contagion Comic (Enlarged) -->
+                <div class="s5-art-container enlarged">
                   <img src="./images/oil-inflation-chain.jpg" alt="Transmisi Inflasi Energi ke Konsumen" class="s5-domino-img" />
-                </div>
-
-                <div class="domino-ripple-container">
-                  <!-- Laser Energy Conduction Line Between Domino Cards -->
-                  <div class="domino-conduction-line" aria-hidden="true">
-                    <div class="conduction-cable">
-                      <span class="conduction-photon p1"></span>
-                      <span class="conduction-photon p2"></span>
-                    </div>
-                  </div>
-
-                  <div class="domino-chain-grid">
-                    
-                    <div class="domino-card pulse-border-red">
-                      <div class="domino-index">01</div>
-                      <h4 class="domino-title text-crimson">Minyak Mentah (ICP USD)</h4>
-                      <p class="domino-desc">Minyak impor ditransaksikan dalam USD. Depresiasi kurs membengkakkan subsidi energi dan biaya BBM industri.</p>
-                    </div>
-
-                    <div class="domino-card pulse-border-amber">
-                      <div class="domino-index">02</div>
-                      <h4 class="domino-title text-gold">Tarif Logistik & Kargo</h4>
-                      <p class="domino-desc">Truk kontainer, kapal tol laut, dan logistik antar-pulau menaikkan tarif freight mengimbangi biaya sparepart dan operasional.</p>
-                    </div>
-
-                    <div class="domino-card pulse-border-red">
-                      <div class="domino-index">03</div>
-                      <h4 class="domino-title text-crimson">Semua Barang Ikut Naik</h4>
-                      <p class="domino-desc">Barang yang 100% lokal sekalipun terpaksa naik harga karena ongkos kirim ke pasar dan supermarket bertambah mahal.</p>
-                    </div>
-
-                  </div>
                 </div>
               </div>
             </div>
