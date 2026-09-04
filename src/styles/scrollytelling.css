@@ -50,49 +50,73 @@
 .container-editorial.split-stage {
   display: grid;
   grid-template-columns: 1.05fr 1fr;
-  gap: clamp(1.5rem, 3vw, 3.5rem);
+  gap: clamp(1rem, 2.5vw, 3rem);
   align-items: center;
   transform: translate3d(0, 0, 0);
+  width: 100%;
+  max-height: min(92vh, 92dvh, 760px);
 }
 
-@media (max-width: 960px) {
+@media (max-width: 960px) and (orientation: portrait) {
   .container-editorial.split-stage {
     grid-template-columns: 1fr;
-    gap: 2rem;
+    gap: 1.5rem;
   }
 }
 
-/* Adaptive Height Optimization for Lower-Height Projectors & Displays */
-@media (max-height: 820px) {
+/* Adaptive Height Optimization for Lower-Height Projectors, Laptops & Smartboards */
+@media (max-height: 840px) {
   .pinned-viewport {
-    padding: 1rem var(--editorial-gutter);
+    padding: 0.75rem var(--editorial-gutter);
   }
   .container-editorial.split-stage {
-    gap: 1.5rem;
+    gap: 1.25rem;
   }
   .visual-stage {
-    height: min(460px, 78dvh) !important;
+    height: min(420px, 78dvh) !important;
+    max-height: min(420px, 78dvh) !important;
   }
   .narrative-card {
-    padding: 1.25rem 1.6rem !important;
+    padding: 1rem 1.35rem !important;
   }
   .question-headline {
-    font-size: clamp(1.6rem, 2.8vw, 2.2rem) !important;
-    margin-bottom: 0.85rem !important;
+    font-size: clamp(1.3rem, 2.2vw, 1.9rem) !important;
+    margin-bottom: 0.65rem !important;
   }
   .text-beat {
-    font-size: 0.95rem !important;
-    line-height: 1.55 !important;
-    margin-bottom: 0.85rem !important;
+    font-size: 0.88rem !important;
+    line-height: 1.48 !important;
+    margin-bottom: 0.65rem !important;
+  }
+  .case-study-box {
+    margin-top: 0.75rem !important;
+    padding: 0.65rem 0.9rem !important;
   }
 }
 
 @media (max-height: 700px) {
+  .pinned-viewport {
+    padding: 0.5rem var(--editorial-gutter);
+  }
   .visual-stage {
-    height: min(400px, 75dvh) !important;
+    height: min(340px, 75dvh) !important;
+    max-height: min(340px, 75dvh) !important;
   }
   .narrative-card {
-    padding: 1rem 1.25rem !important;
+    padding: 0.75rem 1rem !important;
+  }
+  .question-headline {
+    font-size: clamp(1.15rem, 2vw, 1.5rem) !important;
+    margin-bottom: 0.45rem !important;
+  }
+  .text-beat {
+    font-size: 0.8rem !important;
+    line-height: 1.4 !important;
+    margin-bottom: 0.45rem !important;
+  }
+  .case-study-box {
+    margin-top: 0.5rem !important;
+    padding: 0.5rem 0.75rem !important;
   }
 }
 
@@ -105,11 +129,12 @@
   text-align: center;
 }
 
-/* Visual Stage Container */
+/* Visual Stage Container (Right Box) */
 .visual-stage {
   position: relative;
   width: 100%;
-  height: 520px;
+  height: min(500px, 78vh, 78dvh);
+  max-height: min(500px, 78vh, 78dvh);
   border-radius: 12px;
   background: var(--bg-surface-glass);
   border: 1px solid var(--border-subtle);
@@ -121,16 +146,25 @@
   backdrop-filter: blur(16px);
 }
 
-/* Editorial Narrative Glass Card */
+/* Editorial Narrative Glass Card (Left Box) */
 .narrative-card {
   position: relative;
   background: rgba(11, 16, 27, 0.85);
   border: 1px solid var(--border-subtle);
   border-radius: 14px;
-  padding: clamp(1.8rem, 3.5vw, 2.75rem);
+  padding: clamp(1rem, 2vh + 1.2vw, 2.25rem);
   backdrop-filter: blur(20px);
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.85);
   transition: border-color 0.4s ease;
+  max-height: min(88vh, 88dvh, 720px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.narrative-card::-webkit-scrollbar {
+  display: none;
 }
 
 .narrative-card:hover {
@@ -143,13 +177,13 @@
   align-items: center;
   gap: 0.5rem;
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: clamp(0.58rem, 0.7vw, 0.72rem);
   font-weight: 600;
   letter-spacing: 0.22em;
   color: var(--accent-gold);
   text-transform: uppercase;
-  margin-bottom: 1.25rem;
-  padding: 0.3rem 0.75rem;
+  margin-bottom: clamp(0.5rem, 1.2vh, 1.25rem);
+  padding: 0.25rem 0.65rem;
   background: rgba(245, 158, 11, 0.08);
   border: 1px solid rgba(245, 158, 11, 0.25);
   border-radius: 4px;
@@ -158,22 +192,22 @@
 /* BOLD QUESTION ANCHORS (Strict directive: Bold visual anchor before revealing answer) */
 .question-headline {
   font-family: var(--font-serif);
-  font-size: clamp(2rem, 3.8vw, 3.4rem);
+  font-size: clamp(1.4rem, 2.5vw + 1vh, 2.8rem);
   font-weight: 700;
-  line-height: 1.18;
+  line-height: 1.2;
   letter-spacing: -0.015em;
   color: #FFFFFF;
-  margin-bottom: 1.5rem;
+  margin-bottom: clamp(0.5rem, 1.5vh, 1.25rem);
   text-wrap: balance;
   text-shadow: 0 4px 24px rgba(0, 0, 0, 0.8);
 }
 
 /* Narrative Beat Paragraphs */
 .text-beat {
-  font-size: clamp(1.05rem, 1.25vw, 1.2rem);
-  line-height: 1.7;
+  font-size: clamp(0.85rem, 0.95vw + 0.4vh, 1.12rem);
+  line-height: 1.6;
   color: var(--text-secondary);
-  margin-bottom: 1.25rem;
+  margin-bottom: clamp(0.5rem, 1.2vh, 1rem);
   font-weight: 400;
   transition: opacity 0.4s ease, transform 0.4s ease;
 }
@@ -189,8 +223,8 @@
 
 /* Case Study Callout Box */
 .case-study-box {
-  margin-top: 2rem;
-  padding: 1.4rem 1.6rem;
+  margin-top: clamp(0.6rem, 1.5vh, 1.5rem);
+  padding: clamp(0.75rem, 1.4vh, 1.4rem);
   border-left: 3px solid var(--accent-gold);
   background: rgba(245, 158, 11, 0.05);
   border-radius: 0 10px 10px 0;
@@ -209,12 +243,12 @@
   letter-spacing: 0.16em;
   color: var(--accent-gold);
   text-transform: uppercase;
-  margin-bottom: 0.6rem;
+  margin-bottom: 0.45rem;
 }
 
 .case-study-text {
-  font-size: 0.98rem;
-  line-height: 1.65;
+  font-size: clamp(0.8rem, 0.85vw + 0.3vh, 0.95rem);
+  line-height: 1.5;
   color: var(--text-secondary);
 }
 

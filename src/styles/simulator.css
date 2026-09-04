@@ -488,12 +488,21 @@
   background: rgba(15, 23, 42, 0.6);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 10px;
-  padding: 1.25rem 1.4rem;
+  padding: 1.15rem 1.3rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   backdrop-filter: blur(16px);
   box-shadow: 0 15px 35px -8px rgba(0, 0, 0, 0.8);
+  max-height: 100%;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.s7-levers-panel::-webkit-scrollbar {
+  display: none;
 }
 
 .s7-briefing-callout {
@@ -699,12 +708,21 @@ input:checked + .toggle-slider:before {
   background: rgba(15, 23, 42, 0.65);
   border: 1px solid rgba(239, 68, 68, 0.35);
   border-radius: 10px;
-  padding: 1.25rem 1.4rem;
+  padding: 1.15rem 1.3rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   backdrop-filter: blur(16px);
   box-shadow: 0 15px 35px -8px rgba(0, 0, 0, 0.8);
+  max-height: 100%;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.s7-telemetry-panel::-webkit-scrollbar {
+  display: none;
 }
 
 .s7-telemetry-grid {
@@ -955,10 +973,89 @@ input:checked + .toggle-slider:before {
   }
 }
 
+@media (max-height: 860px) {
+  .s7-dashboard-container {
+    height: 94dvh !important;
+    padding: 0.85rem 1rem 0.4rem !important;
+  }
+
+  .s7-dashboard-body {
+    gap: 1.25rem !important;
+  }
+
+  .s7-levers-panel,
+  .s7-telemetry-panel {
+    padding: 0.75rem 0.95rem !important;
+  }
+
+  .s7-briefing-callout {
+    padding: 0.4rem 0.65rem !important;
+    font-size: 0.72rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  .s7-levers-list {
+    gap: 0.45rem !important;
+  }
+
+  .lever-card {
+    padding: 0.45rem 0.7rem !important;
+    gap: 0.2rem !important;
+  }
+
+  .lever-name {
+    font-size: 0.82rem !important;
+  }
+
+  .lever-desc {
+    font-size: 0.64rem !important;
+    line-height: 1.25 !important;
+  }
+
+  .lever-slider-wrap {
+    min-height: 32px !important;
+    margin-top: 0.15rem !important;
+  }
+
+  .toggle-switch-wrap {
+    min-height: 32px !important;
+  }
+
+  .s7-telemetry-grid {
+    gap: 0.5rem !important;
+  }
+
+  .telemetry-readout-card {
+    padding: 0.5rem 0.7rem !important;
+  }
+
+  .t-value {
+    font-size: 1.15rem !important;
+  }
+
+  .simulator-oscilloscope-wrap {
+    margin-top: 0.35rem !important;
+    padding: 0.35rem 0.55rem !important;
+  }
+
+  .oscilloscope-canvas {
+    height: 48px !important;
+  }
+
+  .s7-consequence-banner {
+    padding: 0.45rem 0.75rem !important;
+    margin-top: 0.35rem !important;
+  }
+
+  .consequence-text {
+    font-size: 0.7rem !important;
+  }
+}
+
 @media (max-height: 720px) {
   .s7-dashboard-container {
     height: 96dvh !important;
-    padding: 1.2rem 1rem 0.4rem !important;
+    padding: 0.65rem 0.85rem 0.3rem !important;
   }
 
   .s7-briefing-callout {
@@ -966,7 +1063,67 @@ input:checked + .toggle-slider:before {
   }
 
   .s7-dashboard-body {
-    gap: 1.25rem !important;
+    gap: 1rem !important;
+  }
+
+  .s7-levers-panel,
+  .s7-telemetry-panel {
+    padding: 0.55rem 0.75rem !important;
+  }
+
+  .s7-levers-list {
+    gap: 0.35rem !important;
+  }
+
+  .lever-card {
+    padding: 0.35rem 0.6rem !important;
+  }
+
+  .lever-name {
+    font-size: 0.75rem !important;
+  }
+
+  .lever-val-badge {
+    font-size: 0.65rem !important;
+    padding: 0.1rem 0.35rem !important;
+  }
+
+  .lever-desc {
+    display: none !important;
+  }
+
+  .lever-slider-wrap {
+    min-height: 24px !important;
+  }
+
+  .toggle-switch-wrap {
+    min-height: 24px !important;
+  }
+
+  .telemetry-readout-card {
+    padding: 0.4rem 0.6rem !important;
+  }
+
+  .t-value {
+    font-size: 1rem !important;
+  }
+
+  .oscilloscope-canvas {
+    height: 40px !important;
+  }
+
+  .s7-consequence-banner {
+    padding: 0.35rem 0.6rem !important;
+    margin-top: 0.25rem !important;
+  }
+
+  .consequence-tag {
+    font-size: 0.55rem !important;
+  }
+
+  .consequence-text {
+    font-size: 0.65rem !important;
+    line-height: 1.2 !important;
   }
 }
 
@@ -1010,7 +1167,7 @@ input:checked + .toggle-slider:before {
     flex: 1 !important;
   }
 
-  .s7-controls-panel,
+  .s7-levers-panel,
   .s7-telemetry-panel {
     padding: 0.35rem 0.55rem !important;
     border-radius: 6px !important;
@@ -1024,7 +1181,7 @@ input:checked + .toggle-slider:before {
     font-size: 0.62rem !important;
   }
 
-  .s7-controls-stack {
+  .s7-levers-list {
     gap: 0.2rem !important;
   }
 
@@ -1041,7 +1198,7 @@ input:checked + .toggle-slider:before {
     display: none !important;
   }
 
-  .lever-value-readout {
+  .lever-val-badge {
     font-size: 0.65rem !important;
   }
 
@@ -1104,7 +1261,7 @@ input:checked + .toggle-slider:before {
     margin-top: 0.15rem !important;
   }
 
-  .consequence-badge {
+  .consequence-tag {
     font-size: 0.5rem !important;
     padding: 0.05rem 0.3rem !important;
   }
