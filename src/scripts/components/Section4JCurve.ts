@@ -53,7 +53,7 @@ export class Section4JCurve {
         <div class="container-editorial split-stage s4-split-stage" id="s4-split-stage">
           
           <!-- Left Column: 3 Progressive Narrative Beats -->
-          <div class="narrative-card s4-narrative-card">
+          <div class="narrative-card s4-narrative-card" data-lenis-prevent>
             <div class="s4-compact-header">
               <span class="section-tag">${SECTION_4_COPY.tagline}</span>
               <h3 class="s4-compact-question">${SECTION_4_COPY.questionAnchor}</h3>

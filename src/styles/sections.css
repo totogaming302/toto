@@ -68,19 +68,26 @@
 /* Compact Headers inside Narrative Cards */
 .s1-compact-header,
 .s2-compact-header {
-  margin-bottom: 1.75rem;
-  padding-bottom: 1.25rem;
+  margin-bottom: clamp(0.65rem, 1.3vh, 1.15rem);
+  padding-bottom: clamp(0.45rem, 0.9vh, 0.8rem);
   border-bottom: 1px solid var(--border-subtle);
 }
 
 .s1-compact-question,
 .s2-compact-question {
   font-family: var(--font-serif);
-  font-size: clamp(1.3rem, 1.8vw, 1.65rem);
+  font-size: clamp(1.15rem, 1.5vw, 1.5rem);
   font-weight: 700;
   line-height: 1.25;
   color: #FFFFFF;
-  margin-top: 0.6rem;
+  margin-top: 0.35rem;
+}
+
+/* Section 1 Beats Stack Container */
+.s1-beats-stack {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.5rem, 1vh, 0.85rem);
 }
 
 /* Sleek Interactive Beat Cards */
@@ -88,9 +95,9 @@
   position: relative;
   background: rgba(15, 23, 42, 0.4);
   border: 1px solid rgba(255, 255, 255, 0.07);
-  border-radius: 10px;
-  padding: 1.35rem 1.6rem;
-  margin-bottom: 1.35rem;
+  border-radius: 9px;
+  padding: clamp(0.65rem, 1.1vh, 0.95rem) clamp(0.9rem, 1.3vw, 1.35rem);
+  margin-bottom: 0;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
@@ -105,6 +112,12 @@
   border-color: rgba(245, 158, 11, 0.45);
   background: rgba(245, 158, 11, 0.05);
   box-shadow: 0 10px 25px -8px rgba(0, 0, 0, 0.7);
+}
+
+.s1-beat-item .text-beat {
+  font-size: clamp(0.78rem, 0.85vw + 0.25vh, 0.94rem);
+  line-height: 1.46;
+  margin-bottom: 0;
 }
 
 .s2-beat-item {
@@ -155,8 +168,8 @@
 .beat-indicator {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 0.65rem;
+  gap: clamp(0.45rem, 0.7vw, 0.75rem);
+  margin-bottom: clamp(0.22rem, 0.5vh, 0.45rem);
 }
 
 .beat-number {
@@ -1817,19 +1830,25 @@
 .s4-beats-stack {
   display: flex;
   flex-direction: column;
-  gap: 1.15rem;
+  gap: clamp(0.55rem, 1vh, 0.85rem);
 }
 
 .s4-beat-item {
   position: relative;
   background: rgba(15, 23, 42, 0.45);
   border: 1px solid rgba(255, 255, 255, 0.07);
-  border-radius: 10px;
-  padding: 1.25rem 1.5rem;
+  border-radius: 9px;
+  padding: clamp(0.7rem, 1.1vh, 1rem) clamp(0.95rem, 1.3vw, 1.35rem);
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
   transition: all 0.5s var(--transition-smooth);
+}
+
+.s4-beat-item .text-beat {
+  font-size: clamp(0.78rem, 0.85vw + 0.25vh, 0.94rem);
+  line-height: 1.46;
+  margin-bottom: 0;
 }
 
 .s4-beat-item.active-beat {

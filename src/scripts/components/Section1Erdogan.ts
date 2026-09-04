@@ -76,7 +76,7 @@ export class Section1Erdogan {
         <div class="container-editorial split-stage s1-split-stage" id="s1-split-stage">
           
           <!-- Left Column: Narrative Card with 3 High-Impact Beats -->
-          <div class="narrative-card s1-narrative-card">
+          <div class="narrative-card s1-narrative-card" data-lenis-prevent>
             <div class="s1-compact-header">
               <span class="section-tag">${SECTION_1_COPY.tagline}</span>
               <h3 class="s1-compact-question">${SECTION_1_COPY.questionAnchor}</h3>
@@ -325,13 +325,19 @@ export class Section1Erdogan {
         opacity: 0.32, 
         borderColor: 'rgba(255, 255, 255, 0.06)',
         backgroundColor: 'rgba(15, 23, 42, 0.4)',
-        duration: 1.2 
+        duration: 1.2,
+        onReverseComplete: () => {
+          beat1.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
       }, 3.2)
       .to(beat2, { 
         opacity: 1, 
         borderColor: 'rgba(56, 189, 248, 0.45)',
         backgroundColor: 'rgba(56, 189, 248, 0.06)',
-        duration: 1.2 
+        duration: 1.2,
+        onStart: () => {
+          beat2.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
       }, 3.2)
       .to(visual1, {
         autoAlpha: 0,
@@ -352,13 +358,19 @@ export class Section1Erdogan {
         opacity: 0.32, 
         borderColor: 'rgba(255, 255, 255, 0.06)',
         backgroundColor: 'rgba(15, 23, 42, 0.4)',
-        duration: 1.2 
+        duration: 1.2,
+        onReverseComplete: () => {
+          beat2.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
       }, 5.8)
       .to(beat3, { 
         opacity: 1, 
         borderColor: 'rgba(245, 158, 11, 0.45)',
         backgroundColor: 'rgba(245, 158, 11, 0.06)',
-        duration: 1.2 
+        duration: 1.2,
+        onStart: () => {
+          beat3.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
       }, 5.8)
       .to(visual2, {
         autoAlpha: 0,

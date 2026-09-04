@@ -40,7 +40,7 @@ export class Section5SupplyChain {
         <div class="container-editorial split-stage s5-split-stage" id="s5-split-stage">
           
           <!-- Left Column: Typewriter Hook & 3 Pipeline Transmission Cards -->
-          <div class="narrative-card s5-narrative-card">
+          <div class="narrative-card s5-narrative-card" data-lenis-prevent>
             <div class="s5-compact-header">
               <span class="section-tag">${SECTION_5_COPY.tagline}</span>
               <h3 class="s5-compact-question">${SECTION_5_COPY.questionAnchor}</h3>

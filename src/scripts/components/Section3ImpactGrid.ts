@@ -40,7 +40,7 @@ export class Section3ImpactGrid {
         <div class="container-editorial split-stage s3-split-stage" id="s3-split-stage">
           
           <!-- Left Column: 4 Stakeholder Narrative Cards -->
-          <div class="narrative-card s3-narrative-card">
+          <div class="narrative-card s3-narrative-card" data-lenis-prevent>
             <div class="s3-compact-header">
               <span class="section-tag">${SECTION_3_COPY.tagline}</span>
               <h3 class="s3-compact-question">${SECTION_3_COPY.questionAnchor}</h3>

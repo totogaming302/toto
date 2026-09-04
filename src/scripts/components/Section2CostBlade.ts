@@ -42,7 +42,7 @@ export class Section2CostBlade {
         <div class="container-editorial split-stage s2-split-stage" id="s2-split-stage">
           
           <!-- Left Column: Narrative Card with Typewriter Hook & Cost Mechanism -->
-          <div class="narrative-card s2-narrative-card">
+          <div class="narrative-card s2-narrative-card" data-lenis-prevent>
             <div class="s2-compact-header">
               <span class="section-tag crimson-tag">${SECTION_2_COPY.tagline}</span>
               <h3 class="s2-compact-question">${SECTION_2_COPY.questionAnchor}</h3>
