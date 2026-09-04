@@ -117,6 +117,24 @@
   stroke: var(--text-secondary);
 }
 
+/* Dedicated Capsule Fullscreen Button */
+.hud-nav-fs-btn svg {
+  stroke: var(--accent-cyan);
+}
+
+.hud-nav-fs-btn:hover {
+  background: rgba(6, 182, 212, 0.18) !important;
+}
+
+.hud-nav-fs-btn:hover svg {
+  stroke: var(--accent-cyan) !important;
+  transform: scale(1.15);
+}
+
+.hud-nav-fs-btn.is-fullscreen svg {
+  stroke: var(--accent-emerald);
+}
+
 /* Beat Counter Pill */
 .hud-beat-counter {
   font-family: var(--font-mono);

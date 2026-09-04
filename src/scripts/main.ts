@@ -35,6 +35,7 @@ class WebDocumentaryApp {
 
   constructor() {
     this.initSoundEngine();
+    this.initFullscreenController();
     this.hydrateHeroContent();
     this.initLenis();
     this.initIcons();
@@ -128,6 +129,95 @@ class WebDocumentaryApp {
         }
       }
     });
+  }
+
+  /**
+   * Dedicated Fullscreen Controller for Android Smartboards & Touch Displays.
+   * Enables 1-tap full-screen toggling without requiring an F11 physical key.
+   */
+  private initFullscreenController(): void {
+    const fsToggleBtn = document.getElementById('hud-fullscreen-toggle');
+    const fsLabel = document.getElementById('hud-fullscreen-label');
+    const fsExpandIcon = fsToggleBtn?.querySelector('.fs-icon-expand') as HTMLElement | null;
+    const fsCompressIcon = fsToggleBtn?.querySelector('.fs-icon-compress') as HTMLElement | null;
+
+    const isFullscreenActive = (): boolean => {
+      const d = document as any;
+      return !!(d.fullscreenElement || d.webkitFullscreenElement || d.mozFullScreenElement || d.msFullscreenElement);
+    };
+
+    const updateUI = () => {
+      const active = isFullscreenActive();
+      const navFsBtn = document.getElementById('hud-nav-fs');
+      const navExpand = navFsBtn?.querySelector('.fs-icon-expand') as HTMLElement | null;
+      const navCompress = navFsBtn?.querySelector('.fs-icon-compress') as HTMLElement | null;
+
+      if (active) {
+        fsToggleBtn?.classList.add('is-fullscreen');
+        if (fsLabel) fsLabel.textContent = 'KELUAR FS';
+        if (fsExpandIcon) fsExpandIcon.style.display = 'none';
+        if (fsCompressIcon) fsCompressIcon.style.display = 'inline-block';
+
+        navFsBtn?.classList.add('is-fullscreen');
+        if (navExpand) navExpand.style.display = 'none';
+        if (navCompress) navCompress.style.display = 'inline-block';
+      } else {
+        fsToggleBtn?.classList.remove('is-fullscreen');
+        if (fsLabel) fsLabel.textContent = 'FULLSCREEN';
+        if (fsExpandIcon) fsExpandIcon.style.display = 'inline-block';
+        if (fsCompressIcon) fsCompressIcon.style.display = 'none';
+
+        navFsBtn?.classList.remove('is-fullscreen');
+        if (navExpand) navExpand.style.display = 'inline-block';
+        if (navCompress) navCompress.style.display = 'none';
+      }
+    };
+
+    const triggerToggle = (e?: Event) => {
+      if (e) e.stopPropagation();
+      this.soundEngine?.playBeatClick();
+
+      const doc = document as any;
+      const docEl = document.documentElement as any;
+
+      if (!isFullscreenActive()) {
+        if (docEl.requestFullscreen) {
+          docEl.requestFullscreen().catch((err: any) => console.warn('Fullscreen request error:', err));
+        } else if (docEl.webkitRequestFullscreen) {
+          docEl.webkitRequestFullscreen();
+        } else if (docEl.mozRequestFullScreen) {
+          docEl.mozRequestFullScreen();
+        } else if (docEl.msRequestFullscreen) {
+          docEl.msRequestFullscreen();
+        }
+      } else {
+        if (doc.exitFullscreen) {
+          doc.exitFullscreen().catch((err: any) => console.warn('Exit fullscreen error:', err));
+        } else if (doc.webkitExitFullscreen) {
+          doc.webkitExitFullscreen();
+        } else if (doc.mozCancelFullScreen) {
+          doc.mozCancelFullScreen();
+        } else if (doc.msExitFullscreen) {
+          doc.msExitFullscreen();
+        }
+      }
+    };
+
+    fsToggleBtn?.addEventListener('click', triggerToggle);
+
+    // Support bottom-right capsule button via event delegation
+    document.addEventListener('click', (e) => {
+      const target = (e.target as HTMLElement).closest('#hud-nav-fs');
+      if (target) {
+        triggerToggle(e);
+      }
+    });
+
+    // Synchronize UI on browser or smartboard system fullscreen changes
+    document.addEventListener('fullscreenchange', updateUI);
+    document.addEventListener('webkitfullscreenchange', updateUI);
+    document.addEventListener('mozfullscreenchange', updateUI);
+    document.addEventListener('MSFullscreenChange', updateUI);
   }
 
   /**

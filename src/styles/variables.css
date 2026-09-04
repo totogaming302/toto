@@ -309,6 +309,56 @@ body {
   background: var(--text-muted);
 }
 
+/* Dedicated Fullscreen Toggle Button (Android Smartboard Touch Support) */
+.hud-fullscreen-btn {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(15, 23, 42, 0.75);
+  border: 1px solid rgba(6, 182, 212, 0.4);
+  border-radius: 4px;
+  padding: 0.2rem 0.6rem;
+  cursor: pointer;
+  color: var(--accent-cyan);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  transition: all 0.25s ease;
+  margin-left: 0.4rem;
+  user-select: none;
+  touch-action: manipulation;
+  min-height: 28px;
+}
+
+.hud-fullscreen-btn:hover {
+  background: rgba(6, 182, 212, 0.18);
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 12px rgba(6, 182, 212, 0.35);
+  transform: translateY(-1px);
+}
+
+.hud-fullscreen-btn:active {
+  transform: scale(0.96);
+}
+
+.hud-fullscreen-btn.is-fullscreen {
+  border-color: rgba(16, 185, 129, 0.5);
+  color: var(--accent-emerald);
+  background: rgba(16, 185, 129, 0.15);
+}
+
+.hud-fullscreen-btn.is-fullscreen:hover {
+  border-color: var(--accent-emerald);
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.35);
+}
+
+.hud-fullscreen-btn .fs-icon {
+  display: inline-block;
+  flex-shrink: 0;
+}
+
 .hud-pulse-dot {
   width: 6px;
   height: 6px;
